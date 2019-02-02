@@ -8,15 +8,23 @@ const FormStyle = styled.form`
   justify-content: center;
   align-items: center;
   max-width: 400px;
-  margin: 36px auto;
+  margin: 4.1vh auto;
 `;
 
 const SignupPage = () => {
   return (
     <FormStyle className="border border-light p-5">
       <p className="h4 mb-4 text-center">Sign up</p>
-      <input type="text" className="form-control" placeholder="First name" />
-      <input type="text" className="form-control" placeholder="Last name" />
+      <input
+        type="text"
+        className="form-control mb-4"
+        placeholder="First name"
+      />
+      <input
+        type="text"
+        className="form-control mb-4"
+        placeholder="Last name"
+      />
       <input type="email" className="form-control mb-4" placeholder="E-mail" />
       <input
         type="password"

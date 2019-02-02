@@ -7,10 +7,20 @@ import {
   MDBIcon,
   MDBBtn
 } from "mdbreact";
+import styled from "styled-components";
+
+const PriceStyle = styled.section`
+  .white-text {
+    padding: 20px 0;
+  }
+  ul {
+    list-style: none;
+  }
+`;
 
 const PricingPage = () => {
   return (
-    <section className="text-center my-5">
+    <PriceStyle className="text-center my-5">
       <h2 className="h1-responsive font-weight-bold text-center my-5">
         Our pricing plans
       </h2>
@@ -156,7 +166,7 @@ const PricingPage = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
-    </section>
+    </PriceStyle>
   );
 };
 

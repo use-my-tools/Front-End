@@ -17,18 +17,35 @@ import tool4 from "../../assets/tool4.jpg";
 // import tool8 from "../../assets/tool8.jpg";
 // import tool9 from "../../assets/tool9.jpg";
 // import tool10 from "../../assets/tool10.jpg";
+import AddProductPage from "./AddProductPage";
+import PaginationPage from "./PaginationPage";
+
+const toolsJSON = [
+  {
+    name: "",
+    brand: "",
+    marketprice: "",
+    category: "",
+    photo: "",
+    priceperday: "",
+    securitydeposit: "",
+    address: "",
+    notes: ""
+  }
+];
 
 const InventoryItem = () => {
   return (
     <section className="text-center my-5">
       <h2 className="h1-responsive font-weight-bold text-center my-5">
-        Our bestsellers
+        Tool Rental Made Easy
       </h2>
       <p className="grey-text text-center w-responsive mx-auto mb-5">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error
         amet numquam iure provident voluptate esse quasi, veritatis totam
         voluptas nostrum quisquam eum porro a pariatur veniam.
       </p>
+
       <MDBRow>
         <MDBCol lg="4" md="6" className="mb-lg-0 mb-4">
           <MDBCard className="align-items-center">
@@ -137,6 +154,8 @@ const InventoryItem = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
+      <PaginationPage />
+      <AddProductPage />
     </section>
   );
 };

@@ -36,7 +36,7 @@ class NavbarPage extends Component {
               <MDBNavLink to="/">Home</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink to="/inventory">Inventory</MDBNavLink>
+              <MDBNavLink to="/inventory">Dashboard</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem />
             <MDBNavItem>
