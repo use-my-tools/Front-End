@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { MDBCard, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { addToolsAction } from "../../store/actions/toolsAction";
+import Alert from "react-s-alert";
 
 const AddPageStyle = styled.div`
   @import url("https://fonts.googleapis.com/css?family=Poppins:400,600");
@@ -43,7 +46,8 @@ class AddProductPage extends Component {
       priceperday: "",
       securitydeposit: "",
       address: "",
-      notes: ""
+      notes: "",
+      success: ""
     };
   }
 
@@ -75,10 +79,11 @@ class AddProductPage extends Component {
       !address.length,
       !notes.length)
     ) {
+      Alert.error("All Fields Are required");
       return;
     }
-
     this.addTools();
+    this.props.history.goBack();
   };
   addTools = () => {
     const newpost = {
@@ -92,11 +97,19 @@ class AddProductPage extends Component {
       address: this.state.address,
       notes: this.state.notes
     };
-    console.log(newpost);
+    this.props.addToolsAction(newpost);
+    this.setState(
+      {
+        success: "successfully added tool"
+      },
+      () => Alert.success(this.state.success)
+    );
   };
 
   render() {
-    const { history } = this.props;
+    const { history, tools } = this.props;
+    console.log("tools", tools);
+
     return (
       <AddPageStyle>
         <MDBContainer>
@@ -248,4 +261,11 @@ class AddProductPage extends Component {
   }
 }
 
-export default AddProductPage;
+const mapStateToProps = state => ({
+  tools: state.toolsReducer.tools
+});
+
+export default connect(
+  mapStateToProps,
+  { addToolsAction }
+)(AddProductPage);

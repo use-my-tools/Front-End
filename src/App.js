@@ -10,6 +10,7 @@ import ContactPage from "./components/main/ContactPage";
 import { MDBContainer } from "mdbreact";
 import FooterPage from "./components/FooterPage";
 import AddProductPage from "./components/main/AddProductPage";
+import Alert from "react-s-alert";
 
 const NoMatchFound = () => <h1>No Match Found</h1>;
 
@@ -31,6 +32,12 @@ class App extends Component {
           </Switch>
         </MDBContainer>
         <FooterPage />
+        <Alert
+          //stack={{ limit: 3 }}
+          stack={{ limit: 3, spacing: 50 }}
+          position="top-right"
+          effect="slide"
+        />
       </React.Fragment>
     );
   }
