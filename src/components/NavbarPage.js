@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -12,6 +13,9 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem
 } from "mdbreact";
+import { logoutUser } from "../store/actions/authAction";
+import { Alert } from "react-s-alert";
+import { withRouter } from "react-router-dom";
 
 class NavbarPage extends Component {
   state = {
@@ -36,20 +40,45 @@ class NavbarPage extends Component {
               <MDBNavLink to="/">Home</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink to="/inventory">Dashboard</MDBNavLink>
+              <MDBNavLink
+                to="/dashboard"
+                hidden={!this.props.auth.isAuthenticated}
+              >
+                Dashboard
+              </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem />
             <MDBNavItem>
               <MDBNavLink to="/pricing">Pricing</MDBNavLink>
             </MDBNavItem>
+            <MDBNavItem>
+              <MDBNavLink to="/contact">Contact</MDBNavLink>
+            </MDBNavItem>
             <MDBNavItem />
           </MDBNavbarNav>
           <MDBNavbarNav right>
             <MDBNavItem>
-              <MDBNavLink to="/register">Create Account</MDBNavLink>
+              <MDBNavLink
+                hidden={this.props.auth.isAuthenticated}
+                to="/register"
+              >
+                Create Account
+              </MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink to="/login">Log in</MDBNavLink>
+              {this.props.auth.isAuthenticated ? (
+                <MDBNavLink
+                  to="#"
+                  onClick={() => {
+                    if (window.confirm("Are you sure you wish to log out ?"))
+                      this.props.logoutUser();
+                  }}
+                >
+                  Log out
+                </MDBNavLink>
+              ) : (
+                <MDBNavLink to="/login">Log in</MDBNavLink>
+              )}
             </MDBNavItem>
             <MDBNavItem>
               <MDBDropdown>
@@ -63,7 +92,15 @@ class NavbarPage extends Component {
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default" right>
                   <MDBDropdownItem href="#!">My account</MDBDropdownItem>
-                  <MDBDropdownItem href="#!">Log out</MDBDropdownItem>
+                  <MDBDropdownItem
+                    href="#!"
+                    onClick={() => {
+                      if (window.confirm("Are you sure you wish to log out ?"))
+                        this.props.logoutUser(this.props.history);
+                    }}
+                  >
+                    Log out
+                  </MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>
             </MDBNavItem>
@@ -74,4 +111,11 @@ class NavbarPage extends Component {
   }
 }
 
-export default NavbarPage;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(withRouter(NavbarPage));

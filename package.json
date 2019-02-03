@@ -5,6 +5,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "google-map-react": "^1.1.2",
+    "is-empty": "^1.2.0",
+    "jwt-decode": "^2.2.0",
     "mdbreact": "^4.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

@@ -40,7 +40,7 @@ const ManageToolStyle = styled.div`
   }
 `;
 
-const ManageToolPage = ({ history }) => {
+const ManageToolPage = ({ history, match }) => {
   return (
     <ManageToolStyle>
       <MDBCol className="col-md-4 mb-4">
