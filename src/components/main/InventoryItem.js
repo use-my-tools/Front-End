@@ -1,9 +1,8 @@
 import React from "react";
 import AddProductPage from "./AddProductPage";
 import ManageToolPage from "./ManageToolPage";
-import { Route } from "react-router-dom";
 
-const InventoryItem = () => {
+const InventoryItem = ({ ...props }) => {
   return (
     <>
       <section className="text-center my-5">
@@ -17,10 +16,9 @@ const InventoryItem = () => {
         </p>
 
         {/* this is the card */}
-        <ManageToolPage />
+        <ManageToolPage {...props} />
       </section>
       {/* adding product */}
-      <Route path="/addtools" render={props => <AddProductPage {...props} />} />
     </>
   );
 };

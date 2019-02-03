@@ -25,6 +25,10 @@ const AddPageStyle = styled.div`
   }
   .noimage-info {
     opacity: 0.5;
+    margin-bottom: 30px;
+  }
+  form {
+    margin-top: 40px;
   }
 `;
 class AddProductPage extends Component {
@@ -48,6 +52,32 @@ class AddProductPage extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
+    const {
+      name,
+      brand,
+      marketprice,
+      category,
+      photo,
+      priceperday,
+      securitydeposit,
+      address,
+      notes
+    } = this.state;
+
+    if (
+      (!name.length,
+      !brand.length,
+      !marketprice.length,
+      !category.length,
+      !photo.length,
+      !priceperday.length,
+      !securitydeposit.length,
+      !address.length,
+      !notes.length)
+    ) {
+      return;
+    }
+
     this.addTools();
   };
   addTools = () => {
@@ -66,12 +96,13 @@ class AddProductPage extends Component {
   };
 
   render() {
+    const { history } = this.props;
     return (
       <AddPageStyle>
         <MDBContainer>
           <MDBRow>
             <MDBCol md="12">
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <MDBCard className="align-items-center card-addpage">
                   <h2>Description</h2>
                   <label>Name</label>
@@ -79,24 +110,36 @@ class AddProductPage extends Component {
                     placeholder="name"
                     type="text"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="name"
+                    value={this.state.name}
                   />
                   <label>Brand</label>
                   <input
                     placeholder="brand"
                     type="text"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="brand"
+                    value={this.state.brand}
                   />
                   <label>Market Price</label>
                   <input
                     placeholder="$"
                     type="number"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="marketprice"
+                    value={this.state.marketprice}
                   />
                   <label>Category</label>
                   <input
                     placeholder="category"
                     type="text"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="category"
+                    value={this.state.category}
                   />
                 </MDBCard>
                 <MDBCard className="align-items-center card-addpage">
@@ -136,12 +179,31 @@ class AddProductPage extends Component {
                     placeholder="Upload Photo"
                     type="number"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="photo"
+                    value={this.state.photo}
                   />
                 </MDBCard>
                 <MDBCard className="align-items-center card-addpage">
                   <h2>Rental Agreement</h2>
                   <label>Price per day</label>
-                  <input placeholder="$" type="text" className="form-control" />
+                  <input
+                    placeholder="$"
+                    type="text"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="priceperday"
+                    value={this.state.priceperday}
+                  />
+                  <label>Security Deposit</label>
+                  <input
+                    placeholder="$"
+                    type="text"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    name="securitydeposit"
+                    value={this.state.securitydeposit}
+                  />
                 </MDBCard>
                 <MDBCard className="align-items-center card-addpage">
                   <h2>Pick up location</h2>
@@ -150,6 +212,9 @@ class AddProductPage extends Component {
                     placeholder="Enter the address"
                     type="text"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="address"
+                    value={this.state.address}
                   />
                 </MDBCard>
                 <MDBCard className="align-items-center card-addpage">
@@ -158,13 +223,18 @@ class AddProductPage extends Component {
                     placeholder="Enter any extra information about the tool here. You can also use this section to specify your preferred time for pickups"
                     type="text"
                     className="form-control"
+                    onChange={this.handleChange}
+                    name="notes"
+                    value={this.state.notes}
                     rows="5"
                   />
                 </MDBCard>
 
                 <div className="text-center mt-4">
                   {/* buttons go back and add */}
-                  <MDBBtn color="unique">Back</MDBBtn>
+                  <MDBBtn color="unique" onClick={() => history.goBack()}>
+                    Back
+                  </MDBBtn>
                   <MDBBtn color="indigo" type="submit">
                     Submit
                   </MDBBtn>

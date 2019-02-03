@@ -38,14 +38,15 @@ const ManageToolStyle = styled.div`
   }
 `;
 
-const ManageToolPage = props => {
-  console.log("props", props);
-
+const ManageToolPage = ({ history }) => {
   return (
     <ManageToolStyle>
       <MDBCol className="col-md-4 mb-4">
         <MDBCard className="align-items-center add-btn">
-          <button className="roundedbtn btn-floating btn-deep-purple btn-lg">
+          <button
+            onClick={() => history.push("/addtools")}
+            className="roundedbtn btn-floating btn-deep-purple btn-lg"
+          >
             <i className="fas fa-plus" />
           </button>
           <p>ADD TOOL</p>

@@ -1,6 +1,6 @@
 const initialState = {};
 
-export default function testReducer(state = initialState, action) {
+export default function toolsReducer(state = initialState, action) {
   switch (action.type) {
     // case 'ACTION_TYPE':
     //   return code
