@@ -1,9 +1,9 @@
 import React from "react";
 
-const PaginationPage = () => {
+const PaginationPage = ({ className }) => {
   return (
-    <nav aria-label="Page navigation example">
-      <ul className="pagination pagination-circle pg-blue">
+    <nav aria-label="Page navigation example ">
+      <ul className={`pagination pagination-circle pg-blue ${className}`}>
         <li className="page-item disabled">
           <p className="page-link">First</p>
         </li>

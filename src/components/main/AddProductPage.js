@@ -1,18 +1,179 @@
 import React, { Component } from "react";
+import { MDBCard, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import styled from "styled-components";
 
+const AddPageStyle = styled.div`
+  @import url("https://fonts.googleapis.com/css?family=Poppins:400,600");
+
+  label {
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
+  }
+  .card-addpage {
+    padding: 40px;
+  }
+  h2 {
+    text-align: left;
+    width: 100%;
+    font-weight: 300;
+    font-size: 1.4rem;
+    font-family: "Poppins", sans-serif;
+  }
+  .no-image {
+    opacity: 0.5;
+  }
+  .noimage-info {
+    opacity: 0.5;
+  }
+`;
 class AddProductPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      brand: "",
+      marketprice: "",
+      category: "",
+      photo: "",
+      priceperday: "",
+      securitydeposit: "",
+      address: "",
+      notes: ""
+    };
+  }
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  handleSubmit = e => {
+    e.preventDefault();
+    this.addTools();
+  };
+  addTools = () => {
+    const newpost = {
+      name: this.state.name,
+      brand: this.state.brand,
+      marketprice: this.state.marketprice,
+      category: this.state.category,
+      photo: this.state.photo,
+      priceperday: this.state.priceperday,
+      securitydeposit: this.state.securitydeposit,
+      address: this.state.address,
+      notes: this.state.notes
+    };
+    console.log(newpost);
+  };
+
   render() {
     return (
-      <div>
-        {/* Default input */}
-        <label htmlFor="exampleForm2">Default input</label>
-        <input
-          type="text"
-          id="exampleForm2"
-          className="form-control"
-          placeholder="tool name "
-        />
-      </div>
+      <AddPageStyle>
+        <MDBContainer>
+          <MDBRow>
+            <MDBCol md="12">
+              <form>
+                <MDBCard className="align-items-center card-addpage">
+                  <h2>Description</h2>
+                  <label>Name</label>
+                  <input
+                    placeholder="name"
+                    type="text"
+                    className="form-control"
+                  />
+                  <label>Brand</label>
+                  <input
+                    placeholder="brand"
+                    type="text"
+                    className="form-control"
+                  />
+                  <label>Market Price</label>
+                  <input
+                    placeholder="$"
+                    type="number"
+                    className="form-control"
+                  />
+                  <label>Category</label>
+                  <input
+                    placeholder="category"
+                    type="text"
+                    className="form-control"
+                  />
+                </MDBCard>
+                <MDBCard className="align-items-center card-addpage">
+                  <h2>Photo</h2>
+                  <svg
+                    width={100}
+                    height={100}
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="no-image"
+                  >
+                    {" "}
+                    <circle cx="16.1" cy="6.1" r="1.1" />{" "}
+                    <rect
+                      fill="none"
+                      stroke="#000"
+                      x="0.5"
+                      y="2.5"
+                      width={19}
+                      height={15}
+                    />{" "}
+                    <polyline
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="1.01"
+                      points="4,13 8,9 13,14"
+                    />{" "}
+                    <polyline
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="1.01"
+                      points="11,12 12.5,10.5 16,14"
+                    />
+                  </svg>
+                  <span className="noimage-info">No image yet</span>
+                  <input
+                    placeholder="Upload Photo"
+                    type="number"
+                    className="form-control"
+                  />
+                </MDBCard>
+                <MDBCard className="align-items-center card-addpage">
+                  <h2>Rental Agreement</h2>
+                  <label>Price per day</label>
+                  <input placeholder="$" type="text" className="form-control" />
+                </MDBCard>
+                <MDBCard className="align-items-center card-addpage">
+                  <h2>Pick up location</h2>
+                  <label>Address</label>
+                  <input
+                    placeholder="Enter the address"
+                    type="text"
+                    className="form-control"
+                  />
+                </MDBCard>
+                <MDBCard className="align-items-center card-addpage">
+                  <h2>Notes</h2>
+                  <textarea
+                    placeholder="Enter any extra information about the tool here. You can also use this section to specify your preferred time for pickups"
+                    type="text"
+                    className="form-control"
+                    rows="5"
+                  />
+                </MDBCard>
+
+                <div className="text-center mt-4">
+                  {/* buttons go back and add */}
+                  <MDBBtn color="unique">Back</MDBBtn>
+                  <MDBBtn color="indigo" type="submit">
+                    Submit
+                  </MDBBtn>
+                </div>
+              </form>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </AddPageStyle>
     );
   }
 }

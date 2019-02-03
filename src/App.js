@@ -20,7 +20,10 @@ class App extends Component {
         <MDBContainer>
           <Switch>
             <Route path="/register" component={SignupPage} />
-            <Route path="/inventory" component={InventoryItem} />
+            <Route
+              path="/inventory"
+              render={props => <InventoryItem {...props} />}
+            />
             <Route path="/pricing" component={PricingPage} />
             <Route path="/contact" component={ContactPage} />
             <Route path="/login" component={LoginPage} />
