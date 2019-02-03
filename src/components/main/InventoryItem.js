@@ -1,5 +1,4 @@
 import React from "react";
-import AddProductPage from "./AddProductPage";
 import ManageToolPage from "./ManageToolPage";
 
 const InventoryItem = ({ ...props }) => {

@@ -2,8 +2,7 @@ import { LOADING, ADD_TOOL_SUCCESS } from "../actions/toolsAction";
 
 const initialState = {
   tools: [],
-  loading: false,
-  error: ""
+  loading: false
 };
 
 export default function toolsReducer(state = initialState, action) {

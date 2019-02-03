@@ -1,5 +1,6 @@
 import axios from "axios";
 
+export const GET_ERRORS = "GET_ERRORS";
 export const LOADING = "LOADING";
 export const ADD_TOOL_SUCCESS = "ADD_TOOL_SUCCESS";
 export const ADD_TOOL_FAIL = "ADD_TOOL_FAIL";

@@ -105,11 +105,8 @@ class AddProductPage extends Component {
       () => Alert.success(this.state.success)
     );
   };
-
   render() {
     const { history, tools } = this.props;
-    console.log("tools", tools);
-
     return (
       <AddPageStyle>
         <MDBContainer>
@@ -260,7 +257,6 @@ class AddProductPage extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   tools: state.toolsReducer.tools
 });

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Route } from "react-router-dom";
 import {
   MDBRow,
   MDBCol,
@@ -20,6 +21,7 @@ import tool4 from "../../assets/tool4.jpg";
 // import tool9 from "../../assets/tool9.jpg";
 // import tool10 from "../../assets/tool10.jpg";
 import PaginationPage from "./PaginationPage";
+import SingleItemPage from "./SingleItemPage";
 const ManageToolStyle = styled.div`
   .pagination {
     margin-top: 100px;
@@ -165,6 +167,7 @@ const ManageToolPage = ({ history }) => {
         </MDBCol>
       </MDBRow>
       <PaginationPage className="pagination" />
+      <Route path={`${match.path}/:id`} component={SingleItemPage} />
     </ManageToolStyle>
   );
 };
