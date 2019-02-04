@@ -16,7 +16,8 @@ import {
   addToolsAction,
   clearInputsAction,
   handleChange,
-  toggleModal
+  toggleModal,
+  uploadImageAction
 } from "../../store/actions/toolsAction";
 import Alert from "react-s-alert";
 import { withRouter } from "react-router-dom";
@@ -50,6 +51,13 @@ const AddPageStyle = styled.div`
   }
 `;
 class AddProductPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedFile: null
+    };
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const { name, brand, category } = this.props.toolinput;
@@ -79,6 +87,12 @@ class AddProductPage extends Component {
     };
     this.props.addToolsAction(newpost);
   };
+
+  fileChangedHandler = e => {
+    const file = e.target.files[0];
+    this.setState({ selectedFile: file });
+  };
+
   render() {
     const { toggle, modal, toolinput, handleChange, isUpdating } = this.props;
     return (
@@ -159,10 +173,17 @@ class AddProductPage extends Component {
                             placeholder="Upload Photo"
                             type="file"
                             className="form-control"
-                            onChange={() => console.log("testing")}
+                            onChange={this.fileChangedHandler}
                             name="photo"
                             value={toolinput.photo}
                           />
+                          <button
+                            onClick={() =>
+                              uploadImageAction(this.state.selectedFile)
+                            }
+                          >
+                            Upload!
+                          </button>
                         </MDBCard>
                         <MDBCard className="align-items-center card-addpage">
                           <h2>Rental Agreement</h2>
@@ -236,5 +257,11 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { addToolsAction, clearInputsAction, handleChange, toggleModal }
+  {
+    addToolsAction,
+    clearInputsAction,
+    handleChange,
+    toggleModal,
+    uploadImageAction
+  }
 )(withRouter(AddProductPage));

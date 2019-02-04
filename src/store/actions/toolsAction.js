@@ -41,19 +41,24 @@ export const addToolsAction = newpost => dispatch => {
 
   // .catch(err => console.log(err));
 };
-// export const uploadImageAction = (image, tool_id) => dispatch => {
-//   dispatch(setLoading());
-//   axios
-//     .post(`${IMAGE}`, image, tool_id)
-//     .then(({ data: { data } }) =>
-//       dispatch({
-//         type: UPLOAD_IMAGE,
-//         data
-//       })
-//     )
-//     .then(() => Alert.success("Successfully uploaded Image"));
-//   // .catch(err => console.log(err));
-// };
+export const uploadImageAction = (file, tool_id) => dispatch => {
+  const formData = new FormData();
+  false.append({
+    image: file,
+    tool_id: 5
+  });
+  dispatch(setLoading());
+  axios
+    .post(`${IMAGE}`, formData)
+    .then(({ data: { data } }) =>
+      dispatch({
+        type: UPLOAD_IMAGE,
+        data
+      })
+    )
+    .then(() => Alert.success("Successfully uploaded Image"));
+  // .catch(err => console.log(err));
+};
 //CRUD form actions
 export const handleUpdateAction = tool => {
   return {
