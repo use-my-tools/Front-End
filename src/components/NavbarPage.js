@@ -83,7 +83,8 @@ class NavbarPage extends Component {
               <MDBDropdown>
                 <MDBDropdownToggle className="dopdown-toggle" nav>
                   <img
-                    src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg"
+                    hidden={!this.props.auth.isAuthenticated}
+                    src={window.localStorage.getItem("image_url")}
                     className="rounded-circle z-depth-0"
                     style={{ height: "35px", padding: 0 }}
                     alt=""

@@ -2,10 +2,9 @@ import { USER_LOADING, SET_CURRENT_USER } from "../actions/authAction";
 const isEmpty = require("is-empty");
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   user: {},
-  loading: false,
-  loggedinuser: {}
+  loading: false
 };
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
@@ -14,8 +13,7 @@ export default function authReducer(state = initialState, action) {
         ...state,
         isAuthenticated: !isEmpty(action.payload.decoded),
         user: action.payload.decoded,
-        loading: false,
-        loggedinuser: action.payload.data
+        loading: false
       };
     case USER_LOADING:
       return {

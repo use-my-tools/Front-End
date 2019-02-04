@@ -1,10 +1,24 @@
 import React, { Component } from "react";
-import { MDBCard, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import {
+  MDBCard,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBModalFooter
+} from "mdbreact";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import uuid from "uuid";
-import { addToolsAction } from "../../store/actions/toolsAction";
+import {
+  addToolsAction,
+  clearInputsAction,
+  handleChange
+} from "../../store/actions/toolsAction";
 import Alert from "react-s-alert";
+import { withRouter } from "react-router-dom";
 
 const AddPageStyle = styled.div`
   @import url("https://fonts.googleapis.com/css?family=Poppins:400,600");
@@ -36,100 +50,74 @@ const AddPageStyle = styled.div`
   }
 `;
 class AddProductPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      brand: "",
-      category: "",
-      dailyCost: "",
-      address: "",
-      owner_id: "",
-      description: "",
-      deposit: "",
-      isAvailable: 1,
-      rating: 0
-    };
-  }
-
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
   handleSubmit = e => {
     e.preventDefault();
-    const { name, brand, category } = this.state;
+    const { name, brand, category } = this.props.toolinput;
     if (!name || !brand || !category) {
       Alert.error("All field are required");
       return;
     }
     this.addTools();
-    this.props.history.goBack();
-    this.setState({
-      name: "",
-      brand: "",
-      category: "",
-      dailyCost: "",
-      address: "",
-      owner_id: "",
-      description: "",
-      deposit: "",
-      isAvailable: 1,
-      rating: 0
-    });
+    this.props.clearInputsAction();
   };
   addTools = () => {
+    const { toolinput } = this.props;
     const newpost = {
-      name: this.state.name,
-      brand: this.state.brand,
-      category: this.state.category,
-      dailyCost: parseInt(this.state.dailyCost),
-      address: this.state.address,
+      name: toolinput.name,
+      brand: toolinput.brand,
+      category: toolinput.category,
+      dailyCost: parseInt(toolinput.dailyCost),
+      address: toolinput.address,
       owner_id: uuid(),
-      description: this.state.description,
-      deposit: this.state.deposit
+      description: toolinput.description,
+      deposit: toolinput.deposit
     };
-    //    console.log(newpost);
     this.props.addToolsAction(newpost);
   };
   render() {
-    const { history } = this.props;
+    const { toggle, modal, toolinput, handleChange } = this.props;
     return (
-      <AddPageStyle>
+      <>
         <MDBContainer>
-          <MDBRow>
-            <MDBCol md="12">
-              <form onSubmit={this.handleSubmit}>
-                <MDBCard className="align-items-center card-addpage">
-                  <h2>Description</h2>
-                  <label>Name</label>
-                  <input
-                    placeholder="name"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="name"
-                    value={this.state.name}
-                  />
-                  <label>Brand</label>
-                  <input
-                    placeholder="brand"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="brand"
-                    value={this.state.brand}
-                  />
-                  <label>Category</label>
-                  <input
-                    placeholder="category"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="category"
-                    value={this.state.category}
-                  />
-                </MDBCard>
-                {/* <MDBCard className="align-items-center card-addpage">
+          <MDBModal isOpen={modal} toggle={toggle}>
+            {/* <MDBModalHeader toggle={toggle}>MDBModal title</MDBModalHeader> */}
+            <MDBModalBody>
+              <AddPageStyle>
+                <MDBContainer>
+                  <MDBRow>
+                    <MDBCol md="12">
+                      <form onSubmit={this.handleSubmit}>
+                        <MDBCard className="align-items-center card-addpage">
+                          <h2>ADD ITEM</h2>
+                          <label>Name</label>
+                          <input
+                            placeholder="name"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="name"
+                            value={toolinput.name}
+                          />
+                          <label>Brand</label>
+                          <input
+                            placeholder="brand"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="brand"
+                            value={toolinput.brand}
+                          />
+                          <label>Category</label>
+                          <input
+                            placeholder="category"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="category"
+                            value={toolinput.category}
+                          />
+                        </MDBCard>
+                        {/* <MDBCard className="align-items-center card-addpage">
                   <h2>Photo</h2>
                   <svg
                     width={100}
@@ -166,79 +154,82 @@ class AddProductPage extends Component {
                     placeholder="Upload Photo"
                     type="number"
                     className="form-control"
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                     name="photo"
-                    value={this.state.photo}
+                    value={toolinput.photo}
                   />
                 </MDBCard> */}
-                <MDBCard className="align-items-center card-addpage">
-                  <h2>Rental Agreement</h2>
-                  <label>Price per day</label>
-                  <input
-                    placeholder="$"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="dailyCost"
-                    value={this.state.dailyCost}
-                  />
-                  <label>Security Deposit</label>
-                  <input
-                    placeholder="$"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="deposit"
-                    value={this.state.deposit}
-                  />
-                </MDBCard>
-                <MDBCard className="align-items-center card-addpage">
-                  <h2>Pick up location</h2>
-                  <label>Address</label>
-                  <input
-                    placeholder="Enter the address"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="address"
-                    value={this.state.address}
-                  />
-                </MDBCard>
-                <MDBCard className="align-items-center card-addpage">
-                  <h2>description</h2>
-                  <textarea
-                    placeholder="Enter any extra information about the tool here. You can also use this section to specify your preferred time for pickups"
-                    type="text"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="description"
-                    value={this.state.description}
-                    rows="5"
-                  />
-                </MDBCard>
-
-                <div className="text-center mt-4">
-                  {/* buttons go back and add */}
-                  <MDBBtn color="unique" onClick={() => history.goBack()}>
-                    Back
-                  </MDBBtn>
-                  <MDBBtn color="indigo" type="submit">
-                    Submit
-                  </MDBBtn>
-                </div>
-              </form>
-            </MDBCol>
-          </MDBRow>
+                        <MDBCard className="align-items-center card-addpage">
+                          <h2>Rental Agreement</h2>
+                          <label>Price per day</label>
+                          <input
+                            placeholder="$"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="dailyCost"
+                            value={toolinput.dailyCost}
+                          />
+                          <label>Security Deposit</label>
+                          <input
+                            placeholder="$"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="deposit"
+                            value={toolinput.deposit}
+                          />
+                        </MDBCard>
+                        <MDBCard className="align-items-center card-addpage">
+                          <h2>Pick up location</h2>
+                          <label>Address</label>
+                          <input
+                            placeholder="Enter the address"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="address"
+                            value={toolinput.address}
+                          />
+                        </MDBCard>
+                        <MDBCard className="align-items-center card-addpage">
+                          <h2>description</h2>
+                          <textarea
+                            placeholder="Enter any extra information about the tool here. You can also use this section to specify your preferred time for pickups"
+                            type="text"
+                            className="form-control"
+                            onChange={handleChange}
+                            name="description"
+                            value={toolinput.description}
+                            rows="5"
+                          />
+                        </MDBCard>
+                        <MDBModalFooter>
+                          <MDBBtn color="secondary" onClick={toggle}>
+                            Close
+                          </MDBBtn>
+                          <MDBBtn color="primary" type="submit">
+                            Save changes
+                          </MDBBtn>
+                        </MDBModalFooter>
+                      </form>
+                    </MDBCol>
+                  </MDBRow>
+                </MDBContainer>
+              </AddPageStyle>
+            </MDBModalBody>
+          </MDBModal>
         </MDBContainer>
-      </AddPageStyle>
+      </>
     );
   }
 }
 const mapStateToProps = state => ({
-  tools: state.toolsReducer.tools
+  tools: state.toolsReducer.tools,
+  toolinput: state.toolsReducer.toolinput
 });
 
 export default connect(
   mapStateToProps,
-  { addToolsAction }
-)(AddProductPage);
+  { addToolsAction, clearInputsAction, handleChange }
+)(withRouter(AddProductPage));

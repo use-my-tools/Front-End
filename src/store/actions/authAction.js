@@ -34,12 +34,15 @@ export const loginUser = userData => dispatch => {
       // Set token to localstorage
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
+      localStorage.setItem("username", res.data.username);
+      localStorage.setItem("user_id", res.data.user_id);
+      localStorage.setItem("image_url", res.data.image_url);
       // Set token to AUth header
       setAuthToken(token);
       //Decode token to get user data
       const decoded = jwt_decode(token);
       //Set current user
-      dispatch(setCurrentUser(decoded, res.data));
+      dispatch(setCurrentUser(decoded));
     })
 
     .then(() =>
@@ -57,12 +60,12 @@ export const loginUser = userData => dispatch => {
     });
 };
 // Set logged in user
-export const setCurrentUser = (decoded, data) => {
+
+export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: {
-      decoded,
-      data
+      decoded
     }
   };
 };
