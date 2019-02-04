@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import ManageToolPage from "./ManageToolPage";
 import SpinnerPage from "../Spinner";

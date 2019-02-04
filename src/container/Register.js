@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { registerUser } from "../store/actions/authAction";
 import { connect } from "react-redux";
 import Alert from "react-s-alert";
@@ -153,12 +152,6 @@ class Register extends Component {
     );
   }
 }
-
-// Register.propTypes = {
-//   registerUser: PropTypes.func.isRequired,
-//   auth: PropTypes.object.isRequired,
-//   errors: PropTypes.object.isRequired
-// };
 const mapStateToProps = state => ({
   auth: state.auth
 });

@@ -20,13 +20,13 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        tools: action.tools
+        tools: action.data
       };
     case ADD_TOOL_SUCCESS:
       return {
         ...state,
         loading: false,
-        tools: action.tools
+        tools: action.data
       };
     default:
       return state;

@@ -72,11 +72,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  stateName: state.stateName
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { getToolsAction }
 )(App);

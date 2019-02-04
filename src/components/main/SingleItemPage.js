@@ -1,29 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardImage,
-  MDBCardBody,
-  MDBBadge
-} from "mdbreact";
+import { MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBBadge } from "mdbreact";
 import tool10 from "../../assets/tool10.jpg";
 import { Link, withRouter } from "react-router-dom";
 
 class SingleItemPage extends Component {
   render() {
     const { match, tools } = this.props;
-
     //find which id has been clicked
+    if (!tools.length) {
+      return <h2>This item available right now </h2>;
+    }
     const tool = tools.find(
       ({ id }) => parseInt(id) === parseInt(match.params.id)
     );
     console.log(tool);
 
-    if (!tools.length) {
-      return <h2>There's no item available right now </h2>;
-    }
     return (
       <div>
         <MDBCol md="6" sm="12" lg="4" className="col-md-4 mb-4" key={tool.id}>
@@ -71,7 +63,4 @@ const mapStateToProps = state => ({
   tools: state.toolsReducer.tools
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(withRouter(SingleItemPage));
+export default connect(mapStateToProps)(withRouter(SingleItemPage));

@@ -14,7 +14,6 @@ import {
   MDBDropdownItem
 } from "mdbreact";
 import { logoutUser } from "../store/actions/authAction";
-import { Alert } from "react-s-alert";
 import { withRouter } from "react-router-dom";
 
 class NavbarPage extends Component {
