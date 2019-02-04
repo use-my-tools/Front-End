@@ -16,7 +16,7 @@ export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
-
+const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
 export const getToolsAction = () => dispatch => {
   // dispatch(setLoading());
   axios.get(`${URL}`).then(({ data: { data } }) =>
