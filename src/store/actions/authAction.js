@@ -6,19 +6,12 @@ import Alert from "react-s-alert";
 export const GET_ERRORS = "GET_ERRORS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const USER_LOADING = "USER_LOADING";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 
 const URL = `https://tools-backend.herokuapp.com/api/registration`;
 export const registerUser = (userData, history) => dispatch => {
   dispatch(setUserLoading());
   axios
     .post(`${URL}/register`, userData)
-    .then(res =>
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      })
-    )
     .then(res => history.push("/login"))
     .then(() => Alert.success("Successfully registered !"))
     .catch(err => {
@@ -46,8 +39,9 @@ export const loginUser = userData => dispatch => {
       //Decode token to get user data
       const decoded = jwt_decode(token);
       //Set current user
-      dispatch(setCurrentUser(decoded));
+      dispatch(setCurrentUser(decoded, res.data));
     })
+
     .then(() =>
       Alert.success(`You are now logged in ! Hello ${userData.username}
     `)
@@ -63,10 +57,13 @@ export const loginUser = userData => dispatch => {
     });
 };
 // Set logged in user
-export const setCurrentUser = decoded => {
+export const setCurrentUser = (decoded, data) => {
   return {
     type: SET_CURRENT_USER,
-    payload: decoded
+    payload: {
+      decoded,
+      data
+    }
   };
 };
 // User Loading
@@ -83,5 +80,5 @@ export const logoutUser = history => dispatch => {
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-  history.push("/");
+  history.push("/login");
 };

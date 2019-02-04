@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { MDBCard, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import uuid from "uuid";
 import { addToolsAction } from "../../store/actions/toolsAction";
 import Alert from "react-s-alert";
 
@@ -40,14 +41,14 @@ class AddProductPage extends Component {
     this.state = {
       name: "",
       brand: "",
-      marketprice: "",
       category: "",
-      photo: "",
-      priceperday: "",
-      securitydeposit: "",
+      dailyCost: "",
       address: "",
-      notes: "",
-      success: ""
+      owner_id: "",
+      description: "",
+      deposit: "",
+      isAvailable: 1,
+      rating: 0
     };
   }
 
@@ -56,57 +57,42 @@ class AddProductPage extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      name,
-      brand,
-      marketprice,
-      category,
-      photo,
-      priceperday,
-      securitydeposit,
-      address,
-      notes
-    } = this.state;
-
-    if (
-      (!name.length,
-      !brand.length,
-      !marketprice.length,
-      !category.length,
-      !photo.length,
-      !priceperday.length,
-      !securitydeposit.length,
-      !address.length,
-      !notes.length)
-    ) {
-      Alert.error("All Fields Are required");
+    const { name, brand, category } = this.state;
+    if (!name || !brand || !category) {
+      Alert.error("All field are required");
       return;
     }
     this.addTools();
     this.props.history.goBack();
+    this.setState({
+      name: "",
+      brand: "",
+      category: "",
+      dailyCost: "",
+      address: "",
+      owner_id: "",
+      description: "",
+      deposit: "",
+      isAvailable: 1,
+      rating: 0
+    });
   };
   addTools = () => {
     const newpost = {
       name: this.state.name,
       brand: this.state.brand,
-      marketprice: this.state.marketprice,
       category: this.state.category,
-      photo: this.state.photo,
-      priceperday: this.state.priceperday,
-      securitydeposit: this.state.securitydeposit,
+      dailyCost: parseInt(this.state.dailyCost),
       address: this.state.address,
-      notes: this.state.notes
+      owner_id: uuid(),
+      description: this.state.description,
+      deposit: this.state.deposit
     };
+    //    console.log(newpost);
     this.props.addToolsAction(newpost);
-    this.setState(
-      {
-        success: "successfully added tool"
-      },
-      () => Alert.success(this.state.success)
-    );
   };
   render() {
-    const { history, tools } = this.props;
+    const { history } = this.props;
     return (
       <AddPageStyle>
         <MDBContainer>
@@ -133,15 +119,6 @@ class AddProductPage extends Component {
                     name="brand"
                     value={this.state.brand}
                   />
-                  <label>Market Price</label>
-                  <input
-                    placeholder="$"
-                    type="number"
-                    className="form-control"
-                    onChange={this.handleChange}
-                    name="marketprice"
-                    value={this.state.marketprice}
-                  />
                   <label>Category</label>
                   <input
                     placeholder="category"
@@ -152,7 +129,7 @@ class AddProductPage extends Component {
                     value={this.state.category}
                   />
                 </MDBCard>
-                <MDBCard className="align-items-center card-addpage">
+                {/* <MDBCard className="align-items-center card-addpage">
                   <h2>Photo</h2>
                   <svg
                     width={100}
@@ -193,7 +170,7 @@ class AddProductPage extends Component {
                     name="photo"
                     value={this.state.photo}
                   />
-                </MDBCard>
+                </MDBCard> */}
                 <MDBCard className="align-items-center card-addpage">
                   <h2>Rental Agreement</h2>
                   <label>Price per day</label>
@@ -202,8 +179,8 @@ class AddProductPage extends Component {
                     type="text"
                     className="form-control"
                     onChange={this.handleChange}
-                    name="priceperday"
-                    value={this.state.priceperday}
+                    name="dailyCost"
+                    value={this.state.dailyCost}
                   />
                   <label>Security Deposit</label>
                   <input
@@ -211,8 +188,8 @@ class AddProductPage extends Component {
                     type="text"
                     className="form-control"
                     onChange={this.handleChange}
-                    name="securitydeposit"
-                    value={this.state.securitydeposit}
+                    name="deposit"
+                    value={this.state.deposit}
                   />
                 </MDBCard>
                 <MDBCard className="align-items-center card-addpage">
@@ -228,14 +205,14 @@ class AddProductPage extends Component {
                   />
                 </MDBCard>
                 <MDBCard className="align-items-center card-addpage">
-                  <h2>Notes</h2>
+                  <h2>description</h2>
                   <textarea
                     placeholder="Enter any extra information about the tool here. You can also use this section to specify your preferred time for pickups"
                     type="text"
                     className="form-control"
                     onChange={this.handleChange}
-                    name="notes"
-                    value={this.state.notes}
+                    name="description"
+                    value={this.state.description}
                     rows="5"
                   />
                 </MDBCard>

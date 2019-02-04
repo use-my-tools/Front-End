@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import {
   MDBRow,
   MDBCol,
@@ -165,11 +165,23 @@ const ManageToolPage = ({ history, match }) => {
             </MDBCardBody>
           </MDBCard>
         </MDBCol>
+
+        {/* when posting items is being display here for listsssss */}
+        {
+
+        }
       </MDBRow>
       <PaginationPage className="pagination" />
-      <Route path={`${match.path}/:id`} component={SingleItemPage} />
+      <Route path="/tool/:id" component={SingleItemPage} />
     </ManageToolStyle>
   );
 };
 
-export default ManageToolPage;
+export default withRouter(ManageToolPage);
+const mapStateToProps = state => ({
+    tools: state.toolsReducer.tools
+});
+
+export default connect(
+mapStateToProps,
+)(ManageToolPage);

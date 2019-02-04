@@ -23,9 +23,7 @@ class Register extends Component {
       lastname: "",
       username: "",
       email: "",
-      password: "",
-      password2: "",
-      errors: {}
+      password: ""
     };
   }
 
@@ -35,13 +33,13 @@ class Register extends Component {
       this.props.history.push("/dashboard");
     }
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.errors) {
+  //     this.setState({
+  //       errors: nextProps.errors
+  //     });
+  //   }
+  // }
   handleChange = e =>
     this.setState({
       [e.target.name]: e.target.value
@@ -49,22 +47,8 @@ class Register extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      firstname,
-      lastname,
-      username,
-      email,
-      password,
-      password2
-    } = this.state;
-    if (
-      !firstname ||
-      !lastname ||
-      !username ||
-      !email ||
-      password ||
-      !password2
-    ) {
+    const { firstname, lastname, username, email, password } = this.state;
+    if (!firstname || !lastname || !username || !email || !password) {
       Alert.error("All Fields Are required");
     }
 
@@ -73,10 +57,8 @@ class Register extends Component {
       lastname: this.state.lastname,
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
+      password: this.state.password
     };
-    console.log(newUser);
     this.props.registerUser(newUser, this.props.history);
     // this.props.registerUser(newUser, this.props.history);
     this.setState({
@@ -84,9 +66,7 @@ class Register extends Component {
       lastname: "",
       username: "",
       email: "",
-      password: "",
-      password2: "",
-      errors: {}
+      password: ""
     });
   };
 
@@ -141,15 +121,6 @@ class Register extends Component {
         <small className="form-text text-muted mb-4">
           Minimal 8 characters lenght
         </small>
-        <input
-          onChange={this.handleChange}
-          name="password2"
-          value={this.state.password2}
-          type="text"
-          className="form-control"
-          placeholder="password 2"
-          aria-describedby="defaultRegisterFormPhoneHelpBlock"
-        />
         <small
           id="defaultRegisterFormPhoneHelpBlock"
           className="form-text text-muted mb-4"
@@ -189,8 +160,7 @@ class Register extends Component {
 //   errors: PropTypes.object.isRequired
 // };
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 });
 export default connect(
   mapStateToProps,

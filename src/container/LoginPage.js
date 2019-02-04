@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { setCurrentUser, loginUser } from "../store/actions/authAction";
 import { connect } from "react-redux";
-import { Alert } from "react-s-alert";
+import Alert from "react-s-alert";
 
 const FormStyle = styled.form`
   display: flex;
@@ -19,23 +19,23 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       username: "",
-      password: "",
-      errors: {}
+      password: ""
     };
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard"); // push user to dashboard when they login
     }
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
+    // if (nextProps.errors) {
+    //   this.setState({
+    //     errors: nextProps.errors
+    //   });
+    // }
   }
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
   handleSubmit = e => {
     e.preventDefault();
+
     const userData = {
       username: this.state.username,
       password: this.state.password
@@ -111,8 +111,7 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 });
 
 export default connect(

@@ -1,4 +1,8 @@
-import { LOADING, ADD_TOOL_SUCCESS } from "../actions/toolsAction";
+import {
+  GET_TOOL_SUCCESS,
+  LOADING,
+  ADD_TOOL_SUCCESS
+} from "../actions/toolsAction";
 
 const initialState = {
   tools: [],
@@ -12,11 +16,17 @@ export default function toolsReducer(state = initialState, action) {
         ...state,
         loading: true
       };
+    case GET_TOOL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        tools: action.tools
+      };
     case ADD_TOOL_SUCCESS:
       return {
         ...state,
         loading: false,
-        tools: [...state.tools, action.payload]
+        tools: action.tools
       };
     default:
       return state;

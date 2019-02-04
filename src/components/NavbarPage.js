@@ -71,7 +71,7 @@ class NavbarPage extends Component {
                   to="#"
                   onClick={() => {
                     if (window.confirm("Are you sure you wish to log out ?"))
-                      this.props.logoutUser();
+                      this.props.logoutUser(this.props.history);
                   }}
                 >
                   Log out
