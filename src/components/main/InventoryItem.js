@@ -1,14 +1,9 @@
 import React, { Component, lazy, Suspense } from "react";
 import { connect } from "react-redux";
-import { getToolsAction } from "../../store/actions/toolsAction";
 import ManageToolPage from "./ManageToolPage";
-import Spinner from "../Spinner";
+import SpinnerPage from "../Spinner";
 class InventoryItem extends Component {
-  componentDidMount() {
-    this.props.getToolsAction();
-  }
   render() {
-    console.log(this.props.tools);
     return (
       <>
         <section className="text-center my-5">
@@ -20,8 +15,8 @@ class InventoryItem extends Component {
             error amet numquam iure provident voluptate esse quasi, veritatis
             totam voluptas nostrum quisquam eum porro a pariatur veniam.
           </p>
-          {this.props.loading && <Spinner />}
           {/* this is the card */}
+          {this.props.loading && <SpinnerPage />}
           <ManageToolPage />
         </section>
         {/* adding product */}
@@ -31,11 +26,7 @@ class InventoryItem extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.toolsReducer.loading,
-  tools: state.toolsReducer.tools
+  loading: state.toolsReducer.loading
 });
 
-export default connect(
-  mapStateToProps,
-  { getToolsAction }
-)(InventoryItem);
+export default connect(mapStateToProps)(InventoryItem);

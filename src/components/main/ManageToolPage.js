@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Route, withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   MDBRow,
   MDBCol,
@@ -14,14 +15,13 @@ import tool1 from "../../assets/tool1.jpg";
 import tool2 from "../../assets/tool2.jpg";
 import tool3 from "../../assets/tool3.jpg";
 import tool4 from "../../assets/tool4.jpg";
-// import tool5 from "../../assets/tool5.jpg";
+import tool5 from "../../assets/tool5.jpg";
 // import tool6 from "../../assets/tool6.jpg";
 // import tool7 from "../../assets/tool7.jpg";
 // import tool8 from "../../assets/tool8.jpg";
 // import tool9 from "../../assets/tool9.jpg";
-// import tool10 from "../../assets/tool10.jpg";
+import tool10 from "../../assets/tool10.jpg";
 import PaginationPage from "./PaginationPage";
-import SingleItemPage from "./SingleItemPage";
 const ManageToolStyle = styled.div`
   .pagination {
     margin-top: 100px;
@@ -40,7 +40,11 @@ const ManageToolStyle = styled.div`
   }
 `;
 
-const ManageToolPage = ({ history, match }) => {
+const ManageToolPage = ({ history, match, tools }) => {
+  console.log("match", match);
+  // if(!tools.length){
+  //   return <h2>There's no item available rightn ow</h2>
+  // }
   return (
     <ManageToolStyle>
       <MDBCol className="col-md-4 mb-4">
@@ -167,21 +171,52 @@ const ManageToolPage = ({ history, match }) => {
         </MDBCol>
 
         {/* when posting items is being display here for listsssss */}
-        {
-
-        }
+        {tools.map(tool => (
+          <MDBCol md="6" sm="12" lg="4" className="col-md-4 mb-4" key={tool.id}>
+            <Link to={`/tools/${tool.id}`}>
+              <MDBCard className="align-items-center">
+                <MDBCardImage
+                  src={tool10}
+                  top
+                  alt="sample photo"
+                  overlay="white-slight"
+                />
+                <MDBCardBody className="text-center">
+                  <span href="#!" className="grey-text">
+                    <h5>Sheet Finishing Sander</h5>
+                  </span>
+                  <h5>
+                    <strong>
+                      <span href="#!" className="dark-grey-text">
+                        1/3-Sheet Finishing Sander (6894)
+                        {tool.id % 2 === 0 ? (
+                          <MDBBadge pill color="primary">
+                            BEST
+                          </MDBBadge>
+                        ) : (
+                          <MDBBadge pill color="danger">
+                            NEW
+                          </MDBBadge>
+                        )}
+                      </span>
+                    </strong>
+                  </h5>
+                  <h4 className="font-weight-bold blue-text">
+                    <strong>219$</strong>
+                  </h4>
+                </MDBCardBody>
+              </MDBCard>
+            </Link>
+          </MDBCol>
+        ))}
       </MDBRow>
       <PaginationPage className="pagination" />
-      <Route path="/tool/:id" component={SingleItemPage} />
     </ManageToolStyle>
   );
 };
 
-export default withRouter(ManageToolPage);
 const mapStateToProps = state => ({
-    tools: state.toolsReducer.tools
+  tools: state.toolsReducer.tools
 });
 
-export default connect(
-mapStateToProps,
-)(ManageToolPage);
+export default connect(mapStateToProps)(withRouter(ManageToolPage));

@@ -16,7 +16,9 @@ import jwt_decode from "jwt-decode";
 import Register from "./container/Register";
 import Landing from "./components/main/Landing";
 import PrivateRoute from "./components/PrivateRoute";
-
+import SingleItemPage from "./components/main/SingleItemPage";
+import { getToolsAction } from "./store/actions/toolsAction";
+import { connect } from "react-redux";
 //check for token to keep user logged in
 if (localStorage.jwtToken) {
   //Set auth token header auth
@@ -36,6 +38,9 @@ if (localStorage.jwtToken) {
 
 const NoMatchFound = () => <h1>No Match Found</h1>;
 class App extends Component {
+  componentDidMount() {
+    this.props.getToolsAction();
+  }
   render() {
     return (
       <React.Fragment>
@@ -47,6 +52,8 @@ class App extends Component {
             <Route path="/addtools" component={AddProductPage} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={LoginPage} />
+            <Route path="/tools/:id" component={SingleItemPage} />
+
             {/* created HOC for private route and have check inside navbar to hide dashboard if it's not authenticated */}
             <PrivateRoute path="/dashboard" component={InventoryItem} />
             <Route path="/" component={Landing} />
@@ -65,4 +72,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  stateName: state.stateName
+});
+
+export default connect(
+  mapStateToProps,
+  { getToolsAction }
+)(App);

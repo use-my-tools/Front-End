@@ -4,7 +4,8 @@ const SpinnerStyle = styled.div`
   display: flex;
   margin: 0 auto;
   justify-content: center;
-  height: 40vh;
+  align-items: center;
+  width: 100vw;
 `;
 
 const SpinnerPage = () => {
