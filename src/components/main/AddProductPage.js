@@ -177,13 +177,14 @@ class AddProductPage extends Component {
                             name="photo"
                             value={toolinput.photo}
                           />
-                          <button
+                          <MDBBtn
                             onClick={() =>
                               uploadImageAction(this.state.selectedFile)
                             }
+                            color="secondary"
                           >
-                            Upload!
-                          </button>
+                            Upload
+                          </MDBBtn>
                         </MDBCard>
                         <MDBCard className="align-items-center card-addpage">
                           <h2>Rental Agreement</h2>

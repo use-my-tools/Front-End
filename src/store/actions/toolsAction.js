@@ -42,12 +42,12 @@ export const addToolsAction = newpost => dispatch => {
   // .catch(err => console.log(err));
 };
 export const uploadImageAction = (file, tool_id) => dispatch => {
+  dispatch(setLoading());
   const formData = new FormData();
   false.append({
     image: file,
     tool_id: 5
   });
-  dispatch(setLoading());
   axios
     .post(`${IMAGE}`, formData)
     .then(({ data: { data } }) =>
