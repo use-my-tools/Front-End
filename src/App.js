@@ -18,6 +18,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import SingleItemPage from "./components/main/SingleItemPage";
 import { getToolsAction } from "./store/actions/toolsAction";
 import { connect } from "react-redux";
+import AddProductPage from "./components/main/AddProductPage";
 //check for token to keep user logged in
 if (localStorage.jwtToken) {
   //Set auth token header auth

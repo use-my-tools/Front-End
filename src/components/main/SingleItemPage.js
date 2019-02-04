@@ -17,7 +17,8 @@ import tool10 from "../../assets/tool10.jpg";
 import { Link, withRouter } from "react-router-dom";
 import {
   handleUpdateAction,
-  toggleModal
+  toggleModal,
+  clearInputsAction
 } from "../../store/actions/toolsAction";
 
 const ToolStyle = styled.div`
@@ -35,14 +36,18 @@ const ToolStyle = styled.div`
 class SingleItemPage extends Component {
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
+    this.props.history.push("/dashboard");
     this.props.toggleModal();
   };
-
   render() {
-    const { match, tools, history, handleUpdate } = this.props;
+    const { match, tools, history } = this.props;
     //find which id has been clicked
     if (!tools.length) {
-      return <h2>This item available right now </h2>;
+      return (
+        <h2 style={{ margin: "335px auto" }}>
+          This item is not available right now{" "}
+        </h2>
+      );
     }
     const tool = tools.find(
       ({ id }) => parseInt(id) === parseInt(match.params.id)
@@ -163,5 +168,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { handleUpdateAction, toggleModal }
+  { handleUpdateAction, toggleModal, clearInputsAction }
 )(withRouter(SingleItemPage));

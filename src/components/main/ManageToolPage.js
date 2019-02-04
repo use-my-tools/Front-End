@@ -23,7 +23,10 @@ import tool4 from "../../assets/tool4.jpg";
 import tool10 from "../../assets/tool10.jpg";
 import PaginationPage from "./PaginationPage";
 import AddProductPage from "./AddProductPage";
-import { toggleModal } from "../../store/actions/toolsAction";
+import {
+  toggleModal,
+  clearInputsAction
+} from "../../store/actions/toolsAction";
 
 const ManageToolStyle = styled.div`
   .pagination {
@@ -44,6 +47,10 @@ const ManageToolStyle = styled.div`
 `;
 
 class ManageToolPage extends Component {
+  addTool = () => {
+    this.props.toggleModal();
+    this.props.clearInputsAction();
+  };
   render() {
     const { tools, toggleModal, modal } = this.props;
 
@@ -52,7 +59,7 @@ class ManageToolPage extends Component {
         <MDBCol className="col-md-4 mb-4">
           <MDBCard className="align-items-center add-btn">
             <button
-              onClick={toggleModal}
+              onClick={this.addTool}
               className="roundedbtn btn-floating btn-deep-purple btn-lg"
             >
               <i className="fas fa-plus" />
@@ -233,5 +240,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { toggleModal }
+  { toggleModal, clearInputsAction }
 )(withRouter(ManageToolPage));

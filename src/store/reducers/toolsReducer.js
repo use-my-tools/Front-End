@@ -5,7 +5,9 @@ import {
   HANDLE_CHANGE,
   CLEAR_TOOLINPUTS,
   HANDLE_UPDATE,
-  TOGGLE_MODAL
+  TOGGLE_MODAL,
+  SUBMIT_UPDATED,
+  UPLOAD_IMAGE
 } from "../actions/toolsAction";
 
 const initialState = {
@@ -21,7 +23,9 @@ const initialState = {
     deposit: ""
   },
   loading: false,
-  modal: false
+  modal: false,
+  currentToolId: null,
+  isUpdating: false
 };
 //images need id
 export default function toolsReducer(state = initialState, action) {
@@ -48,7 +52,9 @@ export default function toolsReducer(state = initialState, action) {
           deposit: "",
           isAvailable: 1,
           rating: 0
-        }
+        },
+        currentToolId: null,
+        isUpdating: false
       };
     case LOADING:
       return {
@@ -70,8 +76,27 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        tools: action.data
+        tools: action.data,
+        isUpdating: false
       };
+    // case SUBMIT_UPDATED:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     toolinput: {
+    //       name: state.toolinput.name,
+    //       brand: state.toolinput.brand,
+    //       category: state.toolinput.category,
+    //       dailyCost: state.toolinput.dailyCost,
+    //       address: state.toolinput.address,
+    //       owner_id: state.toolinput.owner_id,
+    //       description: state.toolinput.description,
+    //       deposit: state.toolinput.deposit,
+    //       isAvailable: state.toolinput.isAvailable,
+    //       rating: state.toolinput.rating
+    //     },
+    //     isUpdating: false
+    //   };
     case HANDLE_UPDATE:
       return {
         ...state,
@@ -88,6 +113,14 @@ export default function toolsReducer(state = initialState, action) {
           isAvailable: action.tool.isAvailable,
           rating: action.tool.rating
         },
+        currentToolId: action.tool.id,
+        isUpdating: true
+      };
+    case UPLOAD_IMAGE:
+      return {
+        ...state,
+        loading: false,
+        tools: action.data
       };
     default:
       return state;

@@ -6,12 +6,14 @@ export const LOADING = "LOADING";
 
 export const GET_TOOL_SUCCESS = "GET_TOOL_SUCCESS";
 export const ADD_TOOL_SUCCESS = "ADD_TOOL_SUCCESS";
+export const SUBMIT_UPDATED = "SUBMIT_UPDATED";
 
 ///form CRUD met
 export const HANDLE_CHANGE = "HANDLE_CHANGE";
 export const CLEAR_TOOLINPUTS = "CLEAR_TOOLINPUTS";
 export const HANDLE_UPDATE = "HANDLE_UPDATE";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
+export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 
@@ -26,7 +28,7 @@ export const getToolsAction = () => dispatch => {
   // .catch(err => console.log(err));
 };
 export const addToolsAction = newpost => dispatch => {
-  //  dispatch(setLoading());
+  dispatch(setLoading());
   axios
     .post(`${URL}`, newpost)
     .then(({ data: { data } }) =>
@@ -39,7 +41,19 @@ export const addToolsAction = newpost => dispatch => {
 
   // .catch(err => console.log(err));
 };
-
+// export const uploadImageAction = (image, tool_id) => dispatch => {
+//   dispatch(setLoading());
+//   axios
+//     .post(`${IMAGE}`, image, tool_id)
+//     .then(({ data: { data } }) =>
+//       dispatch({
+//         type: UPLOAD_IMAGE,
+//         data
+//       })
+//     )
+//     .then(() => Alert.success("Successfully uploaded Image"));
+//   // .catch(err => console.log(err));
+// };
 //CRUD form actions
 export const handleUpdateAction = tool => {
   return {
@@ -47,12 +61,16 @@ export const handleUpdateAction = tool => {
     tool
   };
 };
+// export const submitUpdatedAction = () => {
+//   return {
+//     type: SUBMIT_UPDATED
+//   };
+// };
 export const toggleModal = () => {
   return {
     type: TOGGLE_MODAL
   };
 };
-
 export const clearInputsAction = () => {
   return {
     type: CLEAR_TOOLINPUTS
