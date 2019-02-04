@@ -7,7 +7,8 @@ import {
   HANDLE_UPDATE,
   TOGGLE_MODAL,
   // SUBMIT_UPDATED,
-  UPLOAD_IMAGE
+  UPLOAD_IMAGE,
+  CANCEL_IMAGE
 } from "../actions/toolsAction";
 
 const initialState = {
@@ -25,7 +26,8 @@ const initialState = {
   loading: false,
   modal: false,
   currentToolId: null,
-  isUpdating: false
+  isUpdating: false,
+  isUploading:false
 };
 //images need id
 export default function toolsReducer(state = initialState, action) {
@@ -120,7 +122,13 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        tools: action.data
+        isUploading: true
+      };
+    case CANCEL_IMAGE:
+      return {
+        ...state,
+        loading: false,
+        isUploading: false
       };
     default:
       return state;

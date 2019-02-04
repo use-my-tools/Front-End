@@ -1,6 +1,6 @@
 import axios from "axios";
 import Alert from "react-s-alert";
-
+import FormData from "form-data";
 export const GET_ERRORS = "GET_ERRORS";
 export const LOADING = "LOADING";
 
@@ -14,6 +14,7 @@ export const CLEAR_TOOLINPUTS = "CLEAR_TOOLINPUTS";
 export const HANDLE_UPDATE = "HANDLE_UPDATE";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
+export const CANCEL_IMAGE = "CANCEL_IMAGE";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
@@ -39,15 +40,17 @@ export const addToolsAction = newpost => dispatch => {
     )
     .then(() => Alert.success("Successfully added Tool"));
 
+  // const firstRequest = uploadImageAction();
+  // Promise.all([firstRequest, secondRequest]);
+
   // .catch(err => console.log(err));
 };
-export const uploadImageAction = (file, tool_id) => dispatch => {
+export const uploadImageAction = file => dispatch => {
+  if (!file) return;
   dispatch(setLoading());
   const formData = new FormData();
-  false.append({
-    image: file,
-    tool_id: 5
-  });
+  formData.append("image", file);
+  formData.append("tool_id", 1);
   axios
     .post(`${IMAGE}`, formData)
     .then(({ data: { data } }) =>
@@ -57,7 +60,20 @@ export const uploadImageAction = (file, tool_id) => dispatch => {
       })
     )
     .then(() => Alert.success("Successfully uploaded Image"));
-  // .catch(err => console.log(err));
+  // .catch(err => {
+  //   if (err) {
+  //     err.response.data.message && Alert.error(err.response.data.message);
+  //     dispatch({
+  //       type: GET_ERRORS,
+  //       payload: err.response.data.message
+  //     });
+  //   }
+  // });
+};
+export const cancelImage = () => {
+  return {
+    type: CANCEL_IMAGE
+  };
 };
 //CRUD form actions
 export const handleUpdateAction = tool => {

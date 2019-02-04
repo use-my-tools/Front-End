@@ -5,7 +5,7 @@ const SpinnerStyle = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
 `;
 
 const SpinnerPage = () => {

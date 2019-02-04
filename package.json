@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "form-data": "^2.3.3",
     "google-map-react": "^1.1.2",
     "is-empty": "^1.2.0",
     "jwt-decode": "^2.2.0",
