@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
-import { loadState, saveState } from "../localstorage/index";
-import throttle from "lodash/throttle";
+//import { loadState, saveState } from "../localstorage/index";
+//import throttle from "lodash/throttle";
 
 const middleware = [thunk];
 //const persistedState = loadState();
@@ -16,12 +16,12 @@ const store = createStore(
   )
 );
 
-store.subscribe(
-  throttle(() => {
-    saveState({
-      tools: store.getState().toolsReducer.tools
-    });
-  }, 1000)
-);
+// store.subscribe(
+//   throttle(() => {
+//     saveState({
+//       tools: store.getState().toolsReducer.tools
+//     });
+//   }, 1000)
+// );
 
 export default store;

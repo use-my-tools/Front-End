@@ -6,7 +6,7 @@ import {
   CLEAR_TOOLINPUTS,
   HANDLE_UPDATE,
   TOGGLE_MODAL,
-  SUBMIT_UPDATED,
+  // SUBMIT_UPDATED,
   UPLOAD_IMAGE
 } from "../actions/toolsAction";
 
