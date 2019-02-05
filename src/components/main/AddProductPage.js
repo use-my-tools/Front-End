@@ -56,7 +56,7 @@ class AddProductPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFile: null
+      selectedFile: ""
     };
   }
   handleSubmit = e => {
@@ -67,10 +67,6 @@ class AddProductPage extends Component {
       return;
     }
     this.addTools();
-    // if (this.props.isUpdating()) {
-    //   console.log("update submit");
-    // } else {
-    // }
     this.props.clearInputsAction();
     this.props.toggleModal();
   };
@@ -119,79 +115,6 @@ class AddProductPage extends Component {
                       <form onSubmit={this.handleSubmit}>
                         <MDBCard className="align-items-center card-addpage">
                           <h2>{isUpdating ? "EDIT TOOLS" : "ADD ITEM"}</h2>
-
-                          <MDBCard className="align-items-center card-addpage">
-                            <h2>Photo</h2>
-                            {loading ? (
-                              <SpinnerPage />
-                            ) : isUploading ? (
-                              <img src={this.state.selectedFile} alt="" />
-                            ) : (
-                              <svg
-                                width={100}
-                                height={100}
-                                viewBox="0 0 20 20"
-                                xmlns={this.state.selectedFile}
-                                className="no-image"
-                              >
-                                {" "}
-                                <circle cx="16.1" cy="6.1" r="1.1" />{" "}
-                                <rect
-                                  fill="none"
-                                  stroke="#000"
-                                  x="0.5"
-                                  y="2.5"
-                                  width={19}
-                                  height={15}
-                                />{" "}
-                                <polyline
-                                  fill="none"
-                                  stroke="#000"
-                                  strokeWidth="1.01"
-                                  points="4,13 8,9 13,14"
-                                />{" "}
-                                <polyline
-                                  fill="none"
-                                  stroke="#000"
-                                  strokeWidth="1.01"
-                                  points="11,12 12.5,10.5 16,14"
-                                />
-                              </svg>
-                            )}
-                            <span className="noimage-info">
-                              {isUploading
-                                ? "Image added successfuly"
-                                : "No image yet"}
-                            </span>
-                            <input
-                              placeholder="Upload Photo"
-                              type="file"
-                              className="form-control"
-                              onChange={this.fileChangedHandler}
-                              // value={toolinput.photo}
-                            />
-                            <div
-                              className="btn-group"
-                              style={{ margin: "20px 0" }}
-                            >
-                              <MDBBtn
-                                onClick={() =>
-                                  uploadImageAction(this.state.selectedFile)
-                                }
-                                color="deep-orange"
-                              >
-                                Upload
-                              </MDBBtn>
-                              <MDBBtn
-                                style={{ marginLeft: 20 }}
-                                color="unique"
-                                onClick={() => cancelImage()}
-                              >
-                                Cancel
-                              </MDBBtn>
-                            </div>
-                          </MDBCard>
-
                           <label>Name</label>
                           <input
                             placeholder="name"
@@ -274,6 +197,78 @@ class AddProductPage extends Component {
                             Save changes
                           </MDBBtn>
                         </MDBModalFooter>
+                        {/* <MDBCard className="align-items-center card-addpage">
+                          <h2>Photo</h2>
+                          {loading ? (
+                            <SpinnerPage />
+                          ) : isUploading ? (
+                            <img src={this.state.selectedFile} alt="" />
+                          ) : (
+                            <svg
+                              width={100}
+                              height={100}
+                              viewBox="0 0 20 20"
+                              xmlns={this.state.selectedFile}
+                              className="no-image"
+                            >
+                              {" "}
+                              <circle cx="16.1" cy="6.1" r="1.1" />{" "}
+                              <rect
+                                fill="none"
+                                stroke="#000"
+                                x="0.5"
+                                y="2.5"
+                                width={19}
+                                height={15}
+                              />{" "}
+                              <polyline
+                                fill="none"
+                                stroke="#000"
+                                strokeWidth="1.01"
+                                points="4,13 8,9 13,14"
+                              />{" "}
+                              <polyline
+                                fill="none"
+                                stroke="#000"
+                                strokeWidth="1.01"
+                                points="11,12 12.5,10.5 16,14"
+                              />
+                            </svg>
+                          )}
+                          <span className="noimage-info">
+                            {isUploading
+                              ? "Image added successfuly"
+                              : "No image yet"}
+                          </span>
+                          <input
+                            placeholder="Upload Photo"
+                            type="file"
+                            className="form-control"
+                            onChange={this.fileChangedHandler}
+                            // value={toolinput.photo}
+                          />
+                          <div
+                            className="btn-group"
+                            style={{ margin: "20px 0" }}
+                          >
+                            <MDBBtn
+                              onClick={() =>
+                                uploadImageAction(this.state.selectedFile)
+                              }
+                              style={{ zIndex: 1000 }}
+                              color="deep-orange"
+                            >
+                              Upload
+                            </MDBBtn>
+                            <MDBBtn
+                              style={{ marginLeft: 20, zIndex: 1000 }}
+                              color="unique"
+                              onClick={() => cancelImage()}
+                            >
+                              Cancel
+                            </MDBBtn>
+                          </div>
+                        </MDBCard> */}
                       </form>
                     </MDBCol>
                   </MDBRow>

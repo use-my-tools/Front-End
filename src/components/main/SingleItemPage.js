@@ -103,7 +103,7 @@ class SingleItemPage extends Component {
               lg="6"
               md="6"
               className="card-body"
-              style={{ marginTop: "3rem", maxHeight: 200 }}
+              style={{ marginTop: "3rem" }}
             >
               <img
                 src={window.localStorage.getItem("image_url")}

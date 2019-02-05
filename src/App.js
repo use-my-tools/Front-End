@@ -16,8 +16,6 @@ import Register from "./container/Register";
 import Landing from "./components/main/Landing";
 import PrivateRoute from "./components/PrivateRoute";
 import SingleItemPage from "./components/main/SingleItemPage";
-import { getToolsAction } from "./store/actions/toolsAction";
-import { connect } from "react-redux";
 
 //check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -38,9 +36,6 @@ if (localStorage.jwtToken) {
 
 const NoMatchFound = () => <h1>No Match Found</h1>;
 class App extends Component {
-  componentDidMount() {
-    this.props.getToolsAction();
-  }
   render() {
     return (
       <React.Fragment>
@@ -70,7 +65,4 @@ class App extends Component {
   }
 }
 
-export default connect(
-  null,
-  { getToolsAction }
-)(App);
+export default App;

@@ -127,17 +127,19 @@ export default function toolsReducer(state = initialState, action) {
         currentToolId: action.tool.id,
         isUpdating: true
       };
-    case UPLOAD_IMAGE:
-      return {
-        ...state,
-        loading: false,
-        isUploading: true
-      };
+    // case UPLOAD_IMAGE:
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     isUploading: true
+    //     // tools: action.data
+    //   };
     case CANCEL_IMAGE:
       return {
         ...state,
         loading: false,
-        isUploading: false
+        isUploading: false,
+        tools: action.data
       };
     default:
       return state;

@@ -18,8 +18,8 @@ export const CANCEL_IMAGE = "CANCEL_IMAGE";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
-export const getToolsAction = () => dispatch => {
-  // dispatch(setLoading());
+export const getToolsAction = URL => dispatch => {
+  dispatch(setLoading());
   axios
     .get(`${URL}`)
     .then(({ data: { data, total, last_page, per_page, current_page } }) =>
@@ -52,7 +52,7 @@ export const addToolsAction = newpost => dispatch => {
   // .catch(err => console.log(err));
 };
 export const uploadImageAction = file => dispatch => {
-  if (!file) return;
+  //if (!file.length) return;
   dispatch(setLoading());
   const formData = new FormData();
   formData.append("image", file);

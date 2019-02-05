@@ -27,6 +27,14 @@ import {
   toggleModal,
   clearInputsAction
 } from "../../store/actions/toolsAction";
+import {
+  FloatingMenu,
+  MainButton,
+  ChildButton
+} from "react-floating-button-menu";
+import MdAdd from "@material-ui/icons/Add";
+import MdClose from "@material-ui/icons/Clear";
+//import MdFavorite from "@material-ui/icons/MdFavorite";
 
 const ManageToolStyle = styled.div`
   .pagination {
@@ -44,19 +52,44 @@ const ManageToolStyle = styled.div`
       padding-top: 20px;
     }
   }
+  img {
+    max-width: 100%;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    .card {
+      min-height: 300px;
+      max-height: 300px;
+    }
+  }
+  .add-card {
+    box-sizing: border-box;
+  }
+  .floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 45px;
+  }
 `;
 
 class ManageToolPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false
+    };
+  }
+
   addTool = () => {
     this.props.toggleModal();
     this.props.clearInputsAction();
   };
   render() {
     const { tools, toggleModal, modal } = this.props;
-
     return (
       <ManageToolStyle>
-        <MDBCol className="col-md-4 mb-4">
+        {/* <MDBCol className="col-md-4 mb-4 add-card">
           <MDBCard className="align-items-center add-btn">
             <button
               onClick={this.addTool}
@@ -66,168 +99,92 @@ class ManageToolPage extends Component {
             </button>
             <p>ADD TOOL</p>
           </MDBCard>
-        </MDBCol>
+        </MDBCol> */}
+        <FloatingMenu
+          slideSpeed={500}
+          direction="up"
+          spacing={8}
+          isOpen={this.state.isOpen}
+          className="floating-btn"
+        >
+          <MainButton
+            iconResting={<MdAdd style={{ fontSize: 20 }} nativeColor="white" />}
+            iconActive={
+              <MdClose style={{ fontSize: 20 }} nativeColor="white" />
+            }
+            backgroundColor="#0070F7"
+            onClick={() => this.setState({ isOpen: !this.state.isOpen })}
+            size={56}
+          />
+          <ChildButton
+            icon={<i className="fas fa-plus" />}
+            backgroundColor="white"
+            size={40}
+            onClick={this.addTool}
+          />
+        </FloatingMenu>
         <AddProductPage toggle={toggleModal} modal={modal} />
         {/* cards */}
         <MDBRow>
-          <MDBCol md="6" sm="12" lg="4" className="col-md-4 mb-4">
-            <MDBCard className="align-items-center">
-              <MDBCardImage
-                src={tool1}
-                top
-                alt="sample photo"
-                overlay="white-slight"
-              />
-              <MDBCardBody className="text-center">
-                <a href="#!" className="grey-text">
-                  <h5>hammer drill</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="#!" className="dark-grey-text">
-                      1/2 hammer drill (6929){" "}
-                      <MDBBadge pill color="danger">
-                        NEW
-                      </MDBBadge>
-                    </a>
-                  </strong>
-                </h5>
-                <h4 className="font-weight-bold blue-text">
-                  <strong>120$</strong>
-                </h4>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-          <MDBCol md="6" sm="12" lg="4" className="col-md-4 mb-4">
-            <MDBCard className="align-items-center">
-              <MDBCardImage
-                src={tool2}
-                top
-                alt="sample photo"
-                overlay="white-slight"
-              />
-              <MDBCardBody className="text-center">
-                <a href="#!" className="grey-text">
-                  <h5>Router</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="#!" className="dark-grey-text">
-                      1 1/2 Router (1767)
-                    </a>
-                  </strong>
-                </h5>
-                <h4 className="font-weight-bold blue-text">
-                  <strong>139$</strong>
-                </h4>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-          <MDBCol md="6" sm="12" lg="4" className="col-md-4 mb-4">
-            <MDBCard className="align-items-center">
-              <MDBCardImage
-                src={tool3}
-                top
-                alt="sample photo"
-                overlay="white-slight"
-              />
-              <MDBCardBody className="text-center">
-                <a href="#!" className="grey-text">
-                  <h5>Brake Cylinder Hone</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="#!" className="dark-grey-text">
-                      1/2 " - 2-1/2" Brake Cylinder Hone{" "}
-                      <MDBBadge pill color="primary">
-                        BEST
-                      </MDBBadge>
-                    </a>
-                  </strong>
-                </h5>
-                <h4 className="font-weight-bold blue-text">
-                  <strong>99$</strong>
-                </h4>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-          <MDBCol md="6" sm="12" lg="4" className="col-md-4 mb-4">
-            <MDBCard className="align-items-center">
-              <MDBCardImage
-                src={tool4}
-                top
-                alt="sample photo"
-                overlay="white-slight"
-              />
-              <MDBCardBody className="text-center">
-                <a href="#!" className="grey-text">
-                  <h5>Sheet Finishing Sander</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="#!" className="dark-grey-text">
-                      1/3-Sheet Finishing Sander (6894)
-                      <MDBBadge pill color="primary">
-                        BEST
-                      </MDBBadge>
-                    </a>
-                  </strong>
-                </h5>
-                <h4 className="font-weight-bold blue-text">
-                  <strong>219$</strong>
-                </h4>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-
-          {/* when posting items is being display here for listsssss */}
-          {tools &&
-            tools.map(tool => {
-              return (
-                <MDBCol
-                  md="6"
-                  sm="12"
-                  lg="4"
-                  className="col-md-4 mb-4"
-                  key={tool.id}
-                >
-                  <Link to={`/tools/${tool.id}`}>
-                    <MDBCard className="align-items-center">
-                      <MDBCardImage
-                        src={!tool.images.length ? tool10 : tool.images[0].url}
-                        top
-                        alt="sample photo"
-                        overlay="white-slight"
-                      />
-                      <MDBCardBody className="text-center">
-                        <span href="#!" className="grey-text">
-                          <h5>Sheet Finishing Sander</h5>
-                        </span>
-                        <h5>
-                          <strong>
-                            <span href="#!" className="dark-grey-text">
-                              1/3-Sheet Finishing Sander (6894)
-                              {tool.id % 2 === 0 ? (
-                                <MDBBadge pill color="primary">
-                                  BEST
-                                </MDBBadge>
-                              ) : (
-                                <MDBBadge pill color="danger">
-                                  NEW
-                                </MDBBadge>
-                              )}
-                            </span>
-                          </strong>
-                        </h5>
-                        <h4 className="font-weight-bold blue-text">
-                          <strong>219$</strong>
-                        </h4>
-                      </MDBCardBody>
-                    </MDBCard>
-                  </Link>
-                </MDBCol>
-              );
-            })}
+          <div className="container">
+            {/* when posting items is being display here for listsssss */}
+            {tools &&
+              tools.map(tool => {
+                return (
+                  <MDBCol
+                    md="6"
+                    sm="12"
+                    lg="4"
+                    className="col-md-4 mb-4 card"
+                    key={tool.id}
+                  >
+                    <Link
+                      to={`/tools/${tool.id}`}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <MDBCard className="align-items-center">
+                        <MDBCardImage
+                          src={
+                            !tool.images.length ? tool10 : tool.images[0].url
+                          }
+                          top
+                          alt="sample photo"
+                          className="card-img-top"
+                          overlay="white-slight"
+                        />
+                        <MDBCardBody className="text-center">
+                          <span href="#!" className="grey-text card-subtitle">
+                            <h5>Sheet Finishing Sander</h5>
+                          </span>
+                          <h5>
+                            <strong>
+                              <span
+                                href="#!"
+                                className="dark-grey-text card-title"
+                              >
+                                1/3-Sheet Finishing Sander (6894)
+                                {tool.id % 2 === 0 ? (
+                                  <MDBBadge pill color="primary">
+                                    BEST
+                                  </MDBBadge>
+                                ) : (
+                                  <MDBBadge pill color="danger">
+                                    NEW
+                                  </MDBBadge>
+                                )}
+                              </span>
+                            </strong>
+                          </h5>
+                          <h4 className="font-weight-bold blue-text">
+                            <strong>219$</strong>
+                          </h4>
+                        </MDBCardBody>
+                      </MDBCard>
+                    </Link>
+                  </MDBCol>
+                );
+              })}
+          </div>
         </MDBRow>
         <PaginationPage className="pagination" />
       </ManageToolStyle>
