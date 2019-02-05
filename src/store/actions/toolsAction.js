@@ -31,6 +31,7 @@ export const getToolsAction = () => dispatch => {
         current_page
       })
     )
+    .then(() => Alert.success("Successfully Load Items"))
     .catch(err => {
       if (err) {
         err.response.data.message && Alert.error(err.response.data.message);
@@ -52,7 +53,6 @@ export const addToolsAction = newpost => dispatch => {
       })
     )
     .then(() => Alert.success("Successfully added Tool"))
-    .then(() => Alert.success("Click On Item To Upload Image"))
     .catch(err => {
       if (err) {
         err.response.data.message && Alert.error(err.response.data.message);
@@ -79,6 +79,7 @@ export const uploadImageAction = (file, id) => dispatch => {
         type: UPLOAD_IMAGE
       })
     )
+    .then(() => Alert.success("Successfully Uploaded Image"))
     .catch(err => {
       if (err) {
         err.response.data.message && Alert.error(err.response.data.message);
