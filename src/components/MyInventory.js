@@ -55,13 +55,15 @@ const MyInvStyle = styled.div`
 class MyInventory extends Component {
   render() {
     const { tools } = this.props;
+    const filteredInvs = tools.filter(
+      tool => tool.owner_id !== window.localStorage.getItem("user_id")
+    );
     return (
       <MyInvStyle>
         <MDBRow>
           <div className="container">
-            {/* when posting items is being display here for listsssss */}
-            {tools &&
-              tools.map(tool => {
+            {filteredInvs &&
+              filteredInvs.map(tool => {
                 return (
                   <MDBCol
                     md="6"

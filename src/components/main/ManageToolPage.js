@@ -28,9 +28,6 @@ import MdClose from "@material-ui/icons/Clear";
 //import MdFavorite from "@material-ui/icons/MdFavorite";
 
 const ManageToolStyle = styled.div`
-  .pagination {
-    margin-top: 100px;
-  }
   .add-btn {
     padding: 40px 0 10px 0;
     margin-left: -15px;
@@ -81,6 +78,7 @@ class ManageToolPage extends Component {
     const { tools, toggleModal, modal } = this.props;
     return (
       <ManageToolStyle>
+        <PaginationPage className="pagination float-right" />
         <FloatingMenu
           slideSpeed={500}
           direction="up"
@@ -167,7 +165,6 @@ class ManageToolPage extends Component {
               })}
           </div>
         </MDBRow>
-        <PaginationPage className="pagination" />
       </ManageToolStyle>
     );
   }

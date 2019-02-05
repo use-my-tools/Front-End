@@ -6,6 +6,12 @@ import {
 } from "../../store/actions/toolsAction";
 import Pagination from "react-pagination-library";
 import "react-pagination-library/build/css/index.css";
+import styled from "styled-components";
+
+const PagStyle = styled.div`
+  display: flex;
+  align-items: baseline;
+`;
 
 class PaginationPage extends Component {
   constructor(props) {
@@ -31,15 +37,15 @@ class PaginationPage extends Component {
   };
   render() {
     return (
-      <div>
+      <PagStyle>
         <Pagination
           currentPage={this.state.currentPage}
           totalPages={this.props.last_page}
           changeCurrentPage={this.changeCurrentPage}
           theme="bottom-border"
         />
-        <h2>current Page:{this.state.currentPage}</h2>
-      </div>
+        <p>current Page:{this.state.currentPage}</p>
+      </PagStyle>
     );
   }
 }
