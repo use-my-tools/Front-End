@@ -158,7 +158,11 @@ class AddProductPage extends Component {
                                 />
                               </svg>
                             )}
-                            <span className="noimage-info">No image yet</span>
+                            <span className="noimage-info">
+                              {isUploading
+                                ? "Image added successfuly"
+                                : "No image yet"}
+                            </span>
                             <input
                               placeholder="Upload Photo"
                               type="file"

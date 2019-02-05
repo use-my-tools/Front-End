@@ -65,7 +65,7 @@ class SingleItemPage extends Component {
               <Link to={`/tools/${tool.id}`}>
                 <MDBCard className="align-items-center">
                   <MDBCardImage
-                    src={tool10}
+                    src={!tool.images.length ? tool10 : tool.images[0].url}
                     top
                     alt="sample photo"
                     overlay="white-slight"
@@ -103,7 +103,7 @@ class SingleItemPage extends Component {
               lg="6"
               md="6"
               className="card-body"
-              style={{ marginTop: "3rem" }}
+              style={{ marginTop: "3rem", maxHeight: 200 }}
             >
               <img
                 src={window.localStorage.getItem("image_url")}

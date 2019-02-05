@@ -27,7 +27,11 @@ const initialState = {
   modal: false,
   currentToolId: null,
   isUpdating: false,
-  isUploading:false
+  isUploading: false,
+  total: "",
+  last_page: "",
+  per_page: "",
+  current_page: ""
 };
 //images need id
 export default function toolsReducer(state = initialState, action) {
@@ -72,7 +76,11 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        tools: action.data
+        tools: action.data,
+        total: action.total,
+        last_page: action.last_page,
+        per_page: action.per_page,
+        current_page: action.current_page
       };
     case ADD_TOOL_SUCCESS:
       return {
@@ -82,6 +90,7 @@ export default function toolsReducer(state = initialState, action) {
         isUpdating: false
       };
     // case SUBMIT_UPDATED:
+
     //   return {
     //     ...state,
     //     loading: false,

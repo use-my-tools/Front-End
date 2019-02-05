@@ -182,50 +182,52 @@ class ManageToolPage extends Component {
 
           {/* when posting items is being display here for listsssss */}
           {tools &&
-            tools.map(tool => (
-              <MDBCol
-                md="6"
-                sm="12"
-                lg="4"
-                className="col-md-4 mb-4"
-                key={tool.id}
-              >
-                <Link to={`/tools/${tool.id}`}>
-                  <MDBCard className="align-items-center">
-                    <MDBCardImage
-                      src={tool10}
-                      top
-                      alt="sample photo"
-                      overlay="white-slight"
-                    />
-                    <MDBCardBody className="text-center">
-                      <span href="#!" className="grey-text">
-                        <h5>Sheet Finishing Sander</h5>
-                      </span>
-                      <h5>
-                        <strong>
-                          <span href="#!" className="dark-grey-text">
-                            1/3-Sheet Finishing Sander (6894)
-                            {tool.id % 2 === 0 ? (
-                              <MDBBadge pill color="primary">
-                                BEST
-                              </MDBBadge>
-                            ) : (
-                              <MDBBadge pill color="danger">
-                                NEW
-                              </MDBBadge>
-                            )}
-                          </span>
-                        </strong>
-                      </h5>
-                      <h4 className="font-weight-bold blue-text">
-                        <strong>219$</strong>
-                      </h4>
-                    </MDBCardBody>
-                  </MDBCard>
-                </Link>
-              </MDBCol>
-            ))}
+            tools.map(tool => {
+              return (
+                <MDBCol
+                  md="6"
+                  sm="12"
+                  lg="4"
+                  className="col-md-4 mb-4"
+                  key={tool.id}
+                >
+                  <Link to={`/tools/${tool.id}`}>
+                    <MDBCard className="align-items-center">
+                      <MDBCardImage
+                        src={!tool.images.length ? tool10 : tool.images[0].url}
+                        top
+                        alt="sample photo"
+                        overlay="white-slight"
+                      />
+                      <MDBCardBody className="text-center">
+                        <span href="#!" className="grey-text">
+                          <h5>Sheet Finishing Sander</h5>
+                        </span>
+                        <h5>
+                          <strong>
+                            <span href="#!" className="dark-grey-text">
+                              1/3-Sheet Finishing Sander (6894)
+                              {tool.id % 2 === 0 ? (
+                                <MDBBadge pill color="primary">
+                                  BEST
+                                </MDBBadge>
+                              ) : (
+                                <MDBBadge pill color="danger">
+                                  NEW
+                                </MDBBadge>
+                              )}
+                            </span>
+                          </strong>
+                        </h5>
+                        <h4 className="font-weight-bold blue-text">
+                          <strong>219$</strong>
+                        </h4>
+                      </MDBCardBody>
+                    </MDBCard>
+                  </Link>
+                </MDBCol>
+              );
+            })}
         </MDBRow>
         <PaginationPage className="pagination" />
       </ManageToolStyle>

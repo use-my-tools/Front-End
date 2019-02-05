@@ -20,12 +20,18 @@ const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
 export const getToolsAction = () => dispatch => {
   // dispatch(setLoading());
-  axios.get(`${URL}`).then(({ data: { data } }) =>
-    dispatch({
-      type: GET_TOOL_SUCCESS,
-      data
-    })
-  );
+  axios
+    .get(`${URL}`)
+    .then(({ data: { data, total, last_page, per_page, current_page } }) =>
+      dispatch({
+        type: GET_TOOL_SUCCESS,
+        data,
+        total,
+        last_page,
+        per_page,
+        current_page
+      })
+    );
   // .catch(err => console.log(err));
 };
 export const addToolsAction = newpost => dispatch => {
@@ -50,7 +56,7 @@ export const uploadImageAction = file => dispatch => {
   dispatch(setLoading());
   const formData = new FormData();
   formData.append("image", file);
-  formData.append("tool_id", 1);
+  formData.append("tool_id", 10);
   axios
     .post(`${IMAGE}`, formData)
     .then(({ data: { data } }) =>
