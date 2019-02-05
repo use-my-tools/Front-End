@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { cancelImage, uploadImageAction } from "../store/actions/toolsAction";
+import { uploadImageAction } from "../store/actions/toolsAction";
 import SpinnerPage from "./Spinner";
 import { withRouter } from "react-router-dom";
+import Alert from "react-s-alert";
 
 import {
   MDBCard,
@@ -27,13 +28,15 @@ class AddImageModal extends Component {
     const file = e.target.files[0];
     this.setState({ selectedFile: file });
   };
-
   _sendImage = () => {
     this.props.uploadImageAction(this.state.selectedFile, this.props.id);
     this.props.toggleModal();
     this.props.history.push("/dashboard");
   };
-
+  _cancelUpload = () => {
+    this.props.toggleModal();
+    Alert.info("Cancel Uploading Image");
+  };
   render() {
     const { loading, isUploading, toggleModal, uploadModal } = this.props;
     console.log({
@@ -42,7 +45,6 @@ class AddImageModal extends Component {
       toggleModal,
       uploadModal
     });
-
     return (
       <MDBContainer>
         <MDBModal isOpen={uploadModal} toggle={toggleModal}>
@@ -109,7 +111,7 @@ class AddImageModal extends Component {
                       <MDBBtn
                         style={{ marginLeft: 20, zIndex: 1000 }}
                         color="unique"
-                        onClick={() => cancelImage()}
+                        onClick={() => this._cancelUpload()}
                       >
                         Cancel
                       </MDBBtn>
@@ -132,5 +134,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { cancelImage, uploadImageAction }
+  { uploadImageAction }
 )(withRouter(AddImageModal));

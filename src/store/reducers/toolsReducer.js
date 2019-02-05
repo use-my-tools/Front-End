@@ -6,9 +6,7 @@ import {
   CLEAR_TOOLINPUTS,
   HANDLE_UPDATE,
   TOGGLE_MODAL,
-  // SUBMIT_UPDATED,
-  UPLOAD_IMAGE,
-  CANCEL_IMAGE
+  UPLOAD_IMAGE
 } from "../actions/toolsAction";
 
 const initialState = {
@@ -25,7 +23,7 @@ const initialState = {
   },
   loading: false,
   modal: false,
-  currentToolId: null,
+  currentToolId: "",
   isUpdating: false,
   isUploading: false,
   total: "",
@@ -59,7 +57,7 @@ export default function toolsReducer(state = initialState, action) {
           isAvailable: 1,
           rating: 0
         },
-        currentToolId: null,
+        currentToolId: "",
         isUpdating: false
       };
     case LOADING:
@@ -76,11 +74,11 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        tools: action.data
-        // total: action.total,
-        // last_page: action.last_page,
-        // per_page: action.per_page,
-        // current_page: action.current_page
+        tools: action.data,
+        total: action.total,
+        last_page: action.last_page,
+        per_page: action.per_page,
+        current_page: action.current_page
       };
     case ADD_TOOL_SUCCESS:
       return {
@@ -131,13 +129,6 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false
-      };
-    case CANCEL_IMAGE:
-      return {
-        ...state,
-        loading: false,
-        isUploading: false,
-        tools: action.data
       };
     default:
       return state;

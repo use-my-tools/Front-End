@@ -42,17 +42,11 @@ class SingleItemPage extends Component {
       uploadModal: false
     };
   }
-
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
     this.props.toggleModal();
   };
-  // uploadImage = () => {
-  //   this.props.history.push("/dashboard");
-  //   this._toggleModal();
-  // };
-
   _toggleModal = () => {
     this.setState({
       uploadModal: !this.state.uploadModal
@@ -61,7 +55,6 @@ class SingleItemPage extends Component {
 
   render() {
     const { match, tools, history } = this.props;
-    //find which id has been clicked
     if (!tools.length) {
       return (
         <h2 style={{ margin: "335px auto" }}>

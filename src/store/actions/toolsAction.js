@@ -14,7 +14,6 @@ export const CLEAR_TOOLINPUTS = "CLEAR_TOOLINPUTS";
 export const HANDLE_UPDATE = "HANDLE_UPDATE";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
-export const CANCEL_IMAGE = "CANCEL_IMAGE";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
@@ -32,7 +31,15 @@ export const getToolsAction = () => dispatch => {
         current_page
       })
     )
-    .catch(err => console.log(err));
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
 };
 export const addToolsAction = newpost => dispatch => {
   dispatch(setLoading());
@@ -45,7 +52,16 @@ export const addToolsAction = newpost => dispatch => {
       })
     )
     .then(() => Alert.success("Successfully added Tool"))
-    .catch(err => console.log(err));
+    .then(() => Alert.success("Click On Item To Upload Image"))
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
 };
 export const uploadImageAction = (file, id) => dispatch => {
   if (!file) {
@@ -63,22 +79,15 @@ export const uploadImageAction = (file, id) => dispatch => {
         type: UPLOAD_IMAGE
       })
     )
-    .then(() => Alert.success("Successfully uploaded Image"));
-};
-// .catch(err => {
-//   if (err) {
-//     err.response.data.message && Alert.error(err.response.data.message);
-//     dispatch({
-//       type: GET_ERRORS,
-//       payload: err.response.data.message
-//     });
-//   }
-// });
-//};
-export const cancelImage = () => {
-  return {
-    type: CANCEL_IMAGE
-  };
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
 };
 //CRUD form actions
 export const handleUpdateAction = tool => {
@@ -87,11 +96,6 @@ export const handleUpdateAction = tool => {
     tool
   };
 };
-// export const submitUpdatedAction = () => {
-//   return {
-//     type: SUBMIT_UPDATED
-//   };
-// };
 export const toggleModal = () => {
   return {
     type: TOGGLE_MODAL

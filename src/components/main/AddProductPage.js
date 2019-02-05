@@ -54,7 +54,7 @@ class AddProductPage extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { name, brand, category } = this.props.toolinput;
-    if (!name || !brand || !category) {
+    if (!name.length || !brand.length || !category.length) {
       Alert.error("All field are required");
       return;
     }
