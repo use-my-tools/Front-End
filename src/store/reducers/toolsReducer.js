@@ -76,11 +76,11 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        tools: action.data,
-        total: action.total,
-        last_page: action.last_page,
-        per_page: action.per_page,
-        current_page: action.current_page
+        tools: action.data
+        // total: action.total,
+        // last_page: action.last_page,
+        // per_page: action.per_page,
+        // current_page: action.current_page
       };
     case ADD_TOOL_SUCCESS:
       return {
@@ -127,13 +127,11 @@ export default function toolsReducer(state = initialState, action) {
         currentToolId: action.tool.id,
         isUpdating: true
       };
-    // case UPLOAD_IMAGE:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     isUploading: true
-    //     // tools: action.data
-    //   };
+    case UPLOAD_IMAGE:
+      return {
+        ...state,
+        loading: false
+      };
     case CANCEL_IMAGE:
       return {
         ...state,

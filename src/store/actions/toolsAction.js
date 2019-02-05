@@ -18,7 +18,7 @@ export const CANCEL_IMAGE = "CANCEL_IMAGE";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
-export const getToolsAction = URL => dispatch => {
+export const getToolsAction = () => dispatch => {
   dispatch(setLoading());
   axios
     .get(`${URL}`)
@@ -31,8 +31,8 @@ export const getToolsAction = URL => dispatch => {
         per_page,
         current_page
       })
-    );
-  // .catch(err => console.log(err));
+    )
+    .catch(err => console.log(err));
 };
 export const addToolsAction = newpost => dispatch => {
   dispatch(setLoading());
@@ -44,38 +44,37 @@ export const addToolsAction = newpost => dispatch => {
         data
       })
     )
-    .then(() => Alert.success("Successfully added Tool"));
-
-  // const firstRequest = uploadImageAction();
-  // Promise.all([firstRequest, secondRequest]);
-
-  // .catch(err => console.log(err));
+    .then(() => Alert.success("Successfully added Tool"))
+    .catch(err => console.log(err));
 };
-export const uploadImageAction = file => dispatch => {
-  //if (!file.length) return;
+export const uploadImageAction = (file, id) => dispatch => {
+  if (!file) {
+    Alert.error("Please provide an image");
+    return;
+  }
   dispatch(setLoading());
   const formData = new FormData();
   formData.append("image", file);
-  formData.append("tool_id", 10);
+  formData.append("tool_id", id);
   axios
     .post(`${IMAGE}`, formData)
     .then(({ data: { data } }) =>
       dispatch({
-        type: UPLOAD_IMAGE,
-        data
+        type: UPLOAD_IMAGE
       })
     )
     .then(() => Alert.success("Successfully uploaded Image"));
-  // .catch(err => {
-  //   if (err) {
-  //     err.response.data.message && Alert.error(err.response.data.message);
-  //     dispatch({
-  //       type: GET_ERRORS,
-  //       payload: err.response.data.message
-  //     });
-  //   }
-  // });
 };
+// .catch(err => {
+//   if (err) {
+//     err.response.data.message && Alert.error(err.response.data.message);
+//     dispatch({
+//       type: GET_ERRORS,
+//       payload: err.response.data.message
+//     });
+//   }
+// });
+//};
 export const cancelImage = () => {
   return {
     type: CANCEL_IMAGE

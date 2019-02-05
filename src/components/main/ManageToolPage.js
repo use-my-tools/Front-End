@@ -11,15 +11,6 @@ import {
   MDBBadge
 } from "mdbreact";
 
-import tool1 from "../../assets/tool1.jpg";
-import tool2 from "../../assets/tool2.jpg";
-import tool3 from "../../assets/tool3.jpg";
-import tool4 from "../../assets/tool4.jpg";
-//import tool5 from "../../assets/tool5.jpg";
-// import tool6 from "../../assets/tool6.jpg";
-// import tool7 from "../../assets/tool7.jpg";
-// import tool8 from "../../assets/tool8.jpg";
-// import tool9 from "../../assets/tool9.jpg";
 import tool10 from "../../assets/tool10.jpg";
 import PaginationPage from "./PaginationPage";
 import AddProductPage from "./AddProductPage";
@@ -58,6 +49,7 @@ const ManageToolStyle = styled.div`
   .container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     .card {
       min-height: 300px;
       max-height: 300px;
@@ -89,17 +81,6 @@ class ManageToolPage extends Component {
     const { tools, toggleModal, modal } = this.props;
     return (
       <ManageToolStyle>
-        {/* <MDBCol className="col-md-4 mb-4 add-card">
-          <MDBCard className="align-items-center add-btn">
-            <button
-              onClick={this.addTool}
-              className="roundedbtn btn-floating btn-deep-purple btn-lg"
-            >
-              <i className="fas fa-plus" />
-            </button>
-            <p>ADD TOOL</p>
-          </MDBCard>
-        </MDBCol> */}
         <FloatingMenu
           slideSpeed={500}
           direction="up"

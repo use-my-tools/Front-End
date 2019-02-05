@@ -21,6 +21,8 @@ import {
   clearInputsAction
 } from "../../store/actions/toolsAction";
 
+import AddImageModal from "../AddImageModal";
+
 const ToolStyle = styled.div`
   .toolcard {
     margin-top: 50px;
@@ -34,11 +36,29 @@ const ToolStyle = styled.div`
 `;
 
 class SingleItemPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      uploadModal: false
+    };
+  }
+
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
     this.props.toggleModal();
   };
+  // uploadImage = () => {
+  //   this.props.history.push("/dashboard");
+  //   this._toggleModal();
+  // };
+
+  _toggleModal = () => {
+    this.setState({
+      uploadModal: !this.state.uploadModal
+    });
+  };
+
   render() {
     const { match, tools, history } = this.props;
     //find which id has been clicked
@@ -123,6 +143,12 @@ class SingleItemPage extends Component {
                 <MDBBtn onClick={() => this.handleUpdate(tool)}>
                   EDIT TOOl
                 </MDBBtn>
+                <AddImageModal
+                  toggleModal={this._toggleModal}
+                  uploadModal={this.state.uploadModal}
+                  id={tool.id}
+                />
+                <MDBBtn onClick={this._toggleModal}>UPLOAD IMAGE</MDBBtn>
               </div>
             </MDBCard>
           </MDBRow>
