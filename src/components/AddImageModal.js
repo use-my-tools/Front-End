@@ -39,12 +39,6 @@ class AddImageModal extends Component {
   };
   render() {
     const { loading, isUploading, toggleModal, uploadModal } = this.props;
-    console.log({
-      loading,
-      isUploading,
-      toggleModal,
-      uploadModal
-    });
     return (
       <MDBContainer>
         <MDBModal isOpen={uploadModal} toggle={toggleModal}>

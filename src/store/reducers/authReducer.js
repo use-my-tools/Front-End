@@ -2,7 +2,7 @@ import { USER_LOADING, SET_CURRENT_USER } from "../actions/authAction";
 const isEmpty = require("is-empty");
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   user: {},
   loading: false
 };

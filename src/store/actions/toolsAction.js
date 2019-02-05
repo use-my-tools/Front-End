@@ -14,6 +14,7 @@ export const CLEAR_TOOLINPUTS = "CLEAR_TOOLINPUTS";
 export const HANDLE_UPDATE = "HANDLE_UPDATE";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
+export const GET_DATA_PAG = "GET_DATA_PAG";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
@@ -31,7 +32,26 @@ export const getToolsAction = () => dispatch => {
         current_page
       })
     )
-    .then(() => Alert.success("Successfully Load Items"))
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
+};
+export const getToolsPagination = URLPagination => dispatch => {
+  dispatch(setLoading());
+  axios
+    .get(`${URLPagination}`)
+    .then(({ data: { data } }) =>
+      dispatch({
+        type: GET_DATA_PAG,
+        data
+      })
+    )
     .catch(err => {
       if (err) {
         err.response.data.message && Alert.error(err.response.data.message);

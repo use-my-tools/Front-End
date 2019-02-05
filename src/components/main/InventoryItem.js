@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ManageToolPage from "./ManageToolPage";
+
 import SpinnerPage from "../Spinner";
+import TabsPage from "../Tabpages";
 class InventoryItem extends Component {
   render() {
     return (
@@ -17,7 +18,8 @@ class InventoryItem extends Component {
           </p>
           {/* this is the card */}
           {this.props.loading && <SpinnerPage />}
-          <ManageToolPage />
+          <TabsPage />
+          {/* <ManageToolPage /> */}
         </section>
         {/* adding product */}
       </>

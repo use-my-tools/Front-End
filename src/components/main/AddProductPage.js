@@ -70,7 +70,7 @@ class AddProductPage extends Component {
       category: toolinput.category,
       dailyCost: parseInt(toolinput.dailyCost),
       address: toolinput.address,
-      owner_id: uuid(),
+      owner_id: window.localStorage.getItem("user_id"),
       description: toolinput.description,
       deposit: toolinput.deposit
     };

@@ -6,11 +6,13 @@ import {
   CLEAR_TOOLINPUTS,
   HANDLE_UPDATE,
   TOGGLE_MODAL,
-  UPLOAD_IMAGE
+  UPLOAD_IMAGE,
+  GET_DATA_PAG
 } from "../actions/toolsAction";
 
 const initialState = {
   tools: [],
+  my_tools: [],
   toolinput: {
     name: "",
     brand: "",
@@ -80,11 +82,17 @@ export default function toolsReducer(state = initialState, action) {
         per_page: action.per_page,
         current_page: action.current_page
       };
+    case GET_DATA_PAG:
+      return {
+        ...state,
+        loading: false,
+        tools: action.data
+      };
     case ADD_TOOL_SUCCESS:
       return {
         ...state,
         loading: false,
-        tools: action.data,
+        my_tools: action.data,
         isUpdating: false
       };
     // case SUBMIT_UPDATED:

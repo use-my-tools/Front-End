@@ -1,35 +1,45 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getToolsAction } from "../../store/actions/toolsAction";
-import Pagination from "react-js-pagination";
-// import "bootstrap/scss/utilities/";
-//let nums = this.props.current_page;
-// const PAGES = `https://tools-backend.herokuapp.com/api/tools?count=10&page=${1}`;
-// const URL = `https://tools-backend.herokuapp.com/api/tools`;
+import {
+  getToolsAction,
+  getToolsPagination
+} from "../../store/actions/toolsAction";
+import Pagination from "react-pagination-library";
+import "react-pagination-library/build/css/index.css";
 
 class PaginationPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePage: 1
+      currentPage: this.props.current_page
     };
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentPage !== this.state.currentPage) {
+      this.props.getToolsPagination(
+        `https://tools-backend.herokuapp.com/api/tools?count=10&page=${
+          this.state.currentPage
+        }`
+      );
+    }
   }
   componentDidMount() {
     this.props.getToolsAction();
   }
-  handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    this.setState({ activePage: pageNumber });
-  }
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage });
+  };
   render() {
     return (
-      <Pagination
-        activePage={this.state.activePage}
-        itemsCountPerPage={this.props.per_page}
-        totalItemsCount={this.props.total}
-        pageRangeDisplayed={this.props.last_page}
-        onChange={this.handlePageChange}
-      />
+      <div>
+        <Pagination
+          currentPage={this.state.currentPage}
+          totalPages={this.props.last_page}
+          changeCurrentPage={this.changeCurrentPage}
+          theme="bottom-border"
+        />
+        <h2>current Page:{this.state.currentPage}</h2>
+      </div>
     );
   }
 }
@@ -42,5 +52,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getToolsAction }
+  { getToolsAction, getToolsPagination }
 )(PaginationPage);
