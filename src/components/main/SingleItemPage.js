@@ -23,7 +23,15 @@ import {
 } from "../../store/actions/toolsAction";
 
 import AddImageModal from "../AddImageModal";
-import { Alert } from "react-s-alert";
+import Alert from "react-s-alert";
+import SpinnerPage from "../Spinner";
+import {
+  FloatingMenu,
+  MainButton,
+  ChildButton
+} from "react-floating-button-menu";
+import MdAdd from "@material-ui/icons/Add";
+import MdClose from "@material-ui/icons/Clear";
 
 const ToolStyle = styled.div`
   .toolcard {
@@ -35,33 +43,55 @@ const ToolStyle = styled.div`
   .username {
     font-size: 16px;
   }
+  .add-btn {
+    padding: 40px 0 10px 0;
+    margin-left: -15px;
+    button {
+      border-radius: 50%;
+      outline: none;
+      cursor: pointer;
+    }
+    p {
+      padding-top: 20px;
+    }
+  }
+  img {
+    max-width: 100%;
+  }
+  .add-card {
+    box-sizing: border-box;
+  }
+  .floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 45px;
+    z-index: 99999999999999;
+  }
+  .fa-trash-alt {
+    &:hover {
+      color: red;
+    }
+  }
 `;
 class SingleItemPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       uploadModal: false,
-      singleTools: []
+      singleTools: null,
+      ssOpen: false
     };
   }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.tools !== this.props.tools) {
-      axios
-        .get(
-          `https://tools-backend.herokuapp.com/api/tools${
-            this.props.match.params.id
-          }`
-        )
-        .then(res => this.setState({ singleTools: res.data }))
-        .catch(err => {
-          if (err) {
-            Alert.error(err.response.data.message);
-          }
-        });
-    }
+  componentDidMount() {
+    axios
+      .get(
+        `https://tools-backend.herokuapp.com/api/tools/${
+          this.props.match.params.id
+        }`
+      )
+      .then(res => this.setState({ singleTools: res.data }))
+      .catch(err => Alert.error(err.response.data.message));
   }
-
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
@@ -72,33 +102,81 @@ class SingleItemPage extends Component {
       uploadModal: !this.state.uploadModal
     });
   };
+  _deleteTool = () => {
+    console.log("delte");
+  };
   render() {
-    const { match, tools, history } = this.props;
-    console.log("this.state.singleTools", this.state.singleTools);
-    if (!tools.length) {
+    const { loading } = this.props;
+    const { singleTools } = this.state;
+
+    if (!this.state.singleTools) {
       return (
         <h2 style={{ margin: "335px auto" }}>
           This item is not available right now{" "}
         </h2>
       );
     }
-    const tool = tools.find(
-      ({ id }) => parseInt(id) === parseInt(match.params.id)
-    );
     return (
       <ToolStyle>
         <MDBContainer>
+          {loading && <SpinnerPage />}
+          <AddImageModal
+            toggleModal={this._toggleModal}
+            uploadModal={this.state.uploadModal}
+            id={singleTools.id}
+          />
+          <FloatingMenu
+            slideSpeed={500}
+            direction="up"
+            spacing={8}
+            isOpen={this.state.ssOpen}
+            className="floating-btn"
+          >
+            <MainButton
+              iconResting={
+                <MdAdd style={{ fontSize: 20 }} nativeColor="white" />
+              }
+              iconActive={
+                <MdClose style={{ fontSize: 20 }} nativeColor="white" />
+              }
+              backgroundColor="#0070F7"
+              onClick={() => this.setState({ ssOpen: !this.state.ssOpen })}
+              size={56}
+            />
+            <ChildButton
+              icon={<i className="fas fa-trash-alt" />}
+              backgroundColor="white"
+              size={40}
+              onClick={this._deleteTool}
+            />
+            <ChildButton
+              icon={<i className="far fa-edit" />}
+              backgroundColor="white"
+              size={40}
+              onClick={() => this.handleUpdate(singleTools)}
+            />
+            <ChildButton
+              icon={<i className="fas fa-upload" />}
+              backgroundColor="white"
+              size={40}
+              onClick={this._toggleModal}
+            />
+          </FloatingMenu>
           <MDBRow>
             <MDBCol
               lg="6"
               md="6"
               className="col-md-6 mb-6 toolcard"
-              key={tool.id}
+              key={singleTools.id}
             >
-              <Link to={`/tools/${tool.id}`}>
+              <Link to={`/tools/${singleTools.id}`}>
                 <MDBCard className="align-items-center">
                   <MDBCardImage
-                    src={!tool.images.length ? tool10 : tool.images[0].url}
+                    src={
+                      !singleTools.images.length
+                        ? tool10
+                        : singleTools.images[0].url
+                    }
                     top
                     alt="sample photo"
                     overlay="white-slight"
@@ -111,7 +189,7 @@ class SingleItemPage extends Component {
                       <strong>
                         <span href="#!" className="dark-grey-text">
                           1/3-Sheet Finishing Sander (6894)
-                          {tool.id % 2 === 0 ? (
+                          {singleTools.id % 2 === 0 ? (
                             <MDBBadge pill color="primary">
                               BEST
                             </MDBBadge>
@@ -130,40 +208,6 @@ class SingleItemPage extends Component {
                 </MDBCard>
               </Link>
             </MDBCol>
-
-            {/* rightside */}
-            <MDBCard
-              lg="6"
-              md="6"
-              className="card-body"
-              style={{ marginTop: "3rem" }}
-            >
-              <img
-                src={window.localStorage.getItem("image_url")}
-                className="rounded-circle z-depth-0 avatar"
-                style={{ height: "60px", width: "60px", padding: 0 }}
-                alt="avatar"
-              />
-              <MDBCardTitle className="text-right mt-4 username">
-                {window.localStorage.getItem("username")}
-              </MDBCardTitle>
-
-              <div className="text-right mt-4">
-                {/* buttons go back and add */}
-                <MDBBtn color="unique" onClick={() => history.goBack()}>
-                  Back
-                </MDBBtn>
-                <MDBBtn onClick={() => this.handleUpdate(tool)}>
-                  EDIT TOOl
-                </MDBBtn>
-                <AddImageModal
-                  toggleModal={this._toggleModal}
-                  uploadModal={this.state.uploadModal}
-                  id={tool.id}
-                />
-                <MDBBtn onClick={this._toggleModal}>UPLOAD IMAGE</MDBBtn>
-              </div>
-            </MDBCard>
           </MDBRow>
 
           <MDBRow>
@@ -214,7 +258,8 @@ class SingleItemPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  tools: state.toolsReducer.tools
+  tools: state.toolsReducer.tools,
+  loading: state.toolsReducer.loading
 });
 
 export default connect(

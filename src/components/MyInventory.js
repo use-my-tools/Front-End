@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
+import axios from "axios";
 import {
   MDBRow,
   MDBCol,
@@ -13,6 +14,7 @@ import {
 import tool10 from "../assets/tool10.jpg";
 import { toggleModal, clearInputsAction } from "../store/actions/toolsAction";
 import styled from "styled-components";
+import SpinnerPage from "./Spinner";
 
 const MyInvStyle = styled.div`
   .pagination {
@@ -53,22 +55,37 @@ const MyInvStyle = styled.div`
 `;
 
 class MyInventory extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInv: null
+    };
+  }
+  componentDidMount() {
+    axios
+      .get(
+        `https://tools-backend.herokuapp.com/api/tools/user/${window.localStorage.getItem(
+          "user_id"
+        )}`
+      )
+      .then(res =>
+        this.setState({
+          userInv: res.data
+        })
+      );
+  }
   render() {
-    const { tools } = this.props;
-    const filteredInvs = tools.filter(
-      tool => tool.owner_id === window.localStorage.getItem("user_id")
-    );
-    if (!filteredInvs.length) {
+    const { userInv } = this.state;
+    if (!userInv) {
       return <h5>There is Currently no item in Inventory </h5>;
     }
-    console.log("filteredInvs", filteredInvs);
-
     return (
       <MyInvStyle>
         <MDBRow>
+          {this.props.loading && <SpinnerPage />}
           <div className="container">
-            {filteredInvs &&
-              filteredInvs.map(tool => {
+            {userInv &&
+              userInv.map(tool => {
                 return (
                   <MDBCol
                     md="6"
@@ -131,7 +148,8 @@ class MyInventory extends Component {
 }
 const mapStateToProps = state => ({
   tools: state.toolsReducer.tools,
-  modal: state.toolsReducer.modal
+  modal: state.toolsReducer.modal,
+  loading: state.toolsReducer.loading
 });
 export default connect(
   mapStateToProps,
