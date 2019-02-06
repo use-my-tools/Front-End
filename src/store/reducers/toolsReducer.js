@@ -8,7 +8,8 @@ import {
   TOGGLE_MODAL,
   UPLOAD_IMAGE,
   GET_DATA_PAG,
-  DELETE_SUCCESS
+  DELETE_SUCCESS,
+  SUBMIT_UPDATED
 } from "../actions/toolsAction";
 
 const initialState = {

@@ -15,7 +15,8 @@ import {
   addToolsAction,
   clearInputsAction,
   handleChange,
-  toggleModal
+  toggleModal,
+  submitUpdatedToolAction
 } from "../../store/actions/toolsAction";
 import Alert from "react-s-alert";
 import { withRouter } from "react-router-dom";
@@ -57,11 +58,15 @@ class AddProductPage extends Component {
       Alert.error("All field are required");
       return;
     }
-    this.addTools();
+    if (this.props.isUpdating) {
+      this._submitUpdated();
+    } else {
+      this._addTools();
+    }
     this.props.clearInputsAction();
     this.props.toggleModal();
   };
-  addTools = () => {
+  _addTools = () => {
     const { toolinput } = this.props;
     const newpost = {
       name: toolinput.name,
@@ -74,6 +79,20 @@ class AddProductPage extends Component {
       deposit: toolinput.deposit
     };
     this.props.addToolsAction(newpost);
+  };
+  _submitUpdated = () => {
+    const { toolinput } = this.props;
+    const updatedTool = {
+      name: toolinput.name,
+      brand: toolinput.brand,
+      category: toolinput.category,
+      dailyCost: toolinput.dailyCost,
+      address: toolinput.address,
+      owner_id: toolinput.owner_id,
+      description: toolinput.description,
+      deposit: toolinput.deposit
+    };
+    this.props.submitUpdatedToolAction(updatedTool, this.props.currentToolId);
   };
   render() {
     const { toggle, modal, toolinput, handleChange, isUpdating } = this.props;
@@ -187,7 +206,7 @@ const mapStateToProps = state => ({
   tools: state.toolsReducer.tools,
   toolinput: state.toolsReducer.toolinput,
   isUpdating: state.toolsReducer.isUpdating,
-  isUploading: state.toolsReducer.isUploading,
+  currentToolId: state.toolsReducer.currentToolId,
   loading: state.toolsReducer.loading,
   user_id: state.auth.user.user.id
 });
@@ -197,6 +216,7 @@ export default connect(
     addToolsAction,
     clearInputsAction,
     handleChange,
-    toggleModal
+    toggleModal,
+    submitUpdatedToolAction
   }
 )(withRouter(AddProductPage));

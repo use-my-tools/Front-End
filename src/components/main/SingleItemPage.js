@@ -129,6 +129,7 @@ class SingleItemPage extends Component {
         </h2>
       );
     }
+
     return (
       <ToolStyle>
         <MDBContainer>
@@ -161,7 +162,12 @@ class SingleItemPage extends Component {
               icon={<i className="fas fa-trash-alt" />}
               backgroundColor="white"
               size={40}
-              onClick={this._deleteTool}
+              onClick={() => {
+                if (
+                  window.confirm("Are you sure you wish to delete this too 🛠 ?")
+                )
+                  this._deleteTool();
+              }}
             />
             <ChildButton
               icon={<i className="far fa-edit" />}

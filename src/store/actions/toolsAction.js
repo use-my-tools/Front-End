@@ -142,22 +142,10 @@ export const handleUpdateAction = tool => {
     tool
   };
 };
-export const submitUpdatedToolAction = tool => dispatch => {
-  const updatedTool = {
-    name: tool.name,
-    brand: tool.brand,
-    category: tool.category,
-    dailyCost: tool.dailyCost,
-    address: tool.address,
-    owner_id: tool.owner_id,
-    description: tool.description,
-    deposit: tool.deposit,
-    isAvailable: tool.isAvailable,
-    rating: tool.rating
-  };
+export const submitUpdatedToolAction = (tool, id) => dispatch => {
   dispatch(setLoading());
   axios
-    .put(`${URL}/${tool.id}`, updatedTool)
+    .put(`${URL}/${id}`, tool)
     .then(res =>
       dispatch({
         type: SUBMIT_UPDATED,
