@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
+import StarRatingComponent from "react-star-rating-component";
+
 import {
   MDBCol,
   MDBCard,
@@ -20,7 +22,8 @@ import {
   handleUpdateAction,
   toggleModal,
   clearInputsAction,
-  deleteToolsAction
+  deleteToolsAction,
+  addReviewsAction
 } from "../../store/actions/toolsAction";
 
 import AddImageModal from "../AddImageModal";
@@ -84,15 +87,39 @@ const ToolStyle = styled.div`
     }
   }
 `;
+
 class SingleItemPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       uploadModal: false,
       singleTools: null,
-      ssOpen: false
+      ssOpen: false,
+      for_user: "",
+      stars: 0,
+      review: ""
     };
   }
+
+  _reviewHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  onStarClick = nextValue => {
+    this.setState({ stars: nextValue });
+  };
+  _submitReview = (e, user_id) => {
+    e.preventDefault();
+    const reviews = {
+      for_user: user_id,
+      stars: this.state.stars,
+      review: this.state.review
+    };
+    console.log(reviews);
+    this.props.addReviewsAction(reviews);
+  };
+
   componentDidMount() {
     axios
       .get(
@@ -121,7 +148,6 @@ class SingleItemPage extends Component {
   render() {
     const { loading, user_id } = this.props;
     const { singleTools } = this.state;
-
     if (!singleTools) {
       return (
         <h2 style={{ margin: "335px auto" }}>
@@ -266,10 +292,33 @@ class SingleItemPage extends Component {
           <MDBRow>
             <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
               <MDBCardTitle>Review</MDBCardTitle>
-              <MDBCardText>
+              <div>
+                <form onSubmit={e => this._submitReview(e, singleTools.id)}>
+                  <StarRatingComponent
+                    name="stars"
+                    editing={true}
+                    renderStarIcon={() => (
+                      <i className="fa fa-star" aria-hidden="true" />
+                    )}
+                    starCount={5}
+                    onStarClick={this.onStarClick}
+                    value={this.state.stars}
+                  />
+                  <input
+                    type="text"
+                    onChange={this._reviewHandler}
+                    name="review"
+                    value={this.state.review}
+                    placeholder="leave a review"
+                  />
+                  <button type="submit">submit</button>
+                </form>
+              </div>
+              <div>reviews here</div>
+              {/* <MDBCardText>
                 Some quick example text to build on the panel title and make up
                 the bulk of the panel's content.
-              </MDBCardText>
+              </MDBCardText> */}
             </MDBCard>
           </MDBRow>
         </MDBContainer>
@@ -286,5 +335,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { handleUpdateAction, toggleModal, clearInputsAction, deleteToolsAction }
+  {
+    handleUpdateAction,
+    toggleModal,
+    clearInputsAction,
+    deleteToolsAction,
+    addReviewsAction
+  }
 )(withRouter(SingleItemPage));

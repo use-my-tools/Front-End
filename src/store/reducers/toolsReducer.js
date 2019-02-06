@@ -9,12 +9,14 @@ import {
   UPLOAD_IMAGE,
   GET_DATA_PAG,
   DELETE_SUCCESS,
-  SUBMIT_UPDATED
+  SUBMIT_UPDATED,
+  POST_REVIEWS_SUCCESS
 } from "../actions/toolsAction";
 
 const initialState = {
   tools: [],
   updatedResponse: [],
+  reviews: [],
   toolinput: {
     name: "",
     brand: "",
@@ -94,13 +96,20 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        isUpdating: false
+        isUpdating: false,
+        updatedResponse: action.data
+      };
+    case POST_REVIEWS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdating: false,
+        reviews: action.data
       };
     case DELETE_SUCCESS:
       return {
         ...state,
-        loading: false,
-        isUpdating: false
+        loading: false
       };
     case SUBMIT_UPDATED:
       return {

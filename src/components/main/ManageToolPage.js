@@ -69,7 +69,6 @@ class ManageToolPage extends Component {
       isOpen: false
     };
   }
-
   addTool = () => {
     this.props.toggleModal();
     this.props.clearInputsAction();

@@ -16,10 +16,11 @@ export const HANDLE_UPDATE = "HANDLE_UPDATE";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 export const GET_DATA_PAG = "GET_DATA_PAG";
+export const POST_REVIEWS_SUCCESS = "POST_REVIEWS_SUCCESS";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
+const REVIEWS = `https://tools-backend.herokuapp.com/api/reviews`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
-
 export const getToolsAction = () => dispatch => {
   dispatch(setLoading());
   axios
@@ -68,10 +69,10 @@ export const addToolsAction = newpost => dispatch => {
   dispatch(setLoading());
   axios
     .post(`${URL}`, newpost)
-    .then(({ data: { data } }) =>
+    .then(res =>
       dispatch({
         type: ADD_TOOL_SUCCESS,
-        data
+        data: res.data
       })
     )
     .then(() => Alert.success("Successfully added Tool"))
@@ -86,6 +87,28 @@ export const addToolsAction = newpost => dispatch => {
       }
     });
 };
+export const addReviewsAction = reviews => dispatch => {
+  dispatch(setLoading());
+  axios
+    .post(`${REVIEWS}`, reviews)
+    .then(res =>
+      dispatch({
+        type: POST_REVIEWS_SUCCESS,
+        data: res.data
+      })
+    )
+    .then(() => Alert.success("Successfully added Review"))
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
+};
+
 export const deleteToolsAction = id => dispatch => {
   dispatch(setLoading());
   axios
