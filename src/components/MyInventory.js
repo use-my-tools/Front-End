@@ -15,6 +15,7 @@ import tool10 from "../assets/tool10.jpg";
 import { toggleModal, clearInputsAction } from "../store/actions/toolsAction";
 import styled from "styled-components";
 import SpinnerPage from "./Spinner";
+import Alert from "react-s-alert";
 
 const MyInvStyle = styled.div`
   .pagination {
@@ -74,6 +75,7 @@ class MyInventory extends Component {
         })
       );
   }
+
   render() {
     const { userInv } = this.state;
     if (!userInv) {
@@ -100,6 +102,7 @@ class MyInventory extends Component {
                     >
                       <MDBCard className="align-items-center">
                         <MDBCardImage
+                          style={{ maxWidth: 300 }}
                           src={
                             !tool.images.length ? tool10 : tool.images[0].url
                           }

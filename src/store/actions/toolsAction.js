@@ -17,6 +17,7 @@ export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 export const GET_DATA_PAG = "GET_DATA_PAG";
 export const POST_REVIEWS_SUCCESS = "POST_REVIEWS_SUCCESS";
+export const GET_SINGLE_SUCCESS = "GET_SINGLE_SUCCESS";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const REVIEWS = `https://tools-backend.herokuapp.com/api/reviews`;
@@ -88,13 +89,15 @@ export const addToolsAction = newpost => dispatch => {
     });
 };
 export const addReviewsAction = reviews => dispatch => {
+  console.log("reviews", reviews);
+
   dispatch(setLoading());
   axios
     .post(`${REVIEWS}`, reviews)
-    .then(res =>
+    .then(({ data: { data } }) =>
       dispatch({
         type: POST_REVIEWS_SUCCESS,
-        data: res.data
+        data
       })
     )
     .then(() => Alert.success("Successfully added Review"))

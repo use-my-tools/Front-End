@@ -106,6 +106,7 @@ export default function toolsReducer(state = initialState, action) {
         isUpdating: false,
         reviews: action.data
       };
+
     case DELETE_SUCCESS:
       return {
         ...state,

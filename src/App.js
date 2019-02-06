@@ -69,7 +69,7 @@ class App extends Component {
             <Route component={NoMatchFound} />
           </Switch>
         </MDBContainer>
-        <FooterPage />
+        {/* <FooterPage /> */}
         <Alert
           //stack={{ limit: 3 }}
           stack={{ limit: 3, spacing: 50 }}

@@ -86,6 +86,11 @@ const ToolStyle = styled.div`
       color: blueviolet;
     }
   }
+  .reviews {
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+  }
 `;
 
 class SingleItemPage extends Component {
@@ -97,7 +102,8 @@ class SingleItemPage extends Component {
       ssOpen: false,
       for_user: "",
       stars: 0,
-      review: ""
+      review: "",
+      reviews: null
     };
   }
 
@@ -116,7 +122,6 @@ class SingleItemPage extends Component {
       stars: this.state.stars,
       review: this.state.review
     };
-    console.log(reviews);
     this.props.addReviewsAction(reviews);
   };
 
@@ -129,7 +134,12 @@ class SingleItemPage extends Component {
       )
       .then(res => this.setState({ singleTools: res.data }))
       .catch(err => Alert.error(err.response.data.message));
+    axios
+      .get(`https://tools-backend.herokuapp.com/api/users/2`)
+      .then(res => this.setState({ reviews: res.data }))
+      .catch(err => Alert.error(err.response.data.message));
   }
+
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
@@ -147,7 +157,7 @@ class SingleItemPage extends Component {
   };
   render() {
     const { loading, user_id } = this.props;
-    const { singleTools } = this.state;
+    const { singleTools, reviews } = this.state;
     if (!singleTools) {
       return (
         <h2 style={{ margin: "335px auto" }}>
@@ -155,7 +165,7 @@ class SingleItemPage extends Component {
         </h2>
       );
     }
-
+    console.log(reviews);
     return (
       <ToolStyle>
         <MDBContainer>
@@ -218,6 +228,7 @@ class SingleItemPage extends Component {
               <Link to={`/tools/${singleTools.id}`}>
                 <MDBCard className="align-items-center">
                   <MDBCardImage
+                    style={{ maxWidth: 300 }}
                     src={
                       !singleTools.images.length
                         ? tool10
@@ -256,9 +267,11 @@ class SingleItemPage extends Component {
               </Link>
             </MDBCol>
           </MDBRow>
-
           <MDBRow>
-            <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
+            <MDBCard
+              className="card-body"
+              style={{ marginTop: "1rem", minHeight: 450, maxHeight: 450 }}
+            >
               <MDBCardTitle>Location</MDBCardTitle>
               <MDBCardText style={{ height: "100%" }}>
                 <span
@@ -278,7 +291,6 @@ class SingleItemPage extends Component {
               </MDBCardText>
             </MDBCard>
           </MDBRow>
-
           <MDBRow>
             <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
               <MDBCardTitle>Notes</MDBCardTitle>
@@ -290,10 +302,15 @@ class SingleItemPage extends Component {
           </MDBRow>
 
           <MDBRow>
-            <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
+            <MDBCard
+              className="card-body"
+              style={{ marginTop: "1rem", marginBottom: 100 }}
+            >
               <MDBCardTitle>Review</MDBCardTitle>
               <div>
-                <form onSubmit={e => this._submitReview(e, singleTools.id)}>
+                <form
+                  onSubmit={e => this._submitReview(e, singleTools.owner_id)}
+                >
                   <StarRatingComponent
                     name="stars"
                     editing={true}
@@ -304,21 +321,41 @@ class SingleItemPage extends Component {
                     onStarClick={this.onStarClick}
                     value={this.state.stars}
                   />
+
                   <input
                     type="text"
                     onChange={this._reviewHandler}
                     name="review"
                     value={this.state.review}
                     placeholder="leave a review"
+                    className="form-control"
                   />
-                  <button type="submit">submit</button>
+                  <button type="submit" className="btn btn-primary">
+                    submit
+                  </button>
                 </form>
               </div>
-              <div>reviews here</div>
-              {/* <MDBCardText>
-                Some quick example text to build on the panel title and make up
-                the bulk of the panel's content.
-              </MDBCardText> */}
+              <div>
+                reviews here
+                {!reviews && <p>no reviews</p>}
+                <div>
+                  {reviews &&
+                    reviews.reviews.map((x, idx) => (
+                      <MDBCard key={idx} className="reviews">
+                        <p>{x.review}</p>
+                        <StarRatingComponent
+                          name="rate2"
+                          editing={false}
+                          renderStarIcon={() => (
+                            <i className="fa fa-star" aria-hidden="true" />
+                          )}
+                          starCount={5}
+                          value={x.stars}
+                        />
+                      </MDBCard>
+                    ))}
+                </div>
+              </div>
             </MDBCard>
           </MDBRow>
         </MDBContainer>
@@ -329,6 +366,7 @@ class SingleItemPage extends Component {
 
 const mapStateToProps = state => ({
   tools: state.toolsReducer.tools,
+  reviews: state.toolsReducer.reviews,
   loading: state.toolsReducer.loading,
   user_id: state.auth.user.user.id
 });
