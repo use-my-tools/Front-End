@@ -56,8 +56,13 @@ class MyInventory extends Component {
   render() {
     const { tools } = this.props;
     const filteredInvs = tools.filter(
-      tool => tool.owner_id !== window.localStorage.getItem("user_id")
+      tool => tool.owner_id === window.localStorage.getItem("user_id")
     );
+    if (!filteredInvs.length) {
+      return <h5>There is Currently no item in Inventory </h5>;
+    }
+    console.log("filteredInvs", filteredInvs);
+
     return (
       <MyInvStyle>
         <MDBRow>
@@ -124,12 +129,10 @@ class MyInventory extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   tools: state.toolsReducer.tools,
   modal: state.toolsReducer.modal
 });
-
 export default connect(
   mapStateToProps,
   { toggleModal, clearInputsAction }

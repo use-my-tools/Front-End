@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import axios from "axios";
 import {
   MDBCol,
   MDBCard,
@@ -22,6 +23,7 @@ import {
 } from "../../store/actions/toolsAction";
 
 import AddImageModal from "../AddImageModal";
+import { Alert } from "react-s-alert";
 
 const ToolStyle = styled.div`
   .toolcard {
@@ -34,14 +36,32 @@ const ToolStyle = styled.div`
     font-size: 16px;
   }
 `;
-
 class SingleItemPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uploadModal: false
+      uploadModal: false,
+      singleTools: []
     };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.tools !== this.props.tools) {
+      axios
+        .get(
+          `https://tools-backend.herokuapp.com/api/tools${
+            this.props.match.params.id
+          }`
+        )
+        .then(res => this.setState({ singleTools: res.data }))
+        .catch(err => {
+          if (err) {
+            Alert.error(err.response.data.message);
+          }
+        });
+    }
+  }
+
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
@@ -52,9 +72,9 @@ class SingleItemPage extends Component {
       uploadModal: !this.state.uploadModal
     });
   };
-
   render() {
     const { match, tools, history } = this.props;
+    console.log("this.state.singleTools", this.state.singleTools);
     if (!tools.length) {
       return (
         <h2 style={{ margin: "335px auto" }}>
@@ -149,9 +169,21 @@ class SingleItemPage extends Component {
           <MDBRow>
             <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
               <MDBCardTitle>Location</MDBCardTitle>
-              <MDBCardText>
-                Some quick example text to build on the panel title and make up
-                the bulk of the panel's content.
+              <MDBCardText style={{ height: "100%" }}>
+                <span
+                  id="map-container"
+                  className="rounded z-depth-1-half map-container"
+                  style={{ height: "400px" }}
+                >
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d76765.98321148289!2d-73.96694563267306!3d40.751663750099084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spl!2spl!4v1525939514494"
+                    title="This is a unique title"
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    style={{ border: 0 }}
+                  />
+                </span>
               </MDBCardText>
             </MDBCard>
           </MDBRow>

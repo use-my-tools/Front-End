@@ -35,7 +35,7 @@ class AddImageModal extends Component {
   };
   _cancelUpload = () => {
     this.props.toggleModal();
-    Alert.info("Cancel Uploading Image");
+    Alert.warning("Cancel Uploading Image");
   };
   render() {
     const { loading, isUploading, toggleModal, uploadModal } = this.props;

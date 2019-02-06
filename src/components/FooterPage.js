@@ -3,9 +3,13 @@ import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
 import styled from "styled-components";
 
 const FooterStyle = styled.div`
+  /* position: absolute;
+  bottom: 0;
+  width: 100%; */
+  /*
   padding-top: 60px;
   margin-top: 90px;
-  border: 1px solid red;
+  border: 1px solid red; */
 `;
 
 const FooterPage = () => {

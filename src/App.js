@@ -16,6 +16,22 @@ import Register from "./container/Register";
 import Landing from "./components/main/Landing";
 import PrivateRoute from "./components/PrivateRoute";
 import SingleItemPage from "./components/main/SingleItemPage";
+import styled from "styled-components";
+
+const AppStyle = styled.div`
+  /* html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  .main {
+    padding-bottom: 100px;
+    border: 1px solid red;
+    position: relative;
+  } */
+`;
 
 //check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -38,9 +54,9 @@ const NoMatchFound = () => <h1>No Match Found</h1>;
 class App extends Component {
   render() {
     return (
-      <React.Fragment>
+      <AppStyle>
         <NavbarPage />
-        <MDBContainer>
+        <MDBContainer className="main">
           <Switch>
             <Route path="/pricing" component={PricingPage} />
             <Route path="/contact" component={ContactPage} />
@@ -60,7 +76,7 @@ class App extends Component {
           position="top-right"
           effect="slide"
         />
-      </React.Fragment>
+      </AppStyle>
     );
   }
 }
