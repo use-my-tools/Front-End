@@ -4,8 +4,7 @@ import ManageToolPage from "../components/main/ManageToolPage";
 import styled from "styled-components";
 import MyInventory from "./MyInventory";
 import Alert from "react-s-alert";
-import Map from "./Map";
-
+import GoogleMapsContainer from "./map/GoogleMapsContainer";
 const TabPageStyle = styled.div``;
 
 class Tabpages extends Component {
@@ -20,7 +19,7 @@ class Tabpages extends Component {
             <MyInventory />
           </Tab>
           <Tab label="MAP">
-            <Map />
+            <GoogleMapsContainer />
           </Tab>
         </Tabs>
       </TabPageStyle>
