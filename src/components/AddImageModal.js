@@ -24,6 +24,7 @@ class AddImageModal extends Component {
       selectedFile: null
     };
   }
+
   fileChangedHandler = e => {
     const file = e.target.files[0];
     this.setState({ selectedFile: file });
@@ -31,7 +32,6 @@ class AddImageModal extends Component {
   _sendImage = () => {
     this.props.uploadImageAction(this.state.selectedFile, this.props.id);
     this.props.toggleModal();
-    this.props.history.push("/dashboard");
   };
   _cancelUpload = () => {
     this.props.toggleModal();

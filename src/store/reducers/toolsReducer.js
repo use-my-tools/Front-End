@@ -7,12 +7,13 @@ import {
   HANDLE_UPDATE,
   TOGGLE_MODAL,
   UPLOAD_IMAGE,
-  GET_DATA_PAG
+  GET_DATA_PAG,
+  DELETE_SUCCESS
 } from "../actions/toolsAction";
 
 const initialState = {
   tools: [],
-  my_tools: [],
+  updatedResponse: [],
   toolinput: {
     name: "",
     brand: "",
@@ -92,28 +93,21 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        my_tools: action.data,
         isUpdating: false
       };
-    // case SUBMIT_UPDATED:
-
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     toolinput: {
-    //       name: state.toolinput.name,
-    //       brand: state.toolinput.brand,
-    //       category: state.toolinput.category,
-    //       dailyCost: state.toolinput.dailyCost,
-    //       address: state.toolinput.address,
-    //       owner_id: state.toolinput.owner_id,
-    //       description: state.toolinput.description,
-    //       deposit: state.toolinput.deposit,
-    //       isAvailable: state.toolinput.isAvailable,
-    //       rating: state.toolinput.rating
-    //     },
-    //     isUpdating: false
-    //   };
+    case DELETE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdating: false
+      };
+    case SUBMIT_UPDATED:
+      return {
+        ...state,
+        loading: false,
+        isUpdating: false,
+        updatedResponse: action.data
+      };
     case HANDLE_UPDATE:
       return {
         ...state,

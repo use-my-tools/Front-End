@@ -19,7 +19,8 @@ import { Link, withRouter } from "react-router-dom";
 import {
   handleUpdateAction,
   toggleModal,
-  clearInputsAction
+  clearInputsAction,
+  deleteToolsAction
 } from "../../store/actions/toolsAction";
 
 import AddImageModal from "../AddImageModal";
@@ -72,6 +73,16 @@ const ToolStyle = styled.div`
       color: red;
     }
   }
+  .fa-upload {
+    &:hover {
+      color: orange;
+    }
+  }
+  .fa-edit {
+    &:hover {
+      color: blueviolet;
+    }
+  }
 `;
 class SingleItemPage extends Component {
   constructor(props) {
@@ -103,13 +114,15 @@ class SingleItemPage extends Component {
     });
   };
   _deleteTool = () => {
-    console.log("delte");
+    const { singleTools } = this.state;
+    this.props.deleteToolsAction(singleTools.id);
+    this.props.history.push("/dashboard");
   };
   render() {
-    const { loading } = this.props;
+    const { loading, user_id } = this.props;
     const { singleTools } = this.state;
 
-    if (!this.state.singleTools) {
+    if (!singleTools) {
       return (
         <h2 style={{ margin: "335px auto" }}>
           This item is not available right now{" "}
@@ -133,6 +146,7 @@ class SingleItemPage extends Component {
             className="floating-btn"
           >
             <MainButton
+              hidden={user_id !== singleTools.owner_id ? true : false}
               iconResting={
                 <MdAdd style={{ fontSize: 20 }} nativeColor="white" />
               }
@@ -164,9 +178,9 @@ class SingleItemPage extends Component {
           </FloatingMenu>
           <MDBRow>
             <MDBCol
-              lg="6"
-              md="6"
-              className="col-md-6 mb-6 toolcard"
+              lg="12"
+              md="4"
+              className="col-md-6 mb-4 toolcard"
               key={singleTools.id}
             >
               <Link to={`/tools/${singleTools.id}`}>
@@ -181,6 +195,7 @@ class SingleItemPage extends Component {
                     alt="sample photo"
                     overlay="white-slight"
                   />
+
                   <MDBCardBody className="text-center">
                     <span href="#!" className="grey-text">
                       <h5>Sheet Finishing Sander</h5>
@@ -259,10 +274,11 @@ class SingleItemPage extends Component {
 
 const mapStateToProps = state => ({
   tools: state.toolsReducer.tools,
-  loading: state.toolsReducer.loading
+  loading: state.toolsReducer.loading,
+  user_id: state.auth.user.user.id
 });
 
 export default connect(
   mapStateToProps,
-  { handleUpdateAction, toggleModal, clearInputsAction }
+  { handleUpdateAction, toggleModal, clearInputsAction, deleteToolsAction }
 )(withRouter(SingleItemPage));

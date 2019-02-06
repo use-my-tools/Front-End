@@ -4,11 +4,12 @@ import FormData from "form-data";
 export const GET_ERRORS = "GET_ERRORS";
 export const LOADING = "LOADING";
 
+///form CRUD met
 export const GET_TOOL_SUCCESS = "GET_TOOL_SUCCESS";
 export const ADD_TOOL_SUCCESS = "ADD_TOOL_SUCCESS";
 export const SUBMIT_UPDATED = "SUBMIT_UPDATED";
+export const DELETE_SUCCESS = "DELETE_SUCCESS";
 
-///form CRUD met
 export const HANDLE_CHANGE = "HANDLE_CHANGE";
 export const CLEAR_TOOLINPUTS = "CLEAR_TOOLINPUTS";
 export const HANDLE_UPDATE = "HANDLE_UPDATE";
@@ -18,6 +19,7 @@ export const GET_DATA_PAG = "GET_DATA_PAG";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
+
 export const getToolsAction = () => dispatch => {
   dispatch(setLoading());
   axios
@@ -73,6 +75,7 @@ export const addToolsAction = newpost => dispatch => {
       })
     )
     .then(() => Alert.success("Successfully added Tool"))
+    .then(() => Alert.info("Check out your inventory to add image"))
     .catch(err => {
       if (err) {
         err.response.data.message && Alert.error(err.response.data.message);
@@ -83,6 +86,27 @@ export const addToolsAction = newpost => dispatch => {
       }
     });
 };
+export const deleteToolsAction = id => dispatch => {
+  dispatch(setLoading());
+  axios
+    .delete(`${URL}/${id}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_SUCCESS
+      })
+    )
+    .then(() => Alert.success("Successfully deleted Tool"))
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
+};
+//bandaid fixed to reload page since we don't get the res back
 export const uploadImageAction = (file, id) => dispatch => {
   if (!file) {
     Alert.error("Please provide an image");
@@ -94,11 +118,13 @@ export const uploadImageAction = (file, id) => dispatch => {
   formData.append("tool_id", id);
   axios
     .post(`${IMAGE}`, formData)
-    .then(({ data: { data } }) =>
+    .then(res =>
       dispatch({
-        type: UPLOAD_IMAGE
+        type: UPLOAD_IMAGE,
+        data: res.data
       })
     )
+    .then(() => window.location.reload())
     .then(() => Alert.success("Successfully Uploaded Image"))
     .catch(err => {
       if (err) {
@@ -110,12 +136,44 @@ export const uploadImageAction = (file, id) => dispatch => {
       }
     });
 };
-//CRUD form actions
 export const handleUpdateAction = tool => {
   return {
     type: HANDLE_UPDATE,
     tool
   };
+};
+export const submitUpdatedToolAction = tool => dispatch => {
+  const updatedTool = {
+    name: tool.name,
+    brand: tool.brand,
+    category: tool.category,
+    dailyCost: tool.dailyCost,
+    address: tool.address,
+    owner_id: tool.owner_id,
+    description: tool.description,
+    deposit: tool.deposit,
+    isAvailable: tool.isAvailable,
+    rating: tool.rating
+  };
+  dispatch(setLoading());
+  axios
+    .put(`${URL}/${tool.id}`, updatedTool)
+    .then(res =>
+      dispatch({
+        type: SUBMIT_UPDATED,
+        data: res.data
+      })
+    )
+    .then(() => Alert.success("Successfully Updated Tool"))
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
 };
 export const toggleModal = () => {
   return {

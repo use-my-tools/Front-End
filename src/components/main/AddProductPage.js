@@ -11,7 +11,6 @@ import {
 } from "mdbreact";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import uuid from "uuid";
 import {
   addToolsAction,
   clearInputsAction,
@@ -70,7 +69,7 @@ class AddProductPage extends Component {
       category: toolinput.category,
       dailyCost: parseInt(toolinput.dailyCost),
       address: toolinput.address,
-      owner_id: window.localStorage.getItem("user_id"),
+      owner_id: this.props.user_id,
       description: toolinput.description,
       deposit: toolinput.deposit
     };
@@ -189,7 +188,8 @@ const mapStateToProps = state => ({
   toolinput: state.toolsReducer.toolinput,
   isUpdating: state.toolsReducer.isUpdating,
   isUploading: state.toolsReducer.isUploading,
-  loading: state.toolsReducer.loading
+  loading: state.toolsReducer.loading,
+  user_id: state.auth.user.user.id
 });
 export default connect(
   mapStateToProps,
