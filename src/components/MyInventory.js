@@ -76,8 +76,8 @@ class MyInventory extends Component {
       );
   }
   render() {
-    const { userInv } = this.state;
-    if (!userInv) {
+    const { userInv, loading } = this.state;
+    if (loading) {
       return <h5>There is Currently no item in Inventory </h5>;
     }
     return (

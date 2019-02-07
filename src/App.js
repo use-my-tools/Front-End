@@ -52,7 +52,7 @@ class App extends Component {
             <Route path="/tools/:id" component={SingleItemPage} />
             {/* created HOC for private route and have check inside navbar to hide dashboard if it's not authenticated */}
             <PrivateRoute path="/dashboard" component={InventoryItem} />
-            <Route path="/" component={Landing} />
+            {/* <Route path="/" component={Landing} /> */}
             <Route component={NoMatchFound} />
           </Switch>
         </MDBContainer>

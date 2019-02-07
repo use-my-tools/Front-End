@@ -48,7 +48,7 @@ const ManageToolStyle = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     .card {
-      min-height: 300px;
+      min-height: 340px;
       max-height: 300px;
     }
   }

@@ -97,10 +97,10 @@ export const addToolsAction = newpost => dispatch => {
   dispatch(setLoading());
   axios
     .post(`${URL}`, newpost)
-    .then(res =>
+    .then(({ data: { data } }) =>
       dispatch({
         type: ADD_TOOL_SUCCESS,
-        data: res.data
+        data
       })
     )
     .then(() => Alert.success("Successfully added Tool"))

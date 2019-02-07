@@ -11,32 +11,24 @@ class MapContainer extends Component {
         { lat: 33.1605, lng: -117.0978 },
         { lat: 33.1605, lng: -114.0978 },
         { lat: 33.1605, lng: -115.0978 }
-      ]
+      ],
+      loading: true
     };
   }
-
-  // componentDidMount() {
-  //   if ("geolocation" in navigator) {
-  //     /* geolocation is available */
-  //     navigator.geolocation.getCurrentPosition(function(position) {
-  //       this.setState((state, props) => {
-  //         return {
-  //           markers: [
-  //             ...state.markers,
-  //             {
-  //               lat: position.coords.latitude,
-  //               lng: position.coords.longitude
-  //             }
-  //           ]
-  //         };
-  //       });
-  //     });
-  //   } else {
-  //     /* geolocation IS NOT available */
-  //     console.log("notavailable");
-  //   }
-  // }
-
+  componentDidMount(props) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        this.setState({
+          markers: [...this.state.markers, { lat: latitude, lng: longitude }],
+          loading: false
+        });
+      },
+      () => {
+        this.setState({ loading: false });
+      }
+    );
+  }
   render() {
     return (
       <div className="row">
