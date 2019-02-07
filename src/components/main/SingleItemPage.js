@@ -14,8 +14,7 @@ import {
   MDBCardTitle,
   MDBCardText,
   MDBContainer,
-  MDBRow,
-  MDBBtn
+  MDBRow
 } from "mdbreact";
 import tool10 from "../../assets/tool10.jpg";
 import { Link, withRouter } from "react-router-dom";
@@ -186,6 +185,7 @@ class SingleItemPage extends Component {
         </h2>
       );
     }
+
     let slides = [
       <img src="https://picsum.photos/800/300/?random" alt="1" />,
       <img src="https://picsum.photos/800/301/?random" alt="2" />,
@@ -293,12 +293,12 @@ class SingleItemPage extends Component {
 
                   <MDBCardBody className="text-center">
                     <span href="#!" className="grey-text">
-                      <h5>Sheet Finishing Sander</h5>
+                      <h5>{singleTools.brand}</h5>
                     </span>
                     <h5>
                       <strong>
                         <span href="#!" className="dark-grey-text">
-                          1/3-Sheet Finishing Sander (6894)
+                          {singleTools.name} (6894)
                           {singleTools.id % 2 === 0 ? (
                             <MDBBadge pill color="primary">
                               BEST
@@ -312,7 +312,7 @@ class SingleItemPage extends Component {
                       </strong>
                     </h5>
                     <h4 className="font-weight-bold blue-text">
-                      <strong>219$</strong>
+                      <strong>{singleTools.dailyCost}$</strong>
                     </h4>
                   </MDBCardBody>
                 </MDBCard>
@@ -346,10 +346,7 @@ class SingleItemPage extends Component {
           <MDBRow>
             <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
               <MDBCardTitle>Notes</MDBCardTitle>
-              <MDBCardText>
-                Some quick example text to build on the panel title and make up
-                the bulk of the panel's content.
-              </MDBCardText>
+              <MDBCardText>{singleTools.description}</MDBCardText>
             </MDBCard>
           </MDBRow>
 
@@ -394,20 +391,22 @@ class SingleItemPage extends Component {
                     <p>no reviews</p>
                   ) : (
                     reviews.map(y => {
-                      return y.reviews.map((x, idx) => (
-                        <MDBCard key={idx} className="reviews">
-                          <p>{x.review}</p>
-                          <StarRatingComponent
-                            name="rate2"
-                            editing={false}
-                            renderStarIcon={() => (
-                              <i className="fa fa-star" aria-hidden="true" />
-                            )}
-                            starCount={5}
-                            value={x.stars}
-                          />
-                        </MDBCard>
-                      ));
+                      return y.reviews.map((x, idx) => {
+                        return (
+                          <MDBCard key={idx} className="reviews">
+                            <p>{x.review}</p>
+                            <StarRatingComponent
+                              name="rate2"
+                              editing={false}
+                              renderStarIcon={() => (
+                                <i className="fa fa-star" aria-hidden="true" />
+                              )}
+                              starCount={5}
+                              value={x.stars}
+                            />
+                          </MDBCard>
+                        );
+                      });
                     })
                   )}
                 </div>

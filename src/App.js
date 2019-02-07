@@ -13,7 +13,6 @@ import store from "./store/store";
 import setAuthToken from "./utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import Register from "./container/Register";
-import Landing from "./components/main/Landing";
 import PrivateRoute from "./components/PrivateRoute";
 import SingleItemPage from "./components/main/SingleItemPage";
 import styled from "styled-components";
