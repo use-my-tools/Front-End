@@ -49,25 +49,33 @@ export const getToolsAction = () => dispatch => {
     });
 };
 export const getQuery = query => dispatch => {
+  const config = {
+    headers: {
+      Authorization: window.localStorage.jwtToken
+    }
+  };
   dispatch(setLoading());
   axios
-    .get(`http://tools-backend.herokuapp.com/api/tools/?name=tool`)
-    .then(res =>
+    .get("http://tools-backend.herokuapp.com/api/tools/?name=tool", config)
+    .then(res => {
+      console.log(res);
       dispatch({
-        type: QUERY_SUCCESS,
+        type: GET_TOOL_SUCCESS,
         data: res.data
-      })
-    )
+      });
+    })
     .catch(err => {
+      console.log(err.message);
       if (err) {
-        err.response.data.message && Alert.error(err.response.data.message);
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data.message
-        });
+        // err.response.data.message && Alert.error(err.response.data.message);
+        // dispatch({
+        //   type: GET_ERRORS,
+        //   payload: err.response.data.message
+        // });
       }
     });
 };
+
 export const getToolsPagination = URLPagination => dispatch => {
   dispatch(setLoading());
   axios

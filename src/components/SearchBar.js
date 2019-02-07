@@ -6,7 +6,6 @@ import { getQuery } from "../store/actions/toolsAction";
 const SearchStyle = styled.div`
   margin-bottom: 50px;
 `;
-
 class SearchBar extends Component {
   constructor(props) {
     super(props);

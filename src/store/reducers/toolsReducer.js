@@ -10,15 +10,13 @@ import {
   GET_DATA_PAG,
   DELETE_SUCCESS,
   SUBMIT_UPDATED,
-  POST_REVIEWS_SUCCESS,
-  QUERY_SUCCESS
+  POST_REVIEWS_SUCCESS
 } from "../actions/toolsAction";
 
 const initialState = {
   tools: [],
   updatedResponse: [],
   reviews: [],
-  query: [],
   toolinput: {
     name: "",
     brand: "",
@@ -93,12 +91,6 @@ export default function toolsReducer(state = initialState, action) {
         ...state,
         loading: false,
         tools: action.data
-      };
-    case QUERY_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        query: action.data
       };
     case ADD_TOOL_SUCCESS:
       return {
