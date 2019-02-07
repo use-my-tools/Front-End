@@ -23,7 +23,8 @@ export const QUERY_SUCCESS = "QUERY_SUCCESS";
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const REVIEWS = `https://tools-backend.herokuapp.com/api/reviews`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
-const QUERY = `http://tools-backend.herokuapp.com/api/tools/?name=`;
+const QUERY = `https://tools-backend.herokuapp.com/api/tools/?name=`;
+//const QUERY = `https://tools-backend.herokuapp.com/api/tools/rented/`;
 export const getToolsAction = () => dispatch => {
   dispatch(setLoading());
   axios
@@ -49,33 +50,29 @@ export const getToolsAction = () => dispatch => {
     });
 };
 export const getQuery = query => dispatch => {
-  const config = {
-    headers: {
-      Authorization: window.localStorage.jwtToken
-    }
-  };
   dispatch(setLoading());
   axios
-    .get("http://tools-backend.herokuapp.com/api/tools/?name=tool", config)
-    .then(res => {
-      console.log(res);
-      dispatch({
-        type: GET_TOOL_SUCCESS,
-        data: res.data
-      });
+    .get(`${QUERY}${query}`)
+    .then(({ data: { data } }) => {
+      if (!data.length) {
+        Alert.warning("No Match");
+      } else {
+        dispatch({
+          type: GET_TOOL_SUCCESS,
+          data
+        });
+      }
     })
     .catch(err => {
-      //   console.log(err.message);
       if (err) {
         err.response.data.message && Alert.error(err.response.data.message);
         dispatch({
           type: GET_ERRORS,
-          payload: err.message
+          payload: err.response.data.message
         });
       }
     });
 };
-
 export const getToolsPagination = URLPagination => dispatch => {
   dispatch(setLoading());
   axios
@@ -141,7 +138,6 @@ export const addReviewsAction = reviews => dispatch => {
       }
     });
 };
-
 export const deleteToolsAction = id => dispatch => {
   dispatch(setLoading());
   axios

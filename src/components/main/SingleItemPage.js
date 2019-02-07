@@ -91,6 +91,10 @@ const ToolStyle = styled.div`
     flex-direction: column;
     padding: 0 50px;
   }
+  .single-page-btn {
+    margin-bottom: -20px;
+    margin-top: 30px;
+  }
 `;
 
 class SingleItemPage extends Component {
@@ -106,7 +110,6 @@ class SingleItemPage extends Component {
       reviews: null
     };
   }
-
   _reviewHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -124,7 +127,6 @@ class SingleItemPage extends Component {
     };
     this.props.addReviewsAction(reviews);
   };
-
   componentDidMount() {
     axios
       .get(
@@ -139,7 +141,6 @@ class SingleItemPage extends Component {
       .then(res => this.setState({ reviews: res.data }))
       .catch(err => Alert.error(err.response.data.message));
   }
-
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
@@ -155,6 +156,13 @@ class SingleItemPage extends Component {
     this.props.deleteToolsAction(singleTools.id);
     this.props.history.push("/dashboard");
   };
+  _rentATool = id => {
+    axios
+      .post(`https://tools-backend.herokuapp.com/api/tools/${id}/rent`)
+      .then(() => Alert.success("You have now rented that Tool"))
+      .then(() => this.props.history.push("/dashboard"))
+      .catch(err => Alert.error(err.response.data.message));
+  };
   render() {
     const { loading, user_id } = this.props;
     const { singleTools, reviews } = this.state;
@@ -165,11 +173,33 @@ class SingleItemPage extends Component {
         </h2>
       );
     }
-    console.log(reviews);
+    console.log(this.props);
     return (
       <ToolStyle>
         <MDBContainer>
           {loading && <SpinnerPage />}
+          <div className="single-page-btn">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => this.props.history.goBack()}
+            >
+              <i className="fas fa-long-arrow-alt-left" /> Go Back
+            </button>
+
+            <button
+              hidden={singleTools.isAvailable ? false : true}
+              onClick={() => {
+                if (window.confirm("Are you sure you wish to Rent this Tool?"))
+                  this._rentATool(singleTools.id);
+              }}
+              type="button"
+              className="btn btn-primary center-block"
+            >
+              RENT
+            </button>
+          </div>
+
           <AddImageModal
             toggleModal={this._toggleModal}
             uploadModal={this.state.uploadModal}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import axios from "axios";
 import {
   MDBRow,
   MDBCol,
@@ -11,23 +11,16 @@ import {
   MDBBadge
 } from "mdbreact";
 
-import tool10 from "../../assets/tool10.jpg";
-import PaginationPage from "./PaginationPage";
-import AddProductPage from "./AddProductPage";
-import {
-  toggleModal,
-  clearInputsAction
-} from "../../store/actions/toolsAction";
-import {
-  FloatingMenu,
-  MainButton,
-  ChildButton
-} from "react-floating-button-menu";
-import MdAdd from "@material-ui/icons/Add";
-import MdClose from "@material-ui/icons/Clear";
-//import MdFavorite from "@material-ui/icons/MdFavorite";
+import tool10 from "../assets/tool10.jpg";
+import { toggleModal, clearInputsAction } from "../store/actions/toolsAction";
+import styled from "styled-components";
+import SpinnerPage from "./Spinner";
+import Alert from "react-s-alert";
 
-const ManageToolStyle = styled.div`
+const MyInvStyle = styled.div`
+  .pagination {
+    margin-top: 100px;
+  }
   .add-btn {
     padding: 40px 0 10px 0;
     margin-left: -15px;
@@ -59,56 +52,39 @@ const ManageToolStyle = styled.div`
     position: fixed;
     bottom: 30px;
     right: 45px;
-    z-index: 99999;
   }
 `;
 
-class ManageToolPage extends Component {
+class Rented extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      rented: null
     };
   }
-  addTool = () => {
-    this.props.toggleModal();
-    this.props.clearInputsAction();
-  };
+  componentDidMount() {
+    axios
+      .get(`https://tools-backend.herokuapp.com/api/tools/rented/`)
+      .then(res =>
+        this.setState({
+          rented: res.data
+        })
+      );
+  }
   render() {
-    const { tools, toggleModal, modal } = this.props;
+    const { rented } = this.state;
+    if (!rented) {
+      return <h5>There is Currently no item in Rented Tools </h5>;
+    }
     return (
-      <ManageToolStyle>
-        <PaginationPage className="pagination float-right" />
-        <FloatingMenu
-          slideSpeed={500}
-          direction="up"
-          spacing={8}
-          isOpen={this.state.isOpen}
-          className="floating-btn"
-        >
-          <MainButton
-            iconResting={<MdAdd style={{ fontSize: 20 }} nativeColor="white" />}
-            iconActive={
-              <MdClose style={{ fontSize: 20 }} nativeColor="white" />
-            }
-            backgroundColor="#0070F7"
-            onClick={() => this.setState({ isOpen: !this.state.isOpen })}
-            size={56}
-          />
-          <ChildButton
-            icon={<i className="fas fa-plus" />}
-            backgroundColor="white"
-            size={40}
-            onClick={this.addTool}
-          />
-        </FloatingMenu>
-        <AddProductPage toggle={toggleModal} modal={modal} />
-        {/* cards */}
+      <MyInvStyle>
         <MDBRow>
+          {this.props.loading && <SpinnerPage />}
           <div className="container">
-            {/* when posting items is being display here for listsssss */}
-            {tools &&
-              tools.map(tool => {
+            {!rented ? (
+              <h5>There is Currently no item in Rented Tools </h5>
+            ) : (
+              rented.map(tool => {
                 return (
                   <MDBCol
                     md="6"
@@ -123,6 +99,7 @@ class ManageToolPage extends Component {
                     >
                       <MDBCard className="align-items-center">
                         <MDBCardImage
+                          style={{ maxWidth: 300 }}
                           src={
                             !tool.images.length ? tool10 : tool.images[0].url
                           }
@@ -157,34 +134,25 @@ class ManageToolPage extends Component {
                           <h4 className="font-weight-bold blue-text">
                             <strong>219$</strong>
                           </h4>
-                          <div>
-                            {tool.isAvailable ? (
-                              <MDBBadge pill>AVAILABLE</MDBBadge>
-                            ) : (
-                              <MDBBadge pill color="danger">
-                                NOT AVAILABLE
-                              </MDBBadge>
-                            )}
-                          </div>
                         </MDBCardBody>
                       </MDBCard>
                     </Link>
                   </MDBCol>
                 );
-              })}
+              })
+            )}
           </div>
         </MDBRow>
-      </ManageToolStyle>
+      </MyInvStyle>
     );
   }
 }
-
 const mapStateToProps = state => ({
   tools: state.toolsReducer.tools,
-  modal: state.toolsReducer.modal
+  modal: state.toolsReducer.modal,
+  loading: state.toolsReducer.loading
 });
-
 export default connect(
   mapStateToProps,
   { toggleModal, clearInputsAction }
-)(withRouter(ManageToolPage));
+)(withRouter(Rented));

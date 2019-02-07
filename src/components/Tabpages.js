@@ -6,6 +6,7 @@ import MyInventory from "./MyInventory";
 import Alert from "react-s-alert";
 import MapContainer from "./map/MapContainer";
 import SearchBar from "./SearchBar";
+import Rented from "./Rented";
 const TabPageStyle = styled.div``;
 class Tabpages extends Component {
   render() {
@@ -23,7 +24,7 @@ class Tabpages extends Component {
             <MapContainer />
           </Tab>
           <Tab label="RENTED">
-            <h1>rented tabs</h1>
+            <Rented />
           </Tab>
         </Tabs>
       </TabPageStyle>
