@@ -65,13 +65,13 @@ export const getQuery = query => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err.message);
+      //   console.log(err.message);
       if (err) {
-        // err.response.data.message && Alert.error(err.response.data.message);
-        // dispatch({
-        //   type: GET_ERRORS,
-        //   payload: err.response.data.message
-        // });
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.message
+        });
       }
     });
 };
