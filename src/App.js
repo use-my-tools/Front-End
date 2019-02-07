@@ -41,7 +41,7 @@ class App extends Component {
     return (
       <AppStyle>
         <NavbarPage />
-        <MDBContainer className="main" id="main">
+        <MDBContainer className="main">
           <Switch>
             <Route path="/pricing" component={PricingPage} />
             <Route path="/contact" component={ContactPage} />
@@ -54,7 +54,7 @@ class App extends Component {
             <Route component={NoMatchFound} />
           </Switch>
         </MDBContainer>
-        <FooterPage className="footer" />
+        <FooterPage />
         <Alert
           stack={{ limit: 3, spacing: 50 }}
           position="top-right"
