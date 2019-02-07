@@ -18,20 +18,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import SingleItemPage from "./components/main/SingleItemPage";
 import styled from "styled-components";
 
-const AppStyle = styled.div`
-  /* html,
-  body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-
-  .main {
-    padding-bottom: 100px;
-    border: 1px solid red;
-    position: relative;
-  } */
-`;
+const AppStyle = styled.div``;
 
 //check for token to keep user logged in
 if (localStorage.jwtToken) {

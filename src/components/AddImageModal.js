@@ -24,7 +24,6 @@ class AddImageModal extends Component {
       selectedFile: null
     };
   }
-
   fileChangedHandler = e => {
     const file = e.target.files[0];
     this.setState({ selectedFile: file });

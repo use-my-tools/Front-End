@@ -154,14 +154,25 @@ class SingleItemPage extends Component {
       uploadModal: !this.state.uploadModal
     });
   };
+
   _deleteTool = () => {
     const { singleTools } = this.state;
     this.props.deleteToolsAction(singleTools.id);
     this.props.history.push("/dashboard");
   };
+
+  _rentATool = id => {
+    axios
+      .post(`https://tools-backend.herokuapp.com/api/tools/${id}/rent`)
+      .then(() => Alert.success("You have now rented that Tool"))
+      .then(() => this.props.history.push("/dashboard"))
+      .catch(err => Alert.error(err.response.data.message));
+  };
+
   render() {
     const { loading, user_id } = this.props;
     const { singleTools, reviews } = this.state;
+    console.log("reviews", reviews);
     if (!singleTools) {
       return (
         <h2 style={{ margin: "335px auto" }}>
@@ -169,7 +180,7 @@ class SingleItemPage extends Component {
         </h2>
       );
     }
-    console.log(this.props);
+
     return (
       <ToolStyle>
         <MDBContainer>
@@ -187,7 +198,7 @@ class SingleItemPage extends Component {
               hidden={singleTools.isAvailable ? false : true}
               onClick={() => {
                 if (window.confirm("Are you sure you wish to Rent this Tool?"))
-                  console.log("works");
+                  this._rentATool(singleTools.id);
               }}
               type="button"
               className="btn btn-primary center-block"

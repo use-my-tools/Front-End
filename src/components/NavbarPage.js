@@ -35,10 +35,10 @@ class NavbarPage extends Component {
         <MDBNavbarToggler onClick={this.toggleCollapse("navbarCollapse3")} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.collapseID} navbar>
           <MDBNavbarNav left>
-            <MDBNavItem active>
+            {/* <MDBNavItem active>
               <MDBNavLink to="/">Home</MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
+            </MDBNavItem> */}
+            <MDBNavItem active>
               <MDBNavLink
                 to="/dashboard"
                 hidden={!this.props.auth.isAuthenticated}
