@@ -18,10 +18,12 @@ export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 export const GET_DATA_PAG = "GET_DATA_PAG";
 export const POST_REVIEWS_SUCCESS = "POST_REVIEWS_SUCCESS";
 export const GET_SINGLE_SUCCESS = "GET_SINGLE_SUCCESS";
+export const QUERY_SUCCESS = "QUERY_SUCCESS";
 
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const REVIEWS = `https://tools-backend.herokuapp.com/api/reviews`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
+const QUERY = `http://tools-backend.herokuapp.com/api/tools/?name=`;
 export const getToolsAction = () => dispatch => {
   dispatch(setLoading());
   axios
@@ -34,6 +36,26 @@ export const getToolsAction = () => dispatch => {
         last_page,
         per_page,
         current_page
+      })
+    )
+    .catch(err => {
+      if (err) {
+        err.response.data.message && Alert.error(err.response.data.message);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data.message
+        });
+      }
+    });
+};
+export const getQuery = query => dispatch => {
+  dispatch(setLoading());
+  axios
+    .get(`http://tools-backend.herokuapp.com/api/tools/?name=tool`)
+    .then(res =>
+      dispatch({
+        type: QUERY_SUCCESS,
+        data: res.data
       })
     )
     .catch(err => {

@@ -75,7 +75,6 @@ class MyInventory extends Component {
         })
       );
   }
-
   render() {
     const { userInv } = this.state;
     if (!userInv) {
@@ -86,7 +85,9 @@ class MyInventory extends Component {
         <MDBRow>
           {this.props.loading && <SpinnerPage />}
           <div className="container">
-            {userInv &&
+            {!userInv ? (
+              <h5>There is Currently no item in Inventory </h5>
+            ) : (
               userInv.map(tool => {
                 return (
                   <MDBCol
@@ -142,7 +143,8 @@ class MyInventory extends Component {
                     </Link>
                   </MDBCol>
                 );
-              })}
+              })
+            )}
           </div>
         </MDBRow>
       </MyInvStyle>

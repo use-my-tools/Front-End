@@ -4,13 +4,14 @@ import ManageToolPage from "../components/main/ManageToolPage";
 import styled from "styled-components";
 import MyInventory from "./MyInventory";
 import Alert from "react-s-alert";
-import GoogleMapsContainer from "./map/GoogleMapsContainer";
+import MapContainer from "./map/MapContainer";
+import SearchBar from "./SearchBar";
 const TabPageStyle = styled.div``;
-
 class Tabpages extends Component {
   render() {
     return (
       <TabPageStyle>
+        <SearchBar />
         <Tabs onSelect={(index, label) => Alert.info(label + " selected")}>
           <Tab label="ALL TOOLS">
             <ManageToolPage />
@@ -19,7 +20,10 @@ class Tabpages extends Component {
             <MyInventory />
           </Tab>
           <Tab label="MAP">
-            <GoogleMapsContainer />
+            <MapContainer />
+          </Tab>
+          <Tab label="RENTED">
+            <h1>rented tabs</h1>
           </Tab>
         </Tabs>
       </TabPageStyle>

@@ -79,6 +79,7 @@ class NavbarPage extends Component {
                 <MDBNavLink to="/login">Log in</MDBNavLink>
               )}
             </MDBNavItem>
+
             <MDBNavItem>
               <MDBDropdown>
                 <MDBDropdownToggle className="dopdown-toggle" nav>

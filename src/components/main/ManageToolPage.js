@@ -59,6 +59,7 @@ const ManageToolStyle = styled.div`
     position: fixed;
     bottom: 30px;
     right: 45px;
+    z-index: 99999;
   }
 `;
 
