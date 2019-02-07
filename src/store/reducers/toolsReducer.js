@@ -96,8 +96,7 @@ export default function toolsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        isUpdating: false,
-        updatedResponse: action.data
+        isUpdating: false
       };
     case POST_REVIEWS_SUCCESS:
       return {

@@ -15,8 +15,6 @@ import tool10 from "../assets/tool10.jpg";
 import { toggleModal, clearInputsAction } from "../store/actions/toolsAction";
 import styled from "styled-components";
 import SpinnerPage from "./Spinner";
-import Alert from "react-s-alert";
-
 const MyInvStyle = styled.div`
   .pagination {
     margin-top: 100px;
@@ -56,6 +54,7 @@ const MyInvStyle = styled.div`
 `;
 
 class Rented extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -63,19 +62,27 @@ class Rented extends Component {
     };
   }
   componentDidMount() {
-    axios
-      .get(`https://tools-backend.herokuapp.com/api/tools/rented/`)
-      .then(res =>
-        this.setState({
-          rented: res.data
-        })
-      );
+    this._isMounted = true;
+    if (this._isMounted) {
+      axios
+        .get(`https://tools-backend.herokuapp.com/api/tools/rented/`)
+        .then(res =>
+          this.setState({
+            rented: res.data
+          })
+        );
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
   render() {
     const { rented } = this.state;
     if (!rented) {
       return <h5>There is Currently no item in Rented Tools </h5>;
     }
+
     return (
       <MyInvStyle>
         <MDBRow>

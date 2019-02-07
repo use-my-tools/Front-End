@@ -15,8 +15,6 @@ import tool10 from "../assets/tool10.jpg";
 import { toggleModal, clearInputsAction } from "../store/actions/toolsAction";
 import styled from "styled-components";
 import SpinnerPage from "./Spinner";
-import Alert from "react-s-alert";
-
 const MyInvStyle = styled.div`
   .pagination {
     margin-top: 100px;
@@ -76,8 +74,8 @@ class MyInventory extends Component {
       );
   }
   render() {
-    const { userInv } = this.state;
-    if (!userInv) {
+    const { userInv, loading } = this.state;
+    if (loading) {
       return <h5>There is Currently no item in Inventory </h5>;
     }
     return (
@@ -114,7 +112,7 @@ class MyInventory extends Component {
                         />
                         <MDBCardBody className="text-center">
                           <span href="#!" className="grey-text card-subtitle">
-                            <h5>Sheet Finishing Sander</h5>
+                            <h5>{tool.brand}</h5>
                           </span>
                           <h5>
                             <strong>
@@ -122,7 +120,8 @@ class MyInventory extends Component {
                                 href="#!"
                                 className="dark-grey-text card-title"
                               >
-                                1/3-Sheet Finishing Sander (6894)
+                                {tool.name}{" "}
+                                {`(${Math.floor(Math.random() * 1000)})`}
                                 {tool.id % 2 === 0 ? (
                                   <MDBBadge pill color="primary">
                                     BEST
@@ -136,7 +135,7 @@ class MyInventory extends Component {
                             </strong>
                           </h5>
                           <h4 className="font-weight-bold blue-text">
-                            <strong>219$</strong>
+                            <strong>{tool.dailyCost}$</strong>
                           </h4>
                         </MDBCardBody>
                       </MDBCard>

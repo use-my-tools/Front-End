@@ -48,7 +48,7 @@ const ManageToolStyle = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     .card {
-      min-height: 300px;
+      min-height: 340px;
       max-height: 300px;
     }
   }
@@ -133,7 +133,7 @@ class ManageToolPage extends Component {
                         />
                         <MDBCardBody className="text-center">
                           <span href="#!" className="grey-text card-subtitle">
-                            <h5>Sheet Finishing Sander</h5>
+                            <h5>{tool.brand}</h5>
                           </span>
                           <h5>
                             <strong>
@@ -141,7 +141,8 @@ class ManageToolPage extends Component {
                                 href="#!"
                                 className="dark-grey-text card-title"
                               >
-                                1/3-Sheet Finishing Sander (6894)
+                                {tool.name}{" "}
+                                {`(${Math.floor(Math.random() * 1000)})`}
                                 {tool.id % 2 === 0 ? (
                                   <MDBBadge pill color="primary">
                                     BEST
@@ -155,7 +156,7 @@ class ManageToolPage extends Component {
                             </strong>
                           </h5>
                           <h4 className="font-weight-bold blue-text">
-                            <strong>219$</strong>
+                            <strong>{tool.dailyCost}$</strong>
                           </h4>
                           <div>
                             {tool.isAvailable ? (

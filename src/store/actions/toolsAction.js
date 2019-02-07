@@ -9,7 +9,6 @@ export const GET_TOOL_SUCCESS = "GET_TOOL_SUCCESS";
 export const ADD_TOOL_SUCCESS = "ADD_TOOL_SUCCESS";
 export const SUBMIT_UPDATED = "SUBMIT_UPDATED";
 export const DELETE_SUCCESS = "DELETE_SUCCESS";
-
 export const HANDLE_CHANGE = "HANDLE_CHANGE";
 export const CLEAR_TOOLINPUTS = "CLEAR_TOOLINPUTS";
 export const HANDLE_UPDATE = "HANDLE_UPDATE";
@@ -97,10 +96,10 @@ export const addToolsAction = newpost => dispatch => {
   dispatch(setLoading());
   axios
     .post(`${URL}`, newpost)
-    .then(res =>
+    .then(({ data: { data } }) =>
       dispatch({
         type: ADD_TOOL_SUCCESS,
-        data: res.data
+        data
       })
     )
     .then(() => Alert.success("Successfully added Tool"))

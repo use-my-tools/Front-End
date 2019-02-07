@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
 import StarRatingComponent from "react-star-rating-component";
+import { Carousel } from "3d-react-carousal";
 
 import {
   MDBCol,
@@ -13,8 +14,7 @@ import {
   MDBCardTitle,
   MDBCardText,
   MDBContainer,
-  MDBRow,
-  MDBBtn
+  MDBRow
 } from "mdbreact";
 import tool10 from "../../assets/tool10.jpg";
 import { Link, withRouter } from "react-router-dom";
@@ -95,6 +95,12 @@ const ToolStyle = styled.div`
     margin-bottom: -20px;
     margin-top: 30px;
   }
+  .carousel {
+    display: block !important;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    background: #5c5c5e;
+  }
 `;
 
 class SingleItemPage extends Component {
@@ -131,16 +137,16 @@ class SingleItemPage extends Component {
 
   componentDidMount() {
     axios
+      .get(`https://tools-backend.herokuapp.com/api/users/`)
+      .then(res => this.setState({ reviews: res.data.data }))
+      .catch(err => Alert.error(err.response.data.message));
+    axios
       .get(
         `https://tools-backend.herokuapp.com/api/tools/${
           this.props.match.params.id
         }`
       )
       .then(res => this.setState({ singleTools: res.data }))
-      .catch(err => Alert.error(err.response.data.message));
-    axios
-      .get(`https://tools-backend.herokuapp.com/api/users/2`)
-      .then(res => this.setState({ reviews: res.data }))
       .catch(err => Alert.error(err.response.data.message));
   }
 
@@ -172,7 +178,6 @@ class SingleItemPage extends Component {
   render() {
     const { loading, user_id } = this.props;
     const { singleTools, reviews } = this.state;
-    console.log("reviews", reviews);
     if (!singleTools) {
       return (
         <h2 style={{ margin: "335px auto" }}>
@@ -181,6 +186,13 @@ class SingleItemPage extends Component {
       );
     }
 
+    let slides = [
+      <img src="https://picsum.photos/800/300/?random" alt="1" />,
+      <img src="https://picsum.photos/800/301/?random" alt="2" />,
+      <img src="https://picsum.photos/800/302/?random" alt="3" />,
+      <img src="https://picsum.photos/800/303/?random" alt="4" />,
+      <img src="https://picsum.photos/800/304/?random" alt="5" />
+    ];
     return (
       <ToolStyle>
         <MDBContainer>
@@ -255,6 +267,9 @@ class SingleItemPage extends Component {
               onClick={this._toggleModal}
             />
           </FloatingMenu>
+          <div className="carousel">
+            <Carousel slides={slides} />
+          </div>
           <MDBRow>
             <MDBCol
               lg="12"
@@ -278,12 +293,12 @@ class SingleItemPage extends Component {
 
                   <MDBCardBody className="text-center">
                     <span href="#!" className="grey-text">
-                      <h5>Sheet Finishing Sander</h5>
+                      <h5>{singleTools.brand}</h5>
                     </span>
                     <h5>
                       <strong>
                         <span href="#!" className="dark-grey-text">
-                          1/3-Sheet Finishing Sander (6894)
+                          {singleTools.name} (6894)
                           {singleTools.id % 2 === 0 ? (
                             <MDBBadge pill color="primary">
                               BEST
@@ -297,7 +312,7 @@ class SingleItemPage extends Component {
                       </strong>
                     </h5>
                     <h4 className="font-weight-bold blue-text">
-                      <strong>219$</strong>
+                      <strong>{singleTools.dailyCost}$</strong>
                     </h4>
                   </MDBCardBody>
                 </MDBCard>
@@ -331,10 +346,7 @@ class SingleItemPage extends Component {
           <MDBRow>
             <MDBCard className="card-body" style={{ marginTop: "1rem" }}>
               <MDBCardTitle>Notes</MDBCardTitle>
-              <MDBCardText>
-                Some quick example text to build on the panel title and make up
-                the bulk of the panel's content.
-              </MDBCardText>
+              <MDBCardText>{singleTools.description}</MDBCardText>
             </MDBCard>
           </MDBRow>
 
@@ -374,23 +386,29 @@ class SingleItemPage extends Component {
               </div>
               <div>
                 reviews here
-                {!reviews && <p>no reviews</p>}
                 <div>
-                  {reviews &&
-                    reviews.reviews.map((x, idx) => (
-                      <MDBCard key={idx} className="reviews">
-                        <p>{x.review}</p>
-                        <StarRatingComponent
-                          name="rate2"
-                          editing={false}
-                          renderStarIcon={() => (
-                            <i className="fa fa-star" aria-hidden="true" />
-                          )}
-                          starCount={5}
-                          value={x.stars}
-                        />
-                      </MDBCard>
-                    ))}
+                  {!reviews ? (
+                    <p>no reviews</p>
+                  ) : (
+                    reviews.map(y => {
+                      return y.reviews.map((x, idx) => {
+                        return (
+                          <MDBCard key={idx} className="reviews">
+                            <p>{x.review}</p>
+                            <StarRatingComponent
+                              name="rate2"
+                              editing={false}
+                              renderStarIcon={() => (
+                                <i className="fa fa-star" aria-hidden="true" />
+                              )}
+                              starCount={5}
+                              value={x.stars}
+                            />
+                          </MDBCard>
+                        );
+                      });
+                    })
+                  )}
                 </div>
               </div>
             </MDBCard>

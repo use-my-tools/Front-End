@@ -13,13 +13,11 @@ import store from "./store/store";
 import setAuthToken from "./utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import Register from "./container/Register";
-import Landing from "./components/main/Landing";
 import PrivateRoute from "./components/PrivateRoute";
 import SingleItemPage from "./components/main/SingleItemPage";
 import styled from "styled-components";
 
 const AppStyle = styled.div``;
-
 //check for token to keep user logged in
 if (localStorage.jwtToken) {
   //Set auth token header auth
@@ -52,13 +50,12 @@ class App extends Component {
             <Route path="/tools/:id" component={SingleItemPage} />
             {/* created HOC for private route and have check inside navbar to hide dashboard if it's not authenticated */}
             <PrivateRoute path="/dashboard" component={InventoryItem} />
-            <Route path="/" component={Landing} />
+            {/* <Route path="/" component={Landing} /> */}
             <Route component={NoMatchFound} />
           </Switch>
         </MDBContainer>
-        {/* <FooterPage /> */}
+        <FooterPage />
         <Alert
-          //stack={{ limit: 3 }}
           stack={{ limit: 3, spacing: 50 }}
           position="top-right"
           effect="slide"
