@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { setCurrentUser, loginUser } from "../store/actions/authAction";
 import { connect } from "react-redux";
-import Alert from "react-s-alert";
 
 const FormStyle = styled.form`
   display: flex;

@@ -1,45 +1,62 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  getToolsAction,
+  getToolsPagination
+} from "../../store/actions/toolsAction";
+import Pagination from "react-pagination-library";
+import "react-pagination-library/build/css/index.css";
+import styled from "styled-components";
 
-const PaginationPage = ({ className }) => {
-  return (
-    <nav aria-label="Page navigation example ">
-      <ul className={`pagination pagination-circle pg-blue ${className}`}>
-        <li className="page-item disabled">
-          <p className="page-link">First</p>
-        </li>
-        <li className="page-item disabled">
-          <p className="page-link" aria-label="Previous">
-            <span aria-hidden="true">«</span>
-            <span className="sr-only">Previous</span>
-          </p>
-        </li>
-        <li className="page-item active">
-          <p className="page-link">1</p>
-        </li>
-        <li className="page-item">
-          <p className="page-link">2</p>
-        </li>
-        <li className="page-item">
-          <p className="page-link">3</p>
-        </li>
-        <li className="page-item">
-          <p className="page-link">4</p>
-        </li>
-        <li className="page-item">
-          <p className="page-link">5</p>
-        </li>
-        <li className="page-item">
-          <p className="page-link" aria-label="Next">
-            <span aria-hidden="true">»</span>
-            <span className="sr-only">Next</span>
-          </p>
-        </li>
-        <li className="page-item">
-          <p className="page-link">Last</p>
-        </li>
-      </ul>
-    </nav>
-  );
-};
+const PagStyle = styled.div`
+  display: flex;
+  align-items: baseline;
+`;
 
-export default PaginationPage;
+class PaginationPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: this.props.current_page
+    };
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentPage !== this.state.currentPage) {
+      this.props.getToolsPagination(
+        `https://tools-backend.herokuapp.com/api/tools?count=10&page=${
+          this.state.currentPage
+        }`
+      );
+    }
+  }
+  componentDidMount() {
+    this.props.getToolsAction();
+  }
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage });
+  };
+  render() {
+    return (
+      <PagStyle>
+        <Pagination
+          currentPage={this.state.currentPage}
+          totalPages={this.props.last_page}
+          changeCurrentPage={this.changeCurrentPage}
+          theme="bottom-border"
+        />
+        <p>current Page:{this.state.currentPage}</p>
+      </PagStyle>
+    );
+  }
+}
+const mapStateToProps = state => ({
+  current_page: state.toolsReducer.current_page,
+  total: state.toolsReducer.total,
+  last_page: state.toolsReducer.last_page,
+  per_page: state.toolsReducer.per_page
+});
+
+export default connect(
+  mapStateToProps,
+  { getToolsAction, getToolsPagination }
+)(PaginationPage);

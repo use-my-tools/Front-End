@@ -14,7 +14,6 @@ import {
   MDBDropdownItem
 } from "mdbreact";
 import { logoutUser } from "../store/actions/authAction";
-import { Alert } from "react-s-alert";
 import { withRouter } from "react-router-dom";
 
 class NavbarPage extends Component {
@@ -36,10 +35,10 @@ class NavbarPage extends Component {
         <MDBNavbarToggler onClick={this.toggleCollapse("navbarCollapse3")} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.collapseID} navbar>
           <MDBNavbarNav left>
-            <MDBNavItem active>
+            {/* <MDBNavItem active>
               <MDBNavLink to="/">Home</MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem>
+            </MDBNavItem> */}
+            <MDBNavItem active>
               <MDBNavLink
                 to="/dashboard"
                 hidden={!this.props.auth.isAuthenticated}
@@ -80,11 +79,13 @@ class NavbarPage extends Component {
                 <MDBNavLink to="/login">Log in</MDBNavLink>
               )}
             </MDBNavItem>
+
             <MDBNavItem>
               <MDBDropdown>
                 <MDBDropdownToggle className="dopdown-toggle" nav>
                   <img
-                    src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg"
+                    hidden={!this.props.auth.isAuthenticated}
+                    src={window.localStorage.getItem("image_url")}
                     className="rounded-circle z-depth-0"
                     style={{ height: "35px", padding: 0 }}
                     alt=""
