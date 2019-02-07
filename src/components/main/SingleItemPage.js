@@ -110,6 +110,7 @@ class SingleItemPage extends Component {
       reviews: null
     };
   }
+
   _reviewHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -127,6 +128,7 @@ class SingleItemPage extends Component {
     };
     this.props.addReviewsAction(reviews);
   };
+
   componentDidMount() {
     axios
       .get(
@@ -141,6 +143,7 @@ class SingleItemPage extends Component {
       .then(res => this.setState({ reviews: res.data }))
       .catch(err => Alert.error(err.response.data.message));
   }
+
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
@@ -155,13 +158,6 @@ class SingleItemPage extends Component {
     const { singleTools } = this.state;
     this.props.deleteToolsAction(singleTools.id);
     this.props.history.push("/dashboard");
-  };
-  _rentATool = id => {
-    axios
-      .post(`https://tools-backend.herokuapp.com/api/tools/${id}/rent`)
-      .then(() => Alert.success("You have now rented that Tool"))
-      .then(() => this.props.history.push("/dashboard"))
-      .catch(err => Alert.error(err.response.data.message));
   };
   render() {
     const { loading, user_id } = this.props;
@@ -191,7 +187,7 @@ class SingleItemPage extends Component {
               hidden={singleTools.isAvailable ? false : true}
               onClick={() => {
                 if (window.confirm("Are you sure you wish to Rent this Tool?"))
-                  this._rentATool(singleTools.id);
+                  console.log("works");
               }}
               type="button"
               className="btn btn-primary center-block"
