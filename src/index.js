@@ -10,6 +10,7 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import "react-s-alert/dist/s-alert-default.css";
 import "react-s-alert/dist/s-alert-css-effects/slide.css";
+
 const AppWithRouter = withRouter(App);
 const app = (
   <Provider store={store}>

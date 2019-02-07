@@ -10,6 +10,10 @@ class MapContainer extends Component {
       markers: [
         { lat: 33.1605, lng: -117.0978 },
         { lat: 33.1605, lng: -114.0978 },
+        { lat: 33.1605, lng: -115.0978 },
+        { lat: 34.1605, lng: -115.0978 },
+        { lat: 31.1605, lng: -115.0978 },
+        { lat: 33.1605, lng: -115.0978 },
         { lat: 33.1605, lng: -115.0978 }
       ],
       loading: true

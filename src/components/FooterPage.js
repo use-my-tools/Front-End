@@ -14,7 +14,7 @@ const FooterStyle = styled.div`
 
 const FooterPage = () => {
   return (
-    <FooterStyle>
+    <FooterStyle className="footer">
       <MDBFooter
         color="indigo"
         className="page-footer font-small stylish-color-dark pt-4 "

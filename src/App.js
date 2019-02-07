@@ -19,7 +19,6 @@ import SingleItemPage from "./components/main/SingleItemPage";
 import styled from "styled-components";
 
 const AppStyle = styled.div``;
-
 //check for token to keep user logged in
 if (localStorage.jwtToken) {
   //Set auth token header auth
@@ -43,7 +42,7 @@ class App extends Component {
     return (
       <AppStyle>
         <NavbarPage />
-        <MDBContainer className="main">
+        <MDBContainer className="main" id="main">
           <Switch>
             <Route path="/pricing" component={PricingPage} />
             <Route path="/contact" component={ContactPage} />
@@ -56,9 +55,8 @@ class App extends Component {
             <Route component={NoMatchFound} />
           </Switch>
         </MDBContainer>
-        {/* <FooterPage /> */}
+        <FooterPage className="footer" />
         <Alert
-          //stack={{ limit: 3 }}
           stack={{ limit: 3, spacing: 50 }}
           position="top-right"
           effect="slide"
