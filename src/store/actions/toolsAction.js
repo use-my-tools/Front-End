@@ -3,8 +3,6 @@ import Alert from "react-s-alert";
 import FormData from "form-data";
 export const GET_ERRORS = "GET_ERRORS";
 export const LOADING = "LOADING";
-
-///form CRUD met
 export const GET_TOOL_SUCCESS = "GET_TOOL_SUCCESS";
 export const ADD_TOOL_SUCCESS = "ADD_TOOL_SUCCESS";
 export const SUBMIT_UPDATED = "SUBMIT_UPDATED";
@@ -18,7 +16,6 @@ export const GET_DATA_PAG = "GET_DATA_PAG";
 export const POST_REVIEWS_SUCCESS = "POST_REVIEWS_SUCCESS";
 export const GET_SINGLE_SUCCESS = "GET_SINGLE_SUCCESS";
 export const QUERY_SUCCESS = "QUERY_SUCCESS";
-
 const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const REVIEWS = `https://tools-backend.herokuapp.com/api/reviews`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;

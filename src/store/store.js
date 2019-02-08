@@ -3,15 +3,13 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 // import { loadState, saveState } from "../localstorage/index";
 // import throttle from "lodash/throttle";
-
 const middleware = [thunk];
-//const persistedState = loadState();
-
+// const persistedState = loadState();
 const store = createStore(
   rootReducer,
-  //persistedState,
+  // persistedState,
   compose(
-    applyMiddleware(...middleware),
+    applyMiddleware(...middleware)
     //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
@@ -19,9 +17,9 @@ const store = createStore(
 // store.subscribe(
 //   throttle(() => {
 //     saveState({
-//       d: store.getState().toolsReducer.tools
+//       banna: store.getState().toolsReducer.tools,
+//       auth: store.getState().toolsReducer.auth
 //     });
 //   }, 1000)
 // );
-
 export default store;

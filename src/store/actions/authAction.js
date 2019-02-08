@@ -2,11 +2,9 @@ import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import Alert from "react-s-alert";
-
 export const GET_ERRORS = "GET_ERRORS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const USER_LOADING = "USER_LOADING";
-
 const URL = `https://tools-backend.herokuapp.com/api/registration`;
 export const registerUser = (userData, history) => dispatch => {
   dispatch(setUserLoading());
@@ -24,7 +22,6 @@ export const registerUser = (userData, history) => dispatch => {
       }
     });
 };
-
 export const loginUser = userData => dispatch => {
   dispatch(setUserLoading());
   axios
@@ -59,8 +56,6 @@ export const loginUser = userData => dispatch => {
       }
     });
 };
-// Set logged in user
-
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
@@ -69,13 +64,11 @@ export const setCurrentUser = decoded => {
     }
   };
 };
-// User Loading
 export const setUserLoading = () => {
   return {
     type: USER_LOADING
   };
 };
-// Log user out
 export const logoutUser = history => dispatch => {
   // Remove token from local storage
   localStorage.removeItem("jwtToken");
