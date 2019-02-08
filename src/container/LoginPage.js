@@ -59,7 +59,7 @@ class LoginPage extends Component {
         />
         <input
           onChange={this.handleChange}
-          type="text"
+          type="password"
           value={this.state.password}
           name="password"
           className="form-control mb-4"
