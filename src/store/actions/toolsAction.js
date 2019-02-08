@@ -23,7 +23,6 @@ const URL = `https://tools-backend.herokuapp.com/api/tools`;
 const REVIEWS = `https://tools-backend.herokuapp.com/api/reviews`;
 const IMAGE = `https://tools-backend.herokuapp.com/api/upload/image`;
 const QUERY = `https://tools-backend.herokuapp.com/api/tools/?name=`;
-//const QUERY = `https://tools-backend.herokuapp.com/api/tools/rented/`;
 export const getToolsAction = () => dispatch => {
   dispatch(setLoading());
   axios
