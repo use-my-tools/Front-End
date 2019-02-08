@@ -21,8 +21,7 @@ class MapContainer extends Component {
           this.setState({
             initialLocation: [
               ...this.state.initialLocation,
-              latitude,
-              longitude
+              { lat: latitude, lng: longitude }
             ],
             loading: false
           });
