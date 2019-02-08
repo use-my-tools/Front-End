@@ -102,6 +102,7 @@ export const addToolsAction = newpost => dispatch => {
         data
       })
     )
+    .then(() => getToolsAction()(dispatch))
     .then(() => Alert.success("Successfully added Tool"))
     .then(() => Alert.info("Check out your inventory to add image"))
     .catch(err => {
@@ -146,6 +147,7 @@ export const deleteToolsAction = id => dispatch => {
         type: DELETE_SUCCESS
       })
     )
+    .then(() => getToolsAction()(dispatch))
     .then(() => Alert.success("Successfully deleted Tool"))
     .catch(err => {
       if (err) {

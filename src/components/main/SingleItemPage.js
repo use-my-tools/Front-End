@@ -117,6 +117,17 @@ class SingleItemPage extends Component {
     };
   }
 
+  componentDidMount() {
+    axios
+      .get(
+        `https://tools-backend.herokuapp.com/api/tools/${
+          this.props.match.params.id
+        }`
+      )
+      .then(res => this.setState({ singleTools: res.data }))
+      .then(() => this._fetchReview())
+      .catch(err => Alert.error(err.response.data.message));
+  }
   _reviewHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -134,22 +145,14 @@ class SingleItemPage extends Component {
     };
     this.props.addReviewsAction(reviews);
   };
-
-  componentDidMount() {
+  _fetchReview = () => {
+    const { singleTools } = this.state;
+    let id = singleTools && singleTools.owner_id;
     axios
-      .get(`https://tools-backend.herokuapp.com/api/users/`)
-      .then(res => this.setState({ reviews: res.data.data }))
+      .get(`https://tools-backend.herokuapp.com/api/users/${id}`)
+      .then(res => this.setState({ reviews: res.data }))
       .catch(err => Alert.error(err.response.data.message));
-    axios
-      .get(
-        `https://tools-backend.herokuapp.com/api/tools/${
-          this.props.match.params.id
-        }`
-      )
-      .then(res => this.setState({ singleTools: res.data }))
-      .catch(err => Alert.error(err.response.data.message));
-  }
-
+  };
   handleUpdate = tool => {
     this.props.handleUpdateAction(tool);
     this.props.history.push("/dashboard");
@@ -160,13 +163,11 @@ class SingleItemPage extends Component {
       uploadModal: !this.state.uploadModal
     });
   };
-
   _deleteTool = () => {
     const { singleTools } = this.state;
     this.props.deleteToolsAction(singleTools.id);
     this.props.history.push("/dashboard");
   };
-
   _rentATool = id => {
     axios
       .post(`https://tools-backend.herokuapp.com/api/tools/${id}/rent`)
@@ -185,7 +186,6 @@ class SingleItemPage extends Component {
         </h2>
       );
     }
-
     let slides = [
       <img src="https://picsum.photos/800/300/?random" alt="1" />,
       <img src="https://picsum.photos/800/301/?random" alt="2" />,
@@ -387,28 +387,23 @@ class SingleItemPage extends Component {
               <div>
                 reviews here
                 <div>
-                  {!reviews ? (
-                    <p>no reviews</p>
-                  ) : (
-                    reviews.map(y => {
-                      return y.reviews.map((x, idx) => {
-                        return (
-                          <MDBCard key={idx} className="reviews">
-                            <p>{x.review}</p>
-                            <StarRatingComponent
-                              name="rate2"
-                              editing={false}
-                              renderStarIcon={() => (
-                                <i className="fa fa-star" aria-hidden="true" />
-                              )}
-                              starCount={5}
-                              value={x.stars}
-                            />
-                          </MDBCard>
-                        );
-                      });
-                    })
-                  )}
+                  {reviews &&
+                    reviews.reviews.map((x, idx) => {
+                      return (
+                        <MDBCard key={idx} className="reviews">
+                          <p>{x.review}</p>
+                          <StarRatingComponent
+                            name="rate2"
+                            editing={false}
+                            renderStarIcon={() => (
+                              <i className="fa fa-star" aria-hidden="true" />
+                            )}
+                            starCount={5}
+                            value={x.stars}
+                          />
+                        </MDBCard>
+                      );
+                    })}
                 </div>
               </div>
             </MDBCard>
