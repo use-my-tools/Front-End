@@ -51,6 +51,25 @@ const AddPageStyle = styled.div`
   }
 `;
 class AddProductPage extends Component {
+  _isMounted = false;
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount(props) {
+    this._isMounted = true;
+    navigator.geolocation.getCurrentPosition(position => {
+      if (this._isMounted) {
+        const { latitude, longitude } = position.coords;
+        localStorage.setItem("lat", latitude);
+        localStorage.setItem("lng", longitude);
+      }
+    });
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const { name, brand, category } = this.props.toolinput;
@@ -76,7 +95,9 @@ class AddProductPage extends Component {
       address: toolinput.address,
       owner_id: this.props.user_id,
       description: toolinput.description,
-      deposit: toolinput.deposit
+      deposit: toolinput.deposit,
+      lat: window.localStorage.lat,
+      lng: window.localStorage.lng
     };
     this.props.addToolsAction(newpost);
   };
