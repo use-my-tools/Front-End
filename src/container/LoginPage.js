@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { setCurrentUser, loginUser } from "../store/actions/authAction";
 import { connect } from "react-redux";
+import SpinnerPage from "../components/Spinner";
 
 const FormStyle = styled.form`
   display: flex;
@@ -25,11 +26,6 @@ class LoginPage extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard"); // push user to dashboard when they login
     }
-    // if (nextProps.errors) {
-    //   this.setState({
-    //     errors: nextProps.errors
-    //   });
-    // }
   }
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
   handleSubmit = e => {
@@ -49,6 +45,7 @@ class LoginPage extends Component {
         onSubmit={this.handleSubmit}
       >
         <p className="h4 mb-4 text-center">Sign in</p>
+        {this.props.auth.loading && <SpinnerPage />}
         <input
           onChange={this.handleChange}
           type="text"

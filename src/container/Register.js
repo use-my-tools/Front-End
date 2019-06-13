@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { registerUser } from "../store/actions/authAction";
 import { connect } from "react-redux";
 import Alert from "react-s-alert";
+import SpinnerPage from "../components/Spinner";
 
 const FormStyle = styled.form`
   display: flex;
@@ -32,13 +33,6 @@ class Register extends Component {
       this.props.history.push("/dashboard");
     }
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.errors) {
-  //     this.setState({
-  //       errors: nextProps.errors
-  //     });
-  //   }
-  // }
   handleChange = e =>
     this.setState({
       [e.target.name]: e.target.value
@@ -76,6 +70,7 @@ class Register extends Component {
         onSubmit={this.handleSubmit}
       >
         <p className="h4 mb-4 text-center">Sign up</p>
+        {this.props.auth.loading && <SpinnerPage />}
         <input
           onChange={this.handleChange}
           name="firstname"
@@ -133,16 +128,16 @@ class Register extends Component {
           </p>
           <p>or sign in with:</p>
           <a href="/#" type="button" className="light-blue-text mx-2">
-            <i className="fab fa-facebook-f" />
+            <i className="fab fa-facebook-f" style={{ padding: 10 }} />
           </a>
           <a href="/#" type="button" className="light-blue-text mx-2">
-            <i className="fab fa-twitter" />
+            <i className="fab fa-twitter" style={{ padding: 10 }} />
           </a>
           <a href="/#" type="button" className="light-blue-text mx-2">
-            <i className="fab fa-linkedin-in" />
+            <i className="fab fa-linkedin-in" style={{ padding: 10 }} />
           </a>
           <a href="/#" type="button" className="light-blue-text mx-2">
-            <i className="fab fa-github" />
+            <i className="fab fa-github" style={{ padding: 10 }} />
           </a>
         </div>
         <button className="btn btn-info my-4 btn-block" type="submit">

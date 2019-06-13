@@ -6,7 +6,7 @@ import Alert from "react-s-alert";
 export const GET_ERRORS = "GET_ERRORS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const USER_LOADING = "USER_LOADING";
-
+export const FAIL_REGISTER = "FAIL_REGISTER";
 const URL = `https://tools-backend.herokuapp.com/api/registration`;
 export const registerUser = (userData, history) => dispatch => {
   dispatch(setUserLoading());
@@ -21,6 +21,7 @@ export const registerUser = (userData, history) => dispatch => {
           type: GET_ERRORS,
           payload: err.response.data.message
         });
+        dispatch(disableLoading());
       }
     });
 };
@@ -56,6 +57,7 @@ export const loginUser = userData => dispatch => {
           type: GET_ERRORS,
           payload: err.response.data.message
         });
+        dispatch(disableLoading());
       }
     });
 };
@@ -67,6 +69,12 @@ export const setCurrentUser = decoded => {
     payload: {
       decoded
     }
+  };
+};
+// stop loading when there's error
+export const disableLoading = () => {
+  return {
+    type: FAIL_REGISTER
   };
 };
 // User Loading

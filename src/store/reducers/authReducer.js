@@ -1,4 +1,8 @@
-import { USER_LOADING, SET_CURRENT_USER } from "../actions/authAction";
+import {
+  USER_LOADING,
+  SET_CURRENT_USER,
+  FAIL_REGISTER
+} from "../actions/authAction";
 const isEmpty = require("is-empty");
 
 const initialState = {
@@ -19,6 +23,11 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case FAIL_REGISTER:
+      return {
+        ...state,
+        loading: false
       };
     default:
       return state;

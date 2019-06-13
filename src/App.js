@@ -45,12 +45,12 @@ class App extends Component {
           <Switch>
             <Route path="/pricing" component={PricingPage} />
             <Route path="/contact" component={ContactPage} />
-            <Route path="/register" component={Register} />
             <Route path="/login" component={LoginPage} />
             <Route path="/tools/:id" component={SingleItemPage} />
             {/* created HOC for private route and have check inside navbar to hide dashboard if it's not authenticated */}
             <PrivateRoute path="/dashboard" component={InventoryItem} />
             {/* <Route path="/" component={Landing} /> */}
+            <Route path="/" component={Register} />
             <Route component={NoMatchFound} />
           </Switch>
         </MDBContainer>
