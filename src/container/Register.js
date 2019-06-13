@@ -112,9 +112,6 @@ class Register extends Component {
           placeholder="Password"
           aria-describedby="defaultRegisterFormPasswordHelpBlock"
         />
-        <small className="form-text text-muted mb-4">
-          Minimal 8 characters lenght
-        </small>
         <small
           id="defaultRegisterFormPhoneHelpBlock"
           className="form-text text-muted mb-4"
